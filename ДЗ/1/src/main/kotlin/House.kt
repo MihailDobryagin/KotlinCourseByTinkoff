@@ -2,12 +2,14 @@ import animals.CanHaveHome
 import animals.DomesticatedAnimal
 import animals.Human
 
-class House(private var owner: Human) {
+class House(owner: Human) {
+    private lateinit var owner: Human
 
     private val residents: MutableList<CanHaveHome> = mutableListOf()
     private var pets: MutableList<DomesticatedAnimal> = mutableListOf()
 
     init {
+        setOwner(owner)
         addResident(owner)
     }
 
@@ -19,17 +21,23 @@ class House(private var owner: Human) {
     fun addPet(pet: DomesticatedAnimal) {
         addResident(pet)
         pets.add(pet)
+        println("$pet was added as pet")
     }
 
     fun addPets(animals: Iterable<DomesticatedAnimal>) = animals.forEach(this::addPet)
 
-    fun deletePet(animal: DomesticatedAnimal) {
-        val predicate = { el: CanHaveHome -> el is DomesticatedAnimal && el.name == animal.name }
+    fun deletePet(pet: DomesticatedAnimal) {
+        val predicate = { el: CanHaveHome -> el is DomesticatedAnimal && el.name == pet.name }
         pets.removeIf(predicate)
         residents.removeIf(predicate)
+        println("$pet left home")
     }
 
     fun getOwner() = owner
+    fun setOwner(owner: Human) {
+        this.owner = owner
+        println("$owner has own house")
+    }
 
     fun getResidents() = residents
     fun getPets() = pets

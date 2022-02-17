@@ -32,10 +32,14 @@ fun main(args: Array<String>) {
 
     val house = House(human)
     house.addPet(cat)
+    printLine()
 
     println(house)
     printLine()
+
     house.deletePet(cat)
+    printLine()
+    
     println(house)
 
 }
