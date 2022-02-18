@@ -1,1 +1,9 @@
-/ДЗ/1/.gradle/
+/Homeworks/.idea/
+/Homeworks/.gradle
+/Homeworks/build
+/Homeworks/gradle
+/Homeworks/build.gradle.kts
+/Homeworks/gradle.properties
+/Homeworks/gradlew
+/Homeworks/gradlew.bat
+/Homeworks/settings.gradle.kts
