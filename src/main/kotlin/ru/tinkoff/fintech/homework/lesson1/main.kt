@@ -4,7 +4,7 @@ import ru.tinkoff.fintech.homework.lesson1.animals.Cat
 import ru.tinkoff.fintech.homework.lesson1.animals.Human
 import ru.tinkoff.fintech.homework.lesson1.animals.Mouse
 
-fun main(args: Array<String>) {
+fun main() {
     val cat = Cat("Boris", "brown with white stripes")
     val human = Human("Anatoliy", 75)
     val mouse = Mouse()

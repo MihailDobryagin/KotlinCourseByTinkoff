@@ -49,9 +49,6 @@ class House {
     fun evictPet(pet: DomesticatedAnimal) = evictResident(pet)
 
     override fun toString(): String {
-        return "Residents:\n" +
-                residents.toString() + "\n\n" +
-                "Pets:\n" +
-                pets.toString()
+        return "Residents:\n$residents\n\nPets:\n$pets"
     }
 }

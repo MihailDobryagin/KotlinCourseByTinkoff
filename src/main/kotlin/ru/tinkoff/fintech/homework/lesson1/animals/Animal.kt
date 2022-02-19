@@ -22,7 +22,7 @@ abstract class Animal(
 
     open fun die() {
         alive = false
-        println((name ?: getEmoji()) + " was die")
+        println((name ?: getEmoji()) + " died")
         println("(´;︵;`)\n\n")
     }
 
