@@ -7,13 +7,15 @@ class Cat(
 
     private var countOfEatenMouses: Int = 0
 
-    override fun voice() = println("Meow")
-
-    override fun getEmoji() = "~(=^･･^)"
-
     fun eatMouse(mouse: Mouse) {
         countOfEatenMouses++
         eat(mouse.weight)
         mouse.die()
     }
+
+    override fun voice() = println("Meow")
+
+    override fun getEmoji() = "~(=^･･^)"
+
+
 }
