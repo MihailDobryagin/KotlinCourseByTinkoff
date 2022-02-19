@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
     human.work(24)
     human.eat(4)
 
-    println("${human.name}'s mood is ${human.getMood()}" + if (human.getMood() < 5) "(" else ")")
+    println("${human.name}'s mood is ${human.mood}" + if (human.mood < 5) "(" else ")")
 
     printLine()
 
@@ -43,7 +43,6 @@ fun main(args: Array<String>) {
     printLine()
 
     println(house)
-
 }
 
 private fun printLine() = println("\n--------------------------------------------------------------------------\n")

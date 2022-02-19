@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.homework.lesson1.animals
 
 class Cat(
-    override val name: String,
+    name: String,
     color: String?
 ) : DomesticatedAnimal(name, 5, color) {
 

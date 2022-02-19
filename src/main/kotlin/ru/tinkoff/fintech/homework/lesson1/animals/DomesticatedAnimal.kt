@@ -3,8 +3,8 @@ package ru.tinkoff.fintech.homework.lesson1.animals
 import ru.tinkoff.fintech.homework.lesson1.House
 
 abstract class DomesticatedAnimal(
-    override val name: String,
-    override var weight: Int,
+    name: String,
+    weight: Int,
     color: String?,
 ) : Animal(name, weight, color), CanHaveHome {
     private var home: House? = null

@@ -3,11 +3,14 @@ package ru.tinkoff.fintech.homework.lesson1.animals
 import kotlin.math.max
 
 abstract class Animal(
-    open val name: String?,
-    open var weight: Int,
-    private val color: String? = null,
+    val name: String?,
+    var weight: Int,
+    color: String?,
 ) {
-    private var alive = true
+    val color: String = color ?: "???"
+
+    var alive = true
+        private set
 
     open fun voice() = println("...")
 
@@ -17,15 +20,10 @@ abstract class Animal(
         weight = max(1, weight / 2)
     }
 
-    fun getColor(): String {
-        return color ?: "???"
-    }
-
     open fun eat(foodWeight: Int) {
         weight += foodWeight
     }
 
-    fun isAlive() = alive
     open fun die() {
         alive = false
         println((name ?: getEmoji()) + " was die")
@@ -33,6 +31,6 @@ abstract class Animal(
     }
 
     override fun toString(): String {
-        return (if(name!=null) "$name  --  " else "") + getEmoji()
+        return (if (name != null) "$name  --  " else "") + getEmoji()
     }
 }

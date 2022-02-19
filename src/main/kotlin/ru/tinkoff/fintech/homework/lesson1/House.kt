@@ -7,13 +7,19 @@ import ru.tinkoff.fintech.homework.lesson1.animals.Human
 class House(owner: Human) {
     private lateinit var owner: Human
 
+    // У этих полей будут свои геттеры, т. к.
+    //  1) Нужно будет возвращать List, а не MutableList
+    //  2) При get из самого House нам нужен именно сам объект residents, а не его копия
     private val residents: MutableList<CanHaveHome> = mutableListOf()
-    private var pets: MutableList<DomesticatedAnimal> = mutableListOf()
+    private val pets: MutableList<DomesticatedAnimal> = mutableListOf()
 
     init {
         setOwner(owner)
         addResident(owner)
     }
+
+    fun getResidents() = residents.toList()
+    fun getPets() = pets.toList()
 
     fun addResident(resident: CanHaveHome) {
         residents.add(resident)
@@ -40,9 +46,6 @@ class House(owner: Human) {
         this.owner = owner
         println("$owner has own house")
     }
-
-    fun getResidents() = residents
-    fun getPets() = pets
 
     override fun toString(): String {
         return "Residents:\n" +

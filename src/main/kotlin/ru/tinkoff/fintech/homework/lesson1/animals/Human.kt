@@ -5,11 +5,12 @@ import kotlin.math.max
 import kotlin.math.min
 
 class Human(
-    override val name: String,
-    override var weight: Int,
+    name: String,
+    weight: Int,
 ) : Animal(name, weight), CanHaveHome {
 
-    private var mood = 10
+    var mood = 10
+        private set(value) {field = value}
     private var home: House? = null
 
     override fun voice() = println("Hello!")
@@ -25,8 +26,6 @@ class Human(
         super.eat(foodWeight)
         mood = min(10, mood + foodWeight)
     }
-
-    fun getMood() = mood
 
     override fun setHome(home: House?) {
         this.home = home
