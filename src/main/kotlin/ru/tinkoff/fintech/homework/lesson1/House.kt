@@ -40,6 +40,7 @@ class House {
 
     fun addPet(pet: DomesticatedAnimal) {
         addResident(pet)
+        pets.add(pet)
         println("$pet was added as pet")
     }
 
