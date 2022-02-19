@@ -4,12 +4,18 @@ import ru.tinkoff.fintech.homework.lesson1.animals.DomesticatedAnimal
 import ru.tinkoff.fintech.homework.lesson1.animals.Human
 import ru.tinkoff.fintech.homework.lesson1.animals.SomeoneWhoCanHaveHome
 
-class House(owner: Human) {
-    var owner: Human = owner
+class House {
+    var owner: Human
         set(value) {
             field = value
+            addResident(field)
             println("$field has own house")
         }
+
+    // Нужен такой конструктор, т. к. если принимать в самом-самом главном (который пишется прямо после названия класса), то ругается, что owner может быть не объявлен
+    constructor(owner: Human) {
+        this.owner = owner
+    }
 
     // У этих полей будут свои геттеры, т. к.
     //  1) Нужно будет возвращать Set, а не MutableSet
