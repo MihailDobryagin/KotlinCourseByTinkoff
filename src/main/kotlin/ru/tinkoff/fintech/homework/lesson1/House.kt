@@ -44,7 +44,7 @@ class House {
         println("$pet was added as pet")
     }
 
-    fun addPets(animals: Iterable<DomesticatedAnimal>) = animals.forEach(this::addPet)
+    fun addPets(pets: Iterable<DomesticatedAnimal>) = pets.forEach(this::addPet)
 
     fun evictPet(pet: DomesticatedAnimal) = evictResident(pet)
 
