@@ -12,7 +12,7 @@ fun main(args: Array<String>) {
     listOf(human, cat, mouse).forEach {
         println(it.getEmoji())
         it.voice()
-        println("color : ${it.getColor()}")
+        println("color : ${it.color}")
         println()
     }
 

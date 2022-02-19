@@ -12,13 +12,9 @@ abstract class Animal(
     var alive = true
         private set
 
-    open fun voice() = println("...")
-
     abstract fun getEmoji(): String
 
-    fun run() {
-        weight = max(1, weight / 2)
-    }
+    open fun voice() = println("...")
 
     open fun eat(foodWeight: Int) {
         weight += foodWeight
@@ -28,6 +24,10 @@ abstract class Animal(
         alive = false
         println((name ?: getEmoji()) + " was die")
         println("(´;︵;`)\n\n")
+    }
+
+    fun run() {
+        weight = max(1, weight / 2)
     }
 
     override fun toString(): String {

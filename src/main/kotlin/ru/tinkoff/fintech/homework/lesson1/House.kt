@@ -1,8 +1,8 @@
 package ru.tinkoff.fintech.homework.lesson1
 
-import ru.tinkoff.fintech.homework.lesson1.animals.CanHaveHome
 import ru.tinkoff.fintech.homework.lesson1.animals.DomesticatedAnimal
 import ru.tinkoff.fintech.homework.lesson1.animals.Human
+import ru.tinkoff.fintech.homework.lesson1.animals.SomeoneWhoCanHaveHome
 
 class House(owner: Human) {
     private lateinit var owner: Human
@@ -10,20 +10,20 @@ class House(owner: Human) {
     // У этих полей будут свои геттеры, т. к.
     //  1) Нужно будет возвращать List, а не MutableList
     //  2) При get из самого House нам нужен именно сам объект residents, а не его копия
-    private val residents: MutableList<CanHaveHome> = mutableListOf()
-    private val pets: MutableList<DomesticatedAnimal> = mutableListOf()
+    private val residents: MutableSet<SomeoneWhoCanHaveHome> = mutableSetOf()
+    private val pets: MutableSet<DomesticatedAnimal> = mutableSetOf()
 
     init {
         setOwner(owner)
         addResident(owner)
     }
 
-    fun getResidents() = residents.toList()
-    fun getPets() = pets.toList()
+    fun getResidents() = residents.toSet()
+    fun getPets() = pets.toSet()
 
-    fun addResident(resident: CanHaveHome) {
+    fun addResident(resident: SomeoneWhoCanHaveHome) {
         residents.add(resident)
-        resident.setHome(this)
+        resident.moveIntoHouse(this)
     }
 
     fun addPet(pet: DomesticatedAnimal) {
@@ -35,9 +35,8 @@ class House(owner: Human) {
     fun addPets(animals: Iterable<DomesticatedAnimal>) = animals.forEach(this::addPet)
 
     fun deletePet(pet: DomesticatedAnimal) {
-        val predicate = { el: CanHaveHome -> el is DomesticatedAnimal && el.name == pet.name }
-        pets.removeIf(predicate)
-        residents.removeIf(predicate)
+        pets.remove(pet)
+        residents.remove(pet)
         println("$pet left home")
     }
 
