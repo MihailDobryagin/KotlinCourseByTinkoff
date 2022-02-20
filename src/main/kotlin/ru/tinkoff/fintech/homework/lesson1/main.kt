@@ -25,6 +25,10 @@ fun main() {
 
     println("${cat.name}'s ${cat.getEmoji()} weight after morning breakfast is ${cat.weight}")
 
+    cat.eatMouse(mouse)
+
+    printLine()
+
     human.work(24)
     human.eat(4)
 
