@@ -2,6 +2,7 @@ package ru.tinkoff.fintech.homework.lesson3
 
 import io.mockk.every
 import io.mockk.spyk
+import io.mockk.verify
 import org.junit.Test
 import org.junit.jupiter.api.assertAll
 import ru.tinkoff.fintech.homework.lesson3.animals.Cat
@@ -27,6 +28,26 @@ class CatTest {
             "",
             { assert(!mouse.alive) },
             { assertEquals(expectedWeight, cat.weight) },
+            { assertEquals(cat.countOfEatenMouses, 1) }
+        )
+    }
+
+    @Test
+    fun checkEatMouseWhenMouseIsDead() {
+        val deadMouse = spyk<Mouse> {
+            every { alive } returns false
+        }
+
+        val cat = spyk(Cat("Борис", null))
+        val expectedWeight = cat.weight
+
+        cat.eatMouse(deadMouse)
+
+
+        assertAll(
+            "",
+            { verify(exactly = 0) { cat.eat(any()) } },
+            { assertEquals(cat.weight, expectedWeight) },
         )
     }
 }

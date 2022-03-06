@@ -5,7 +5,7 @@ class Cat(
     color: String?
 ) : DomesticatedAnimal(name, 5, color) {
 
-    private var countOfEatenMouses: Int = 0
+    var countOfEatenMouses: Int = 0
 
     fun eatMouse(mouse: Mouse) {
         if (!mouse.alive) {
