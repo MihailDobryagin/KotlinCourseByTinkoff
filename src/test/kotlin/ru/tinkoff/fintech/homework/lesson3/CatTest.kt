@@ -28,7 +28,7 @@ class CatTest {
             "",
             { assert(!mouse.alive) },
             { assertEquals(expectedWeight, cat.weight) },
-            { assertEquals(cat.countOfEatenMouses, 1) }
+            { assertEquals(1, cat.countOfEatenMouses) }
         )
     }
 
@@ -43,11 +43,10 @@ class CatTest {
 
         cat.eatMouse(deadMouse)
 
-
         assertAll(
             "",
             { verify(exactly = 0) { cat.eat(any()) } },
-            { assertEquals(cat.weight, expectedWeight) },
+            { assertEquals(expectedWeight, cat.weight) },
         )
     }
 }
