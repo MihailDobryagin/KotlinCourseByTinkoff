@@ -8,7 +8,7 @@ class Cat(
     private var countOfEatenMouses: Int = 0
 
     fun eatMouse(mouse: Mouse) {
-        if(!mouse.alive) {
+        if (!mouse.alive) {
             println("$this can't eat $mouse, because this mouse is already dead")
             return
         }
