@@ -15,7 +15,7 @@ class HouseTest {
     private lateinit var house: House
 
     @BeforeEach
-    fun init() {
+    fun beforeEach() {
         human = spyk(Human("MainHuman", 80))
         house = House(human)
         cat = spyk(Cat("BobCat", null))
@@ -24,7 +24,7 @@ class HouseTest {
     @Test
     fun checkInitialization() {
         assertAll(
-            "",
+            null,
             { assert(isHumanInHouse(house, human)) },
             { assertContentEquals(setOf(human), house.getResidents().asIterable()) },
             { verify { house.addResident(human) } }
@@ -36,7 +36,7 @@ class HouseTest {
         val newHuman = spyk(Human("NewHuman", 111))
         house.owner = newHuman
         assertAll(
-            "",
+            null,
             { assert(isHumanInHouse(house, human)) },
             { assert(house.getResidents().containsAll(setOf(human, newHuman))) }
         )
@@ -54,7 +54,7 @@ class HouseTest {
         house.addPet(cat)
 
         assertAll(
-            "",
+            null,
             { assert(house.getResidents().containsAll(listOf(cat, human))) },
             { assertContentEquals(setOf(cat).asIterable(), house.getPets()) },
             { verify { house.addPet(cat) } },
@@ -67,7 +67,7 @@ class HouseTest {
         house.evictPet(cat)
 
         assertAll(
-            "",
+            null,
             { assert(!house.getResidents().union(house.getPets()).contains(cat)) },
             { assertEquals(null, cat.home) },
             { verify { house.evictResident(cat) } },

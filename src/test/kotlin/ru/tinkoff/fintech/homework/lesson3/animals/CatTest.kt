@@ -14,7 +14,7 @@ class CatTest {
     private var previousWeight by Delegates.notNull<Int>()
 
     @BeforeEach
-    fun init() {
+    fun beforeEach() {
         cat = spyk(Cat("Boris", null))
         previousWeight = cat.weight
     }
@@ -30,7 +30,7 @@ class CatTest {
         cat.eatMouse(mouse)
 
         assertAll(
-            "",
+            null,
             { assert(!mouse.alive) },
             { assertEquals(expectedWeight, cat.weight) },
             { assertEquals(1, cat.countOfEatenMouses) }
@@ -47,7 +47,7 @@ class CatTest {
         cat.eatMouse(deadMouse)
 
         assertAll(
-            "",
+            null,
             { verify(exactly = 0) { cat.eat(any()) } },
             { assertEquals(expectedWeight, cat.weight) },
         )
