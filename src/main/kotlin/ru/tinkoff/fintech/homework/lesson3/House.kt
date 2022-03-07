@@ -12,14 +12,10 @@ class House {
             println("$field has own house")
         }
 
-    // Нужен такой конструктор, т. к. если принимать в самом-самом главном (который пишется прямо после названия класса), то ругается, что owner может быть не объявлен
     constructor(owner: Human) {
         this.owner = owner
     }
 
-    // У этих полей будут свои геттеры, т. к.
-    //  1) Нужно будет возвращать Set, а не MutableSet
-    //  2) При get из самого House нам нужен именно сам объект residents, а не его копия
     private val residents: MutableSet<SomeoneWhoCanHaveHome> = mutableSetOf()
     private val pets: MutableSet<DomesticatedAnimal> = mutableSetOf()
 

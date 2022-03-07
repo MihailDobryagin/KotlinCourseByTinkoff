@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson3
+package ru.tinkoff.fintech.homework.lesson3.animals
 
 import io.mockk.every
 import io.mockk.spyk
