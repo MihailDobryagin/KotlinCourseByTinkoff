@@ -6,8 +6,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import ru.tinkoff.fintech.homework.lesson3.animals.Cat
-import ru.tinkoff.fintech.homework.lesson3.animals.Mouse
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
