@@ -36,14 +36,15 @@ class CatTest {
 
     @Test
     fun checkEatMouseWhenMouseIsDead() {
-        val deadMouse = mockk<Mouse>()
-        every { deadMouse.alive } returns false
-
+        val deadMouse = mockk<Mouse> {
+            every { alive } returns false
+        }
         val expectedWeight = cat.weight
 
         cat.eatMouse(deadMouse)
 
         verify(exactly = 0) { cat.eat(any()) }
+        
         assertEquals(expectedWeight, cat.weight)
     }
 }

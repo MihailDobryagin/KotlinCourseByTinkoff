@@ -39,6 +39,7 @@ class HouseTest {
     fun checkSettingOwner() {
         val newHuman = spyk(Human("NewHuman", 111))
         house.owner = newHuman
+
         assertAll(
             { assertTrue(isHumanInHouse(house, human)) },
             { assertTrue(house.getResidents().containsAll(setOf(human, newHuman))) }
@@ -49,6 +50,7 @@ class HouseTest {
     fun checkAddResident() {
         val newHuman = spyk(Human("NewHuman", 123))
         house.addResident(newHuman)
+
         assertTrue(isHumanInHouse(house, newHuman))
     }
 
@@ -57,6 +59,7 @@ class HouseTest {
         house.addPet(cat)
 
         verify { house.addPet(cat) }
+
         assertAll(
             { assertTrue(house.getResidents().containsAll(listOf(cat, human))) },
             { assertArrayEquals(arrayOf(cat), house.getPets().toTypedArray()) },
@@ -79,6 +82,5 @@ class HouseTest {
     private fun isHumanInHouse(house: House, human: Human): Boolean {
         return house.getResidents().contains(human) &&
                 human.home == house
-
     }
 }
