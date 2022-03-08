@@ -12,15 +12,13 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class HouseTest {
-    private lateinit var human: Human
-    private lateinit var cat: Cat
+    private val human = spyk(Human("MainHuman", 80))
+    private val cat = spyk(Cat("BobCat", "white"))
     private lateinit var house: House
 
     @BeforeEach
     fun beforeEach() {
-        human = spyk(Human("MainHuman", 80))
         house = House(human)
-        cat = spyk(Cat("BobCat", "white"))
     }
 
     @AfterEach
@@ -30,10 +28,10 @@ class HouseTest {
 
     @Test
     fun checkInitialization() {
+        verify { house.addResident(human) }
         assertAll(
             { assert(isHumanInHouse(house, human)) },
             { assertContentEquals(setOf(human), house.getResidents().asIterable()) },
-            { verify { house.addResident(human) } }
         )
     }
 
@@ -58,10 +56,10 @@ class HouseTest {
     fun checkAddPet() {
         house.addPet(cat)
 
+        verify { house.addPet(cat) }
         assertAll(
             { assert(house.getResidents().containsAll(listOf(cat, human))) },
             { assertContentEquals(setOf(cat).asIterable(), house.getPets()) },
-            { verify { house.addPet(cat) } },
         )
     }
 
@@ -70,10 +68,11 @@ class HouseTest {
         house.addPet(cat)
         house.evictPet(cat)
 
+        verify { house.evictResident(cat) }
+
         assertAll(
             { assert(!house.getResidents().union(house.getPets()).contains(cat)) },
             { assertEquals(null, cat.home) },
-            { verify { house.evictResident(cat) } },
         )
     }
 

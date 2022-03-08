@@ -2,18 +2,12 @@ package ru.tinkoff.fintech.homework.lesson3.animals
 
 import io.mockk.*
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import kotlin.test.assertEquals
 
 class CatTest {
-    private lateinit var cat: Cat
-
-    @BeforeEach
-    fun beforeEach() {
-        cat = spyk(Cat("Boris", "белый"))
-    }
+    private val cat = spyk(Cat("Boris", "белый"))
 
     @AfterEach
     fun afterEach() {
@@ -48,9 +42,7 @@ class CatTest {
 
         cat.eatMouse(deadMouse)
 
-        assertAll(
-            { verify(exactly = 0) { cat.eat(any()) } },
-            { assertEquals(expectedWeight, cat.weight) },
-        )
+        verify(exactly = 0) { cat.eat(any()) }
+        assertEquals(expectedWeight, cat.weight)
     }
 }
