@@ -18,11 +18,9 @@ class CatTest {
     @Test
     fun checkEatMouse() {
         val weightDifference = 123
-
         val mouse = spyk<Mouse> {
             every { weight } returns weightDifference
         }
-
         val expectedWeight = cat.weight + weightDifference
 
         cat.eatMouse(mouse)
@@ -44,7 +42,6 @@ class CatTest {
         cat.eatMouse(deadMouse)
 
         verify(exactly = 0) { cat.eat(any()) }
-        
         assertEquals(expectedWeight, cat.weight)
     }
 }

@@ -12,6 +12,7 @@ import ru.tinkoff.fintech.homework.lesson3.House
 
 class HouseTest {
     private val human = spyk(Human("MainHuman", 80))
+    private val newHuman = spyk(Human("NewHuman", 123))
     private val cat = spyk(Cat("BobCat", "white"))
     private lateinit var house: House
 
@@ -26,43 +27,31 @@ class HouseTest {
     }
 
     @Test
-    fun checkInitialization() {
-        verify { house.addResident(human) }
+    fun checkAddResident() {
+        house.addResident(newHuman)
 
-        assertAll(
-            { assertTrue(isHumanInHouse(house, human)) },
-            { assertArrayEquals(arrayOf(human), house.getResidents().toTypedArray()) },
-        )
+        verify { newHuman.moveIntoHouse(house) }
+        assertTrue(isHumanInHouse(house, newHuman))
     }
 
     @Test
     fun checkSettingOwner() {
-        val newHuman = spyk(Human("NewHuman", 111))
         house.owner = newHuman
 
+        verify { newHuman.moveIntoHouse(house) }
         assertAll(
             { assertTrue(isHumanInHouse(house, human)) },
-            { assertTrue(house.getResidents().containsAll(setOf(human, newHuman))) }
+            { assertTrue(isHumanInHouse(house, newHuman)) }
         )
-    }
-
-    @Test
-    fun checkAddResident() {
-        val newHuman = spyk(Human("NewHuman", 123))
-        house.addResident(newHuman)
-
-        assertTrue(isHumanInHouse(house, newHuman))
     }
 
     @Test
     fun checkAddPet() {
         house.addPet(cat)
 
-        verify { house.addPet(cat) }
-
         assertAll(
             { assertTrue(house.getResidents().containsAll(listOf(cat, human))) },
-            { assertArrayEquals(arrayOf(cat), house.getPets().toTypedArray()) },
+            { assertTrue(house.getPets() == setOf(cat)) },
         )
     }
 
@@ -71,10 +60,10 @@ class HouseTest {
         house.addPet(cat)
         house.evictPet(cat)
 
-        verify { house.evictResident(cat) }
-
+        verify { cat.evict() }
         assertAll(
-            { assertFalse(house.getResidents().union(house.getPets()).contains(cat)) },
+            { assertFalse(house.getResidents().contains(cat)) },
+            { assertFalse(house.getPets().contains(cat)) },
             { assertNull(cat.home) },
         )
     }
