@@ -2,9 +2,10 @@ package ru.tinkoff.fintech.homework.lesson3.animals
 
 import io.mockk.*
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import kotlin.test.assertEquals
 
 class CatTest {
     private val cat = spyk(Cat("Boris", "белый"))
@@ -27,7 +28,7 @@ class CatTest {
         cat.eatMouse(mouse)
 
         assertAll(
-            { assert(!mouse.alive) },
+            { assertFalse(mouse.alive) },
             { assertEquals(expectedWeight, cat.weight) },
             { assertEquals(1, cat.countOfEatenMouses) }
         )
