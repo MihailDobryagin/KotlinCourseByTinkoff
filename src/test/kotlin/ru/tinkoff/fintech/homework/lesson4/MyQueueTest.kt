@@ -33,7 +33,9 @@ class MyQueueTest {
     }
 
     @Test
-    fun checkContainsAll() = MyCollectionTests.checkContainsAll(queue, listOfValues)
+    fun checkContainsAll() {
+        MyCollectionTests.checkContainsAll(queue, listOfValues)
+    }
 
     @Test
     fun checkRemoveFromEmptyQueue() {
@@ -41,7 +43,9 @@ class MyQueueTest {
     }
 
     @Test
-    fun checkPollFromEmptyQueue() = MyCollectionTests.checkPollFromEmptyCollection(queue)
+    fun checkPollFromEmptyQueue() {
+        MyCollectionTests.checkPollFromEmptyCollection(queue)
+    }
 
     @Test
     fun checkRemoveFromNotEmptyQueue() {
@@ -54,7 +58,14 @@ class MyQueueTest {
     }
 
     @Test
-    fun checkPeekFromEmptyQueue() = MyCollectionTests.checkPeekFromEmptyCollection(queue)
+    fun checkPeekFromEmptyQueue() {
+        MyCollectionTests.checkPeekFromEmptyCollection(queue)
+    }
+
+    @Test
+    fun checkElementMethodFromEmptyQueue() {
+        assertThrows<NoSuchElementException>(executable = queue::element)
+    }
 
     @Test
     fun checkPeekFromNotEmptyQueue() {

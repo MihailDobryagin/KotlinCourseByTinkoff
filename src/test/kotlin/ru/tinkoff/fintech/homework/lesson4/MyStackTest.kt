@@ -32,10 +32,14 @@ class MyStackTest {
     }
 
     @Test
-    fun checkContainsAll() = MyCollectionTests.checkContainsAll(stack, listOfValues)
+    fun checkContainsAll() {
+        MyCollectionTests.checkContainsAll(stack, listOfValues)
+    }
 
     @Test
-    fun checkPopFromEmptyStack() = MyCollectionTests.checkPopFromEmptyCollection(stack)
+    fun checkPopFromEmptyStack() {
+        MyCollectionTests.checkPopFromEmptyCollection(stack)
+    }
 
     @Test
     fun checkPopFromNotEmptyStack() {
@@ -48,7 +52,9 @@ class MyStackTest {
     }
 
     @Test
-    fun checkPeekFromEmptyStack() = MyCollectionTests.checkPeekFromEmptyCollection(stack)
+    fun checkPeekFromEmptyStack() {
+        MyCollectionTests.checkPeekFromEmptyCollection(stack)
+    }
 
     @Test
     fun checkPeekFromNotEmptyStack() {
