@@ -15,7 +15,7 @@ abstract class MyCollection<T> : MutableCollection<T> {
      *
      * @return NULL if collection is empty
      */
-    protected open fun poll(): T? {
+    open fun poll(): T? {
         if (size == 0) return null
         val result = head!!.value
         size--
