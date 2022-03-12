@@ -6,12 +6,43 @@ abstract class MyCollection<T> : MutableCollection<T> {
 
     protected var back: Node<T>? = null
 
+    fun peek(): T? = head?.value
+
+    fun poll(): T? {
+        if (size == 0) return null
+        val result = head!!.value
+        size--
+        if (size == 0) {
+            head = null
+            back = null
+        } else {
+            head = head!!.next
+        }
+        return result
+    }
+
+    fun pop() =
+        poll() ?: throw NoSuchElementException()
+
+    abstract fun push(element: T)
+
+    override fun add(element: T): Boolean {
+        push(element)
+        return true
+    }
+
     override var size: Int = 0
         protected set
 
     override fun addAll(elements: Collection<T>): Boolean {
         elements.forEach(this::add)
         return true
+    }
+
+    override fun clear() {
+        head = null
+        back = null
+        size = 0
     }
 
     override fun contains(element: T): Boolean =
@@ -23,8 +54,6 @@ abstract class MyCollection<T> : MutableCollection<T> {
     override fun isEmpty(): Boolean = size == 0
 
     override fun iterator(): MutableIterator<T> = FromHeadToBackIterator(head)
-
-    abstract fun peek(): T?
 
     protected class FromHeadToBackIterator<T>(
         private var curNode: Node<T>?

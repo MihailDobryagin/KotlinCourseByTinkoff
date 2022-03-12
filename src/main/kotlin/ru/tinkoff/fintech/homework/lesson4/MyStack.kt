@@ -1,15 +1,13 @@
 package ru.tinkoff.fintech.homework.lesson4
 
-class MyStack<T> : MyCollection<T> {
-    override fun add(element: T): Boolean {
+class MyStack<T> : MyCollection<T>() {
+    override fun push(element: T) {
+        val newNode = Node(element, head)
 
-    }
+        if (size == 0)
+            back = newNode
 
-    override fun clear() {
-        TODO("Not yet implemented")
-    }
-
-    override fun peek(): T? {
-        TODO("Not yet implemented")
+        head = newNode
+        size++
     }
 }
