@@ -1,6 +1,7 @@
 package ru.tinkoff.fintech.homework.lesson4.queue
 
-class BestQueue<T> {
+
+class MyQueue<T> : Collection<T> {
 
     private var head: Node<T>? = null
         set(value) {
@@ -16,7 +17,7 @@ class BestQueue<T> {
 
     private var back: Node<T>? = null
 
-    var size: Int = 0
+    override var size: Int = 0
         private set
 
     fun add(element: T): Boolean {
@@ -44,7 +45,16 @@ class BestQueue<T> {
     fun remove(): T =
         poll() ?: throw NoSuchElementException()
 
-    fun isEmpty(): Boolean = size == 0
+    override fun isEmpty(): Boolean = size == 0
+
+    override fun contains(element: T): Boolean =
+        this.find { it == element } != null
+
+    override fun containsAll(elements: Collection<T>): Boolean =
+        elements.find { !this.contains(it) } == null
+
+
+    override fun iterator(): Iterator<T> = MyQueueIterator(head)
 
     fun offer(e: T): Boolean = add(e)
 
