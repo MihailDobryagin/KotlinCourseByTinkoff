@@ -7,11 +7,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.assertThrows
+import ru.tinkoff.fintech.homework.lesson4.utils.MyCollectionTests
 
 class MyQueueTest {
 
     private val queue = spyk(MyQueue<String>())
-    private val listOfValues = listOf("123", "", "1234")
+    private val listOfValues = listOf("123", "", "9876")
 
     @AfterEach
     fun afterEach() {
@@ -19,7 +20,17 @@ class MyQueueTest {
     }
 
     @Test
-    fun checkAdding() = MyCollectionTests.checkAdding(queue, listOfValues)
+    fun checkOffering() {
+        queue.add(listOfValues[0])
+        queue.addAll(listOfValues.subList(1, listOfValues.size))
+
+        val listFromQueue = queue.toList()
+
+        assertAll(
+            { assertEquals(listOfValues.size, queue.size) },
+            { assertEquals(listOfValues, listFromQueue) },
+        )
+    }
 
     @Test
     fun checkContainsAll() = MyCollectionTests.checkContainsAll(queue, listOfValues)
@@ -46,19 +57,12 @@ class MyQueueTest {
     fun checkPeekFromEmptyQueue() = MyCollectionTests.checkPeekFromEmptyCollection(queue)
 
     @Test
-    fun checkPeekFromNotEmptyQueue() = MyCollectionTests.checkPeekFromNotEmptyCollection(queue, listOfValues)
-
-//    @ParameterizedTest
-//    @MethodSource("listOfValues")
-//
-//    companion object {
-//        @JvmStatic
-//        fun listOfValues() = listOf(
-//            Arguments.of("123"),
-//            Arguments.of(""),
-//            Arguments.of("abcd"),
-//            Arguments.of("qkjbbgk2_"),
-//        )
-//    }
-
+    fun checkPeekFromNotEmptyQueue() {
+        queue.addAll(listOfValues)
+        val element = queue.peek()
+        assertAll(
+            { assertEquals(listOfValues.first(), element) },
+            { assertEquals(listOfValues.size, queue.size) }
+        )
+    }
 }
