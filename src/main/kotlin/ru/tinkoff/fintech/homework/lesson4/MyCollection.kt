@@ -1,14 +1,21 @@
 package ru.tinkoff.fintech.homework.lesson4
 
 abstract class MyCollection<T> : MutableCollection<T> {
-
     protected var head: Node<T>? = null
 
     protected var back: Node<T>? = null
 
+    /**
+     * Get element from head without removing
+     */
     fun peek(): T? = head?.value
 
-    fun poll(): T? {
+    /**
+     * Remove element from head
+     *
+     * @return NULL if collection is empty
+     */
+    protected open fun poll(): T? {
         if (size == 0) return null
         val result = head!!.value
         size--
@@ -21,10 +28,16 @@ abstract class MyCollection<T> : MutableCollection<T> {
         return result
     }
 
+    /**
+     * Like poll() but throws NoSuchElementException if collection is empty
+     */
     fun pop() =
         poll() ?: throw NoSuchElementException()
 
-    abstract fun push(element: T)
+    /**
+     * Like add but without return, because return value is always TRUE
+     */
+    protected abstract fun push(element: T)
 
     override fun add(element: T): Boolean {
         push(element)

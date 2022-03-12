@@ -8,6 +8,10 @@ class MyQueue<T> : MyCollection<T>() {
     fun element(): T =
         head?.value ?: throw NoSuchElementException()
 
+    public override fun poll(): T? {
+        return super.poll()
+    }
+
     override fun push(element: T) {
         val newNode = Node(element, null)
 

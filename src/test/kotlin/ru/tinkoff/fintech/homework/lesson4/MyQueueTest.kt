@@ -45,6 +45,11 @@ class MyQueueTest {
     }
 
     @Test
+    fun checkPollFromEmptyQueue() {
+        assertNull(queue.poll())
+    }
+
+    @Test
     fun checkRemoveFromNotEmptyQueue() {
         queue.addAll(listOfValues)
         val element = queue.remove()
