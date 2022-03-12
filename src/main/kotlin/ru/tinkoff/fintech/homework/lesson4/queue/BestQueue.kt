@@ -7,6 +7,7 @@ class BestQueue<T> {
             field = value
             if (field == null) {
                 back = null
+                size = 0
                 return
             }
             if (back == null)
@@ -38,7 +39,6 @@ class BestQueue<T> {
 
     fun clear() {
         head = null
-        size = 0
     }
 
     fun remove(): T =
