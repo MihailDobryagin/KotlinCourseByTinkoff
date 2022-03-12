@@ -21,7 +21,7 @@ class MyQueueTest {
 
     @Test
     fun checkOffering() {
-        queue.add(listOfValues[0])
+        queue.offer(listOfValues[0])
         queue.addAll(listOfValues.subList(1, listOfValues.size))
 
         val listFromQueue = queue.toList()
