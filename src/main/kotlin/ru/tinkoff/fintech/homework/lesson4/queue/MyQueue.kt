@@ -4,16 +4,6 @@ package ru.tinkoff.fintech.homework.lesson4.queue
 class MyQueue<T> : Collection<T> {
 
     private var head: Node<T>? = null
-        set(value) {
-            field = value
-            if (field == null) {
-                back = null
-                size = 0
-                return
-            }
-            if (back == null)
-                back = field
-        }
 
     private var back: Node<T>? = null
 
@@ -21,15 +11,16 @@ class MyQueue<T> : Collection<T> {
         private set
 
     fun add(element: T): Boolean {
+        val newNode = Node(element, null)
+
         if (size == 0) {
-            head = Node(element, null)
-            size++
-            return true
+            head = newNode
+        } else {
+            back!!.next = newNode
         }
 
-        val newNode = Node(element, back)
-        back!!.next = newNode
         back = newNode
+        size++
         return true
     }
 
@@ -40,6 +31,8 @@ class MyQueue<T> : Collection<T> {
 
     fun clear() {
         head = null
+        back = null
+        size = 0
     }
 
     fun remove(): T =
@@ -61,7 +54,13 @@ class MyQueue<T> : Collection<T> {
     fun poll(): T? {
         if (size == 0) return null
         val result = head!!.value
-        head = head!!.next
+        size--
+        if (size == 0) {
+            head = null
+            back = null
+        } else {
+            head = head!!.next
+        }
         return result
     }
 
