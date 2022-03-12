@@ -1,6 +1,8 @@
-package ru.tinkoff.fintech.homework.lesson4.queue
+package ru.tinkoff.fintech.homework.lesson4
 
-internal class MyQueueIterator<T>(
+import kotlin.collections.Iterator
+
+internal class Iterator<T>(
     var curNode: Node<T>?
 ) : Iterator<T> {
     override fun hasNext(): Boolean = curNode != null

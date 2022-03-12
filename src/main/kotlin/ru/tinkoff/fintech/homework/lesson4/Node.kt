@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson4.queue
+package ru.tinkoff.fintech.homework.lesson4
 
 internal class Node<T>(
     val value: T,

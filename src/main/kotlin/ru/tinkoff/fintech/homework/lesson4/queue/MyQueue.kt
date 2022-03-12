@@ -1,5 +1,8 @@
 package ru.tinkoff.fintech.homework.lesson4.queue
 
+import ru.tinkoff.fintech.homework.lesson4.Iterator
+import ru.tinkoff.fintech.homework.lesson4.Node
+
 
 class MyQueue<T> : Collection<T> {
 
@@ -47,7 +50,7 @@ class MyQueue<T> : Collection<T> {
         elements.find { !this.contains(it) } == null
 
 
-    override fun iterator(): Iterator<T> = MyQueueIterator(head)
+    override fun iterator(): kotlin.collections.Iterator<T> = Iterator(head)
 
     fun offer(e: T): Boolean = add(e)
 
