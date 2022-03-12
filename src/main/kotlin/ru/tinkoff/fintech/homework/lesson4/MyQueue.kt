@@ -21,7 +21,7 @@ class MyQueue<T> : MyCollection<T>() {
 
     fun element(): T =
         head?.value ?: throw NoSuchElementException()
-    
+
     override fun add(element: T): Boolean {
         val newNode = Node(element, null)
 
@@ -36,27 +36,11 @@ class MyQueue<T> : MyCollection<T>() {
         return true
     }
 
-
     override fun clear() {
         head = null
         back = null
         size = 0
     }
 
-    override fun contains(element: T): Boolean =
-        this.find { it == element } != null
-
     override fun peek(): T? = head?.value
-
-    override fun remove(element: T): Boolean {
-        throw UnsupportedOperationException()
-    }
-
-    override fun removeAll(elements: Collection<T>): Boolean {
-        throw UnsupportedOperationException()
-    }
-
-    override fun retainAll(elements: Collection<T>): Boolean {
-        throw UnsupportedOperationException()
-    }
 }

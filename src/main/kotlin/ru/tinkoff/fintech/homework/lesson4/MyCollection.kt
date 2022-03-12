@@ -14,6 +14,9 @@ abstract class MyCollection<T> : MutableCollection<T> {
         return true
     }
 
+    override fun contains(element: T): Boolean =
+        this.find { it == element } != null
+
     override fun containsAll(elements: Collection<T>): Boolean =
         elements.find { !this.contains(it) } == null
 
@@ -44,4 +47,16 @@ abstract class MyCollection<T> : MutableCollection<T> {
         val value: T,
         var next: Node<T>?,
     )
+
+    override fun remove(element: T): Boolean {
+        throw UnsupportedOperationException()
+    }
+
+    override fun removeAll(elements: Collection<T>): Boolean {
+        throw UnsupportedOperationException()
+    }
+
+    override fun retainAll(elements: Collection<T>): Boolean {
+        throw UnsupportedOperationException()
+    }
 }
