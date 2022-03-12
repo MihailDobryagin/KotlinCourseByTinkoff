@@ -19,11 +19,11 @@ abstract class MyCollection<T> : MutableCollection<T> {
 
     override fun isEmpty(): Boolean = size == 0
 
-    override fun iterator(): MutableIterator<T> = Iterator(head)
+    override fun iterator(): MutableIterator<T> = FromHeadToBackIterator(head)
 
     abstract fun peek(): T?
 
-    protected class Iterator<T>(
+    protected class FromHeadToBackIterator<T>(
         private var curNode: Node<T>?
     ) : MutableIterator<T> {
         override fun hasNext(): Boolean = curNode != null
