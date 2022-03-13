@@ -1,6 +1,6 @@
 package ru.tinkoff.fintech.homework.lesson4
 
-class MyQueue<T> : MyCollection<T>() {
+class MyQueue<T : Any> : MyCollection<T>() {
 
     fun element(): T =
         peek() ?: throw NoSuchElementException()
@@ -13,8 +13,6 @@ class MyQueue<T> : MyCollection<T>() {
         add(e)
         return true
     }
-
-    fun offerAll(elements: Collection<T>) = addAll(elements)
 
     public override fun add(element: T) {
         val newNode = Node(element, null)

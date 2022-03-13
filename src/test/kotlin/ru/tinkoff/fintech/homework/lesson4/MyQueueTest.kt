@@ -19,11 +19,12 @@ class MyQueueTest {
 
     @Test
     fun checkOffering() {
-        queue.offer(lonelyValue)
-        queue.offerAll(listOfValues)
+        queue.offer(singleValue)
+        offerAll(listOfValues)
 
         val valuesFromQueue = queue.toList()
-        val expectedValues = listOf(lonelyValue).plus(listOfValues)
+        val expectedValues = listOf(singleValue).plus(listOfValues)
+
         assertAll(
             { assertEquals(expectedValues.size, queue.size) },
             { assertEquals(expectedValues, valuesFromQueue) },
@@ -32,7 +33,7 @@ class MyQueueTest {
 
     @Test
     fun checkContainsAll() {
-        queue.offerAll(listOfValues)
+        offerAll(listOfValues)
 
         assertTrue(queue.containsAll(listOfValues))
     }
@@ -51,7 +52,7 @@ class MyQueueTest {
 
     @Test
     fun checkRemoveFromNotEmptyQueue() {
-        queue.offerAll(listOfValues)
+        offerAll(listOfValues)
 
         val element = queue.remove()
 
@@ -77,7 +78,7 @@ class MyQueueTest {
 
     @Test
     fun checkPeekFromNotEmptyQueue() {
-        queue.offerAll(listOfValues)
+        offerAll(listOfValues)
 
         val element = queue.peek()
 
@@ -87,6 +88,10 @@ class MyQueueTest {
         )
     }
 
-    private val lonelyValue = "123"
+    private fun offerAll(elements: Collection<String>) {
+        elements.forEach(queue::offer)
+    }
+
+    private val singleValue = "123"
     private val listOfValues = listOf("", "9876")
 }

@@ -1,6 +1,6 @@
 package ru.tinkoff.fintech.homework.lesson4
 
-abstract class MyCollection<T> : Collection<T> {
+abstract class MyCollection<T : Any> : Collection<T> {
     protected var head: Node<T>? = null
 
     protected var back: Node<T>? = null
@@ -54,10 +54,6 @@ abstract class MyCollection<T> : Collection<T> {
         removeHead() ?: throw NoSuchElementException()
 
     protected abstract fun add(element: T)
-
-    protected fun addAll(elements: Collection<T>) {
-        elements.forEach(this::add)
-    }
 
     protected class FromHeadToBackIterator<T>(
         private var curNode: Node<T>?

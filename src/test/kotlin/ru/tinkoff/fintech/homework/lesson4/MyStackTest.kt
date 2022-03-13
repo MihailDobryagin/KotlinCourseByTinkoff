@@ -19,11 +19,11 @@ class MyStackTest {
 
     @Test
     fun checkPushing() {
-        stack.push(lonelyValue)
-        stack.pushAll(listOfValues)
+        stack.push(singleValue)
+        pushAll(listOfValues)
 
         val valuesFromStack = stack.toList().reversed()
-        val expectedValues = listOf(lonelyValue).plus(listOfValues)
+        val expectedValues = listOf(singleValue).plus(listOfValues)
         assertAll(
             { assertEquals(expectedValues.size, stack.size) },
             { assertEquals(expectedValues, valuesFromStack) },
@@ -32,7 +32,7 @@ class MyStackTest {
 
     @Test
     fun checkContainsAll() {
-        stack.pushAll(listOfValues)
+        pushAll(listOfValues)
 
         assertTrue(stack.containsAll(listOfValues))
     }
@@ -46,7 +46,7 @@ class MyStackTest {
 
     @Test
     fun checkPopFromNotEmptyStack() {
-        stack.pushAll(listOfValues)
+        pushAll(listOfValues)
 
         val element = stack.pop()
 
@@ -65,7 +65,7 @@ class MyStackTest {
 
     @Test
     fun checkPeekFromNotEmptyStack() {
-        stack.pushAll(listOfValues)
+        pushAll(listOfValues)
 
         val element = stack.peek()
 
@@ -75,6 +75,10 @@ class MyStackTest {
         )
     }
 
-    private val lonelyValue = "123"
+    private fun pushAll(elements: Collection<String>) {
+        elements.forEach(stack::push)
+    }
+
+    private val singleValue = "123"
     private val listOfValues = listOf("", "9876")
 }

@@ -1,12 +1,10 @@
 package ru.tinkoff.fintech.homework.lesson4
 
-class MyStack<T> : MyCollection<T>() {
+class MyStack<T : Any> : MyCollection<T>() {
 
     fun push(element: T) = add(element)
 
     fun pop(): T = forceRemoveHead()
-
-    fun pushAll(elements: Collection<T>) = addAll(elements)
 
     override fun add(element: T) {
         val newNode = Node(element, head)
