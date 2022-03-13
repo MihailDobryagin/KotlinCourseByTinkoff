@@ -23,7 +23,7 @@ class MyQueueTest {
         offerAll(listOfValues)
 
         val valuesFromQueue = queue.toList()
-        val expectedValues = listOf(singleValue).plus(listOfValues)
+        val expectedValues = listOf(singleValue) + listOfValues
 
         assertAll(
             { assertEquals(expectedValues.size, queue.size) },

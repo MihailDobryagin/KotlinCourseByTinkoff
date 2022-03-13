@@ -20,10 +20,10 @@ abstract class MyCollection<T : Any> : Collection<T> {
     }
 
     override fun contains(element: T): Boolean =
-        this.find { it == element } != null
+        any { it == element }
 
     override fun containsAll(elements: Collection<T>): Boolean =
-        elements.find { !this.contains(it) } == null
+        elements.all(::contains)
 
     override fun isEmpty(): Boolean = size == 0
 
@@ -70,6 +70,6 @@ abstract class MyCollection<T : Any> : Collection<T> {
 
     protected data class Node<T>(
         val value: T,
-        var next: Node<T>?,
+        var next: Node<T>? = null,
     )
 }

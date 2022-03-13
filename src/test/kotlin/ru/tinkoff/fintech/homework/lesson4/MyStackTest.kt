@@ -23,7 +23,7 @@ class MyStackTest {
         pushAll(listOfValues)
 
         val valuesFromStack = stack.toList().reversed()
-        val expectedValues = listOf(singleValue).plus(listOfValues)
+        val expectedValues = listOf(singleValue) + listOfValues
         assertAll(
             { assertEquals(expectedValues.size, stack.size) },
             { assertEquals(expectedValues, valuesFromStack) },
