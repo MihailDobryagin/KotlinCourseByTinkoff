@@ -1,21 +1,22 @@
 package ru.tinkoff.fintech.homework.lesson4
 
-import io.mockk.clearAllMocks
-import io.mockk.spyk
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertNull
 
 class MyQueueTest {
 
-    private val queue = spyk(MyQueue<String>())
+    private val queue = MyQueue<String>()
     private val lonelyValue = "123"
     private val listOfValues = listOf("", "9876")
 
     @AfterEach
     fun afterEach() {
-        clearAllMocks()
+        queue.clear()
     }
 
     @Test

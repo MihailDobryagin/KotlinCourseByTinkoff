@@ -4,7 +4,7 @@ class MyStack<T> : MyCollection<T>() {
 
     fun push(element: T) = add(element)
 
-    fun pop() = forceRemoveHead()
+    fun pop(): T = forceRemoveHead()
 
     fun pushAll(elements: Collection<T>) = addAll(elements)
 

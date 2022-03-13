@@ -5,10 +5,29 @@ abstract class MyCollection<T> : Collection<T> {
 
     protected var back: Node<T>? = null
 
+    override var size: Int = 0
+        protected set
+
     /**
      * Get element from head without removing
      */
     fun peek(): T? = head?.value
+
+    fun clear() {
+        head = null
+        back = null
+        size = 0
+    }
+
+    override fun contains(element: T): Boolean =
+        this.find { it == element } != null
+
+    override fun containsAll(elements: Collection<T>): Boolean =
+        elements.find { !this.contains(it) } == null
+
+    override fun isEmpty(): Boolean = size == 0
+
+    override fun iterator(): Iterator<T> = FromHeadToBackIterator(head)
 
     /**
      * Remove element from head
@@ -36,29 +55,9 @@ abstract class MyCollection<T> : Collection<T> {
 
     protected abstract fun add(element: T)
 
-    override var size: Int = 0
-        protected set
-
-    protected fun addAll(elements: Collection<T>): Boolean {
+    protected fun addAll(elements: Collection<T>) {
         elements.forEach(this::add)
-        return true
     }
-
-    fun clear() {
-        head = null
-        back = null
-        size = 0
-    }
-
-    override fun contains(element: T): Boolean =
-        this.find { it == element } != null
-
-    override fun containsAll(elements: Collection<T>): Boolean =
-        elements.find { !this.contains(it) } == null
-
-    override fun isEmpty(): Boolean = size == 0
-
-    override fun iterator(): Iterator<T> = FromHeadToBackIterator(head)
 
     protected class FromHeadToBackIterator<T>(
         private var curNode: Node<T>?

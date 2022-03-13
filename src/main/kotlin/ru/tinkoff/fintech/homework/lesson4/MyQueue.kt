@@ -5,9 +5,9 @@ class MyQueue<T> : MyCollection<T>() {
     fun element(): T =
         peek() ?: throw NoSuchElementException()
 
-    fun remove() = forceRemoveHead()
+    fun remove(): T = forceRemoveHead()
 
-    fun poll() = removeHead()
+    fun poll(): T? = removeHead()
 
     fun offer(e: T): Boolean {
         add(e)
@@ -16,7 +16,7 @@ class MyQueue<T> : MyCollection<T>() {
 
     fun offerAll(elements: Collection<T>) = addAll(elements)
 
-    override fun add(element: T) {
+    public override fun add(element: T) {
         val newNode = Node(element, null)
 
         if (size == 0) {

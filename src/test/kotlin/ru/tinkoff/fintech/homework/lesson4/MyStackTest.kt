@@ -1,20 +1,18 @@
 package ru.tinkoff.fintech.homework.lesson4
 
-import io.mockk.clearAllMocks
-import io.mockk.spyk
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.assertNull
 
 class MyStackTest {
 
-    private val stack = spyk(MyStack<String>())
+    private val stack = MyStack<String>()
     private val lonelyValue = "123"
     private val listOfValues = listOf("", "9876")
 
     @AfterEach
     fun afterEach() {
-        clearAllMocks()
+        stack.clear()
     }
 
     @Test
