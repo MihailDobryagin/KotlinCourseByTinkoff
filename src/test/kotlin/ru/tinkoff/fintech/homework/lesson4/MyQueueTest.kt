@@ -11,8 +11,6 @@ import kotlin.test.assertNull
 class MyQueueTest {
 
     private val queue = MyQueue<String>()
-    private val lonelyValue = "123"
-    private val listOfValues = listOf("", "9876")
 
     @AfterEach
     fun afterEach() {
@@ -35,12 +33,15 @@ class MyQueueTest {
     @Test
     fun checkContainsAll() {
         queue.offerAll(listOfValues)
+
         assertTrue(queue.containsAll(listOfValues))
     }
 
     @Test
     fun checkRemoveFromEmptyQueue() {
-        assertThrows<NoSuchElementException>(queue::remove)
+        assertThrows<NoSuchElementException> {
+            queue.remove()
+        }
     }
 
     @Test
@@ -51,7 +52,9 @@ class MyQueueTest {
     @Test
     fun checkRemoveFromNotEmptyQueue() {
         queue.offerAll(listOfValues)
+
         val element = queue.remove()
+
         assertAll(
             { assertEquals(listOfValues.first(), element) },
             { assertEquals(listOfValues.size - 1, queue.size) }
@@ -61,21 +64,29 @@ class MyQueueTest {
     @Test
     fun checkPeekFromEmptyQueue() {
         val element = queue.peek()
+
         assertNull(element)
     }
 
     @Test
     fun checkElementMethodFromEmptyQueue() {
-        assertThrows<NoSuchElementException>(executable = queue::element)
+        assertThrows<NoSuchElementException> {
+            queue.element()
+        }
     }
 
     @Test
     fun checkPeekFromNotEmptyQueue() {
         queue.offerAll(listOfValues)
+
         val element = queue.peek()
+
         assertAll(
             { assertEquals(listOfValues.first(), element) },
             { assertEquals(listOfValues.size, queue.size) }
         )
     }
+
+    private val lonelyValue = "123"
+    private val listOfValues = listOf("", "9876")
 }
