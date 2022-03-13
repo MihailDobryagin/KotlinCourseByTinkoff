@@ -2,17 +2,16 @@ package ru.tinkoff.fintech.homework.lesson4
 
 import io.mockk.clearAllMocks
 import io.mockk.spyk
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertAll
-import org.junit.jupiter.api.assertThrows
-import ru.tinkoff.fintech.homework.lesson4.utils.MyCollectionTests
+import org.junit.jupiter.api.Assertions.assertTrue
+import kotlin.test.assertNull
 
 class MyQueueTest {
 
     private val queue = spyk(MyQueue<String>())
-    private val listOfValues = listOf("123", "", "9876")
+    private val lonelyValue = "123"
+    private val listOfValues = listOf("", "9876")
 
     @AfterEach
     fun afterEach() {
@@ -21,35 +20,36 @@ class MyQueueTest {
 
     @Test
     fun checkOffering() {
-        queue.offer(listOfValues[0])
-        queue.addAll(listOfValues.subList(1, listOfValues.size))
+        queue.offer(lonelyValue)
+        queue.offerAll(listOfValues)
 
-        val listFromQueue = queue.toList()
-
+        val valuesFromQueue = queue.toList()
+        val expectedValues = listOf(lonelyValue).plus(listOfValues)
         assertAll(
-            { assertEquals(listOfValues.size, queue.size) },
-            { assertEquals(listOfValues, listFromQueue) },
+            { assertEquals(expectedValues.size, queue.size) },
+            { assertEquals(expectedValues, valuesFromQueue) },
         )
     }
 
     @Test
     fun checkContainsAll() {
-        MyCollectionTests.checkContainsAll(queue, listOfValues)
+        queue.offerAll(listOfValues)
+        assertTrue(queue.containsAll(listOfValues))
     }
 
     @Test
     fun checkRemoveFromEmptyQueue() {
-        assertThrows<NoSuchElementException>(executable = queue::remove)
+        assertThrows<NoSuchElementException>(queue::remove)
     }
 
     @Test
     fun checkPollFromEmptyQueue() {
-        MyCollectionTests.checkPollFromEmptyCollection(queue)
+        assertNull(queue.poll())
     }
 
     @Test
     fun checkRemoveFromNotEmptyQueue() {
-        queue.addAll(listOfValues)
+        queue.offerAll(listOfValues)
         val element = queue.remove()
         assertAll(
             { assertEquals(listOfValues.first(), element) },
@@ -59,7 +59,8 @@ class MyQueueTest {
 
     @Test
     fun checkPeekFromEmptyQueue() {
-        MyCollectionTests.checkPeekFromEmptyCollection(queue)
+        val element = queue.peek()
+        assertNull(element)
     }
 
     @Test
@@ -69,7 +70,7 @@ class MyQueueTest {
 
     @Test
     fun checkPeekFromNotEmptyQueue() {
-        queue.addAll(listOfValues)
+        queue.offerAll(listOfValues)
         val element = queue.peek()
         assertAll(
             { assertEquals(listOfValues.first(), element) },

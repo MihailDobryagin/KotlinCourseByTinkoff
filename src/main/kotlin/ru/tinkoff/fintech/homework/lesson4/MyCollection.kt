@@ -1,6 +1,6 @@
 package ru.tinkoff.fintech.homework.lesson4
 
-abstract class MyCollection<T> : MutableCollection<T> {
+abstract class MyCollection<T> : Collection<T> {
     protected var head: Node<T>? = null
 
     protected var back: Node<T>? = null
@@ -15,7 +15,7 @@ abstract class MyCollection<T> : MutableCollection<T> {
      *
      * @return NULL if collection is empty
      */
-    open fun poll(): T? {
+    protected fun removeHead(): T? {
         if (size == 0) return null
         val result = head!!.value
         size--
@@ -29,30 +29,22 @@ abstract class MyCollection<T> : MutableCollection<T> {
     }
 
     /**
-     * Like poll() but throws NoSuchElementException if collection is empty
+     * Like removeHead() but throws NoSuchElementException if collection is empty
      */
-    fun pop() =
-        poll() ?: throw NoSuchElementException()
+    protected fun forceRemoveHead() =
+        removeHead() ?: throw NoSuchElementException()
 
-    /**
-     * Like add but without return, because return value is always TRUE
-     */
-    protected abstract fun push(element: T)
-
-    override fun add(element: T): Boolean {
-        push(element)
-        return true
-    }
+    protected abstract fun add(element: T)
 
     override var size: Int = 0
         protected set
 
-    override fun addAll(elements: Collection<T>): Boolean {
+    protected fun addAll(elements: Collection<T>): Boolean {
         elements.forEach(this::add)
         return true
     }
 
-    override fun clear() {
+    fun clear() {
         head = null
         back = null
         size = 0
@@ -66,11 +58,11 @@ abstract class MyCollection<T> : MutableCollection<T> {
 
     override fun isEmpty(): Boolean = size == 0
 
-    override fun iterator(): MutableIterator<T> = FromHeadToBackIterator(head)
+    override fun iterator(): Iterator<T> = FromHeadToBackIterator(head)
 
     protected class FromHeadToBackIterator<T>(
         private var curNode: Node<T>?
-    ) : MutableIterator<T> {
+    ) : Iterator<T> {
         override fun hasNext(): Boolean = curNode != null
 
         override fun next(): T {
@@ -79,26 +71,10 @@ abstract class MyCollection<T> : MutableCollection<T> {
             curNode = curNode!!.next
             return result
         }
-
-        override fun remove() {
-            throw UnsupportedOperationException()
-        }
     }
 
     protected data class Node<T>(
         val value: T,
         var next: Node<T>?,
     )
-
-    override fun remove(element: T): Boolean {
-        throw UnsupportedOperationException()
-    }
-
-    override fun removeAll(elements: Collection<T>): Boolean {
-        throw UnsupportedOperationException()
-    }
-
-    override fun retainAll(elements: Collection<T>): Boolean {
-        throw UnsupportedOperationException()
-    }
 }

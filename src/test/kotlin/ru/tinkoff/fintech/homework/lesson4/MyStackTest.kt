@@ -2,16 +2,15 @@ package ru.tinkoff.fintech.homework.lesson4
 
 import io.mockk.clearAllMocks
 import io.mockk.spyk
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertAll
-import ru.tinkoff.fintech.homework.lesson4.utils.MyCollectionTests
+import kotlin.test.assertNull
 
 class MyStackTest {
 
     private val stack = spyk(MyStack<String>())
-    private val listOfValues = listOf("123", "", "9876")
+    private val lonelyValue = "123"
+    private val listOfValues = listOf("", "9876")
 
     @AfterEach
     fun afterEach() {
@@ -20,30 +19,32 @@ class MyStackTest {
 
     @Test
     fun checkPushing() {
-        stack.add(listOfValues[0])
-        stack.addAll(listOfValues.subList(1, listOfValues.size))
+        stack.push(lonelyValue)
+        stack.pushAll(listOfValues)
 
-        val listFromQueue = stack.toList().reversed()
+        val valuesFromStack = stack.toList().reversed()
+        val expectedValues = listOf(lonelyValue).plus(listOfValues)
 
         assertAll(
-            { assertEquals(listOfValues.size, stack.size) },
-            { assertEquals(listOfValues, listFromQueue) },
+            { assertEquals(expectedValues.size, stack.size) },
+            { assertEquals(expectedValues, valuesFromStack) },
         )
     }
 
     @Test
     fun checkContainsAll() {
-        MyCollectionTests.checkContainsAll(stack, listOfValues)
+        stack.pushAll(listOfValues)
+        Assertions.assertTrue(stack.containsAll(listOfValues))
     }
 
     @Test
     fun checkPopFromEmptyStack() {
-        MyCollectionTests.checkPopFromEmptyCollection(stack)
+        assertThrows<NoSuchElementException>(stack::pop)
     }
 
     @Test
     fun checkPopFromNotEmptyStack() {
-        stack.addAll(listOfValues)
+        stack.pushAll(listOfValues)
         val element = stack.pop()
         assertAll(
             { assertEquals(listOfValues.last(), element) },
@@ -53,12 +54,13 @@ class MyStackTest {
 
     @Test
     fun checkPeekFromEmptyStack() {
-        MyCollectionTests.checkPeekFromEmptyCollection(stack)
+        val element = stack.peek()
+        assertNull(element)
     }
 
     @Test
     fun checkPeekFromNotEmptyStack() {
-        stack.addAll(listOfValues)
+        stack.pushAll(listOfValues)
         val element = stack.peek()
         assertAll(
             { assertEquals(listOfValues.last(), element) },

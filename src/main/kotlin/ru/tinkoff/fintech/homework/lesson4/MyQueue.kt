@@ -1,14 +1,22 @@
 package ru.tinkoff.fintech.homework.lesson4
 
 class MyQueue<T> : MyCollection<T>() {
-    fun remove() = pop()
-
-    fun offer(e: T): Boolean = add(e)
 
     fun element(): T =
-        head?.value ?: throw NoSuchElementException()
+        peek() ?: throw NoSuchElementException()
 
-    override fun push(element: T) {
+    fun remove() = forceRemoveHead()
+
+    fun poll() = removeHead()
+
+    fun offer(e: T): Boolean {
+        add(e)
+        return true
+    }
+
+    fun offerAll(elements: Collection<T>) = addAll(elements)
+
+    override fun add(element: T) {
         val newNode = Node(element, null)
 
         if (size == 0) {
