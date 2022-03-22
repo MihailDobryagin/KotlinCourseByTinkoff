@@ -8,6 +8,4 @@ fun main() {
     val car = Car("name", "company", CarType.SEDAN, "123USD", 123)
 
     val carService = CarService()
-
-    println(carService.convertCarToItsDescription(car))
 }
