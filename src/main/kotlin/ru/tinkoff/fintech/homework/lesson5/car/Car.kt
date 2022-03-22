@@ -15,21 +15,18 @@ data class Car(
     val wasteOfFuelPerKm: Int,
 ) {
     init {
-        if (!checkForEnglishLang(
-                listOf(
-                    name,
-                    company
-                )
-            )
-        ) throw IllegalArgumentException("Названия должны быть составлены из латинских букв")
+        if (!checkName(name)) throw IllegalArgumentException("Некорректное название")
+        if (!checkCompany(company)) throw IllegalArgumentException("Некорректное название компании")
         if (!validatePrice(price)) throw IllegalArgumentException("Неверный формат цены")
         if (wasteOfFuelPerKm < 0) throw IllegalArgumentException("Расход топлива не может быть отрицательным")
     }
 
-    private fun checkForEnglishLang(target: Collection<String>): Boolean {
-        return target.any {
-            it.matches(Regex("[\\s\\w\\d]+"))
-        }
+    private fun checkName(name: String): Boolean {
+        return name.matches(Regex("[a-zA-Z\\d][ _\\-a-zA-Z\\d]*"))
+    }
+
+    private fun checkCompany(company: String): Boolean {
+        return company.matches(Regex("[a-zA-Z\\d][ \\-a-zA-Z\\d]*"))
     }
 
     private fun validatePrice(price: String): Boolean {
