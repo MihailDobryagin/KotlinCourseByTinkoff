@@ -1,21 +1,21 @@
 package ru.tinkoff.fintech.homework.lesson5.car
 
+import ru.tinkoff.fintech.homework.lesson5.car.utils.ValidationException
 import ru.tinkoff.fintech.homework.lesson5.currency.CurrencyService
-import java.util.function.Predicate
 
 class CarService(
     private val currencyService: CurrencyService = CurrencyService()
 ) {
     fun getDescriptionsSortedByPrice(cars: Collection<Car>): List<String> {
         return cars
-            .sortedBy { convertPrice(it.price) }
+            .sortedBy { currencyService.convert(it.price, it.currency) }
             .map(::convertCarToItsDescription)
     }
 
     fun getDescriptionsSortedByPriceWithSequences(cars: Collection<Car>): List<String> {
         return cars
             .asSequence()
-            .sortedBy { convertPrice(it.price) }
+            .sortedBy { currencyService.convert(it.price, it.currency) }
             .map(::convertCarToItsDescription)
             .toList()
     }
@@ -33,6 +33,7 @@ class CarService(
 
     fun get3NamesByPredicateWithSequences(cars: Collection<Car>, predicate: (Car) -> Boolean): Collection<String> {
         return cars
+            .onEach(::validateCar)
             .asSequence()
             .filter(predicate)
             .take(3)
@@ -40,16 +41,25 @@ class CarService(
             .toList()
     }
 
-    private fun convertCarToItsDescription(car: Car): String {
-        return """{
-                "car": {
-                |"name": "${car.name}" ,
-                |"company": "${car.company}"} ,
-                |"fuel-consumption": "${car.fuelConsumption}"
-                |}""".trimMargin("|").replace("\n", "")
+    fun validateName(name: String) {
+        if (!name.matches("[a-zA-Z\\d][ \\-\\w]*".toRegex()))
+            throw ValidationException("Неверное название")
     }
 
-    private fun convertPrice(price: String): Double? {
-        return currencyService.convert(price)
+    private fun convertCarToItsDescription(car: Car): String {
+        validateCar(car)
+
+        return """{"car": {"name": "${car.name}", "company": "${car.company}"}, """ +
+                """"fuel-consumption": "${car.fuelConsumption}}"""
+    }
+
+    private fun validateFuelConsumption(fuelConsumption: Int) {
+        if (fuelConsumption < 0)
+            throw ValidationException("Неверное потребление топлива")
+    }
+
+    private fun validateCar(car: Car) {
+        validateName(car.name)
+        validateFuelConsumption(car.fuelConsumption)
     }
 }

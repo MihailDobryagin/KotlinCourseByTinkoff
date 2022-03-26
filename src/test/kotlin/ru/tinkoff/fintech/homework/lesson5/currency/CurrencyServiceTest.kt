@@ -6,10 +6,10 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.SpyK
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import ru.tinkoff.fintech.homework.lesson5.car.utils.ValidationException
 
 class CurrencyServiceTest {
     @MockK
@@ -27,6 +27,27 @@ class CurrencyServiceTest {
     @AfterEach
     fun afterEach() {
         clearAllMocks()
+    }
+
+    @Test
+    fun checkValidationOfValidPrice() {
+        assertDoesNotThrow { currencyService.validateCurrency("QWE") }
+    }
+
+    @Test
+    fun checkValidationOfInvalidCurrency() {
+        assertThrows<ValidationException> { currencyService.validateCurrency("QwE") }
+    }
+
+    @Test
+    fun checkConverting() {
+        every { currencyRepository.getCurrencyExchangeRate("QWE") } returns 10.0
+        val value = 20.0
+        val expected = 2.0
+
+        val actual = currencyService.convert(value, "QWE")
+
+        assertEquals(expected, actual)
     }
 
     @Test
