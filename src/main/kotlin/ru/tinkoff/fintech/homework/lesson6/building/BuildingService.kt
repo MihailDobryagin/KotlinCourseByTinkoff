@@ -5,9 +5,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class BuildingService @Autowired constructor(
-    private val rooms: Map<String, Int>,
+    private val rooms: MutableMap<Long, Room>,
 ) {
-    fun getRooms(): Map<String, Int> {
+    private var nextRoomId: Long = 0
+
+    fun getRooms(): Map<Long, Room> {
         return rooms
+    }
+
+    fun addRoom(name: String): Long {
+        val room = Room(nextRoomId++, name, 0)
+        rooms[room.id] = room
+        return room.id
     }
 }
