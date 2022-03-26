@@ -25,8 +25,10 @@ class CurrencyService(
     }
 
     private fun format(target: String): Pair<Double, String>? {
-        if (!target.matches(Regex("(([1-9][\\d.]*)|(0\\.[\\d.]*))[A-Z]{3}"))) return null
 
-        return target.dropLast(3).toDouble() to target.takeLast(3)
+        return if (!target.matches(Regex("(([1-9][\\d\\.]*)|(0\\.[\\d.]*))[A-Z]{3}")))
+            null
+        else
+            target.dropLast(3).toDouble() to target.takeLast(3)
     }
 }
