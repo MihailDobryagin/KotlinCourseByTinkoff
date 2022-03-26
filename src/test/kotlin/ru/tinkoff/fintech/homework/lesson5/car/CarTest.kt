@@ -28,18 +28,6 @@ class CarTest {
         assertThrows<IllegalArgumentException> { Car(name, "company", CarType.SEDAN, "1USD", 1) }
     }
 
-    @ParameterizedTest
-    @MethodSource("valid companies")
-    fun checkMakingCarWithValidCompany(company: String) {
-        assertDoesNotThrow { Car("name", company, CarType.SEDAN, "1USD", 1) }
-    }
-
-    @ParameterizedTest
-    @MethodSource("invalid companies")
-    fun checkMakingCarWithInvalidCompany(company: String) {
-        assertThrows<IllegalArgumentException> { Car("name", company, CarType.SEDAN, "1USD", 1) }
-    }
-
     @Test
     fun checkMakingCarWithValidPrice() {
         assertDoesNotThrow { Car("name", "company", CarType.SEDAN, "1.345RUB", 1) }
@@ -67,22 +55,6 @@ class CarTest {
             Arguments.of("aa-a"),
             Arguments.of("a_"),
             Arguments.of("a-a"),
-        )
-
-        @JvmStatic
-        fun `invalid companies`() = listOf(
-            Arguments.of("a,a"),
-            Arguments.of("a$"),
-            Arguments.of(" a"),
-            Arguments.of("a_a"),
-        )
-
-        @JvmStatic
-        fun `valid companies`() = listOf(
-            Arguments.of("a"),
-            Arguments.of("a-a"),
-            Arguments.of("a3"),
-            Arguments.of("3d"),
         )
 
         @JvmStatic

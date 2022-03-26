@@ -47,7 +47,7 @@ class CarService {
                 "{\"Car\": {" +
                 formatParameter("name", car.name) + " ," +
                 formatParameter("company", car.company) + " ," +
-                formatParameter("waste of fuel(l/km)", car.wasteOfFuelPerKm) +
+                formatParameter("waste of fuel(l/km)", car.fuelConsumption) +
                 "}"
     }
 
