@@ -19,4 +19,8 @@ class BuildingController @Autowired constructor(
     fun addRoom(@RequestParam name: String): Long {
         return buildingService.addRoom(name)
     }
+
+    @GetMapping("workers/move")
+    @ResponseBody
+    fun moveWorker(@RequestParam )
 }
