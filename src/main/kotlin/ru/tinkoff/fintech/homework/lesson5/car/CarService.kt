@@ -3,14 +3,12 @@ package ru.tinkoff.fintech.homework.lesson5.car
 import ru.tinkoff.fintech.homework.lesson5.currency.CurrencyService
 import java.util.function.Predicate
 
-class CarService {
-    private val currencyService = CurrencyService()
-
+class CarService(
+    private val currencyService: CurrencyService = CurrencyService()
+) {
     fun getDescriptionsSortedByPrice(cars: Collection<Car>): Collection<String> {
         return cars
-            .sortedBy {
-                convertPrice(it.price)
-            }
+            .sortedBy { convertPrice(it.price) }
             .map(::convertCarToItsDescription)
     }
 
@@ -26,9 +24,9 @@ class CarService {
         return cars.groupBy { it.type }
     }
 
-    fun get3NamesByPredicate(cars: Collection<Car>, predicate: Predicate<Car>): Collection<String> {
+    fun get3NamesByPredicate(cars: Collection<Car>, predicate: (Car) -> Boolean): Collection<String> {
         return cars
-            .filter { predicate.test(it) }
+            .filter { predicate.invoke(it) }
             .take(3)
             .map { it.name }
     }
@@ -43,16 +41,16 @@ class CarService {
     }
 
     private fun convertCarToItsDescription(car: Car): String {
-        return "" +
-                "{\"Car\": {" +
-                formatParameter("name", car.name) + " ," +
-                formatParameter("company", car.company) + " ," +
-                formatParameter("waste of fuel(l/km)", car.fuelConsumption) +
-                "}"
+        return """{
+                "car": {
+                ${formatParameter("name", car.name)} ,
+                ${formatParameter("company", car.company)} ,
+                ${formatParameter("fuel_consumption", car.fuelConsumption)}
+                }""".replace("\n", "")
     }
 
     private fun formatParameter(parameterName: String, value: Any): String {
-        return "\"$parameterName\": \"$value\""
+        return """"$parameterName": "$value""""
     }
 
     private fun convertPrice(price: String): Double? {

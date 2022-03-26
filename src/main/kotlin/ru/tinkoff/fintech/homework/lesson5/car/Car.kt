@@ -15,11 +15,11 @@ data class Car(
     val fuelConsumption: Int,
 ) {
     init {
-        validate()
+        if(!validate()) throw IllegalStateException()
     }
 
-    private fun validate(): Boolean {
-        return checkName(name) && checkPrice(price) && fuelConsumption < 0
+    fun validate(): Boolean {
+        return checkName(name) && checkPrice(price) && fuelConsumption >= 0
     }
 
     private fun checkName(name: String): Boolean {
@@ -27,6 +27,6 @@ data class Car(
     }
 
     private fun checkPrice(price: String): Boolean {
-        return price.matches(Regex("(([1-9][\\d.]*)|(0\\.[\\d.]*))[A-Z]{3}"))
+        return price.matches("(([1-9][\\d.]*)|(0\\.[\\d.]*))[A-Z]{3}".toRegex())
     }
 }

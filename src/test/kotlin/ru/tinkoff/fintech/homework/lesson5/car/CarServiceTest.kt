@@ -6,7 +6,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import java.util.function.Predicate
 import kotlin.test.assertContentEquals
 import kotlin.test.assertTrue
 
@@ -60,8 +59,8 @@ class CarServiceTest {
 
     @Test
     fun get3NamesByPredicate() {
-        val predicate = Predicate<Car> {
-            it.price.takeLast(3) == "USD"
+        val predicate = { car: Car ->
+            car.price.takeLast(3) == "USD"
         }
 
         val expected = listOf("name1", "name2", "name3")

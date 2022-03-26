@@ -25,7 +25,7 @@ class CarTest {
     @ParameterizedTest
     @MethodSource("invalid names")
     fun checkMakingCarWithInvalidName(name: String) {
-        assertThrows<IllegalArgumentException> { Car(name, "company", CarType.SEDAN, "1USD", 1) }
+        assertThrows<IllegalStateException> { Car(name, "company", CarType.SEDAN, "1USD", 1) }
     }
 
     @Test
@@ -36,7 +36,7 @@ class CarTest {
     @ParameterizedTest
     @MethodSource("invalid prices")
     fun checkMakingCarWithInValidPrice(price: String) {
-        assertThrows<IllegalArgumentException> { Car("name", "company", CarType.SEDAN, price, 1) }
+        assertThrows<IllegalStateException> { Car("name", "company", CarType.SEDAN, price, 1) }
     }
 
     private companion object {
