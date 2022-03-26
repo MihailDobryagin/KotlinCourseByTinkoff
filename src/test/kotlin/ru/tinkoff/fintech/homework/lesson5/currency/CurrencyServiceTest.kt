@@ -5,14 +5,11 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Test
-import ru.tinkoff.fintech.homework.lesson5.currency.CurrencyRepository
-import ru.tinkoff.fintech.homework.lesson5.currency.CurrencyService
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class CurrencyServiceTest {
     @MockK
