@@ -42,28 +42,28 @@ class CarTest {
     private companion object {
         @JvmStatic
         fun `invalid names`() = listOf(
-            Arguments.of("12\n3"),
-            Arguments.of("a,a"),
-            Arguments.of("a$"),
-            Arguments.of(" a"),
-            Arguments.of("_"),
-        )
+            "12\n3",
+            "a,a",
+            "a$",
+            " a",
+            "_",
+        ).map { Arguments.of(it) }
 
         @JvmStatic
-        fun `valid names`() = listOf(
-            Arguments.of("123"),
-            Arguments.of("aa-a"),
-            Arguments.of("a_"),
-            Arguments.of("a-a"),
-        )
+        fun `valid names`(): List<Arguments> = listOf(
+            "123",
+            "aa-a",
+            "a_",
+            "a-a"
+        ).map { Arguments.of(it) }
 
         @JvmStatic
         fun `invalid prices`() = listOf(
-            Arguments.of("1"),
-            Arguments.of("USD1"),
-            Arguments.of("1US"),
-            Arguments.of("1usd"),
-            Arguments.of("USD"),
-        )
+            "1",
+            "USD1",
+            "1US",
+            "1usd",
+            "USD",
+        ).map { Arguments.of(it) }
     }
 }

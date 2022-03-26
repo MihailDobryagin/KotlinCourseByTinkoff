@@ -40,13 +40,4 @@ class CurrencyServiceTest {
 
         assertNull(actual)
     }
-
-    @Test
-    fun checkConvertingPriceWithInvalidCurrency() {
-        every { currencyRepository.getCurrencyExchangeRate("QWE") } returns 0.0
-
-        val actual = currencyService.convert(1.0, "QWE")
-
-        assertNull(actual)
-    }
 }

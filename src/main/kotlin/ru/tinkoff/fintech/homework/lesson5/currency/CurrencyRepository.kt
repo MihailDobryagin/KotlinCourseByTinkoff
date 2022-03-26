@@ -8,6 +8,10 @@ class CurrencyRepository(
         "GBP" to 0.7518797,
     )
 ) {
+    init {
+        if (currencies.values.any { it <= 0.0 }) throw IllegalStateException("Значение курсов должны быть положительными")
+    }
+
     val availableCurrencies = currencies.keys
 
     fun getCurrencyExchangeRate(currency: String): Double? {

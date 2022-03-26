@@ -7,13 +7,11 @@ class CurrencyService(
      * Конвертация суммы в валюте в доллары
      */
     fun convert(value: Double, currency: String): Double? {
-        return try {
-            val exchangeRate = currencyRepository.getCurrencyExchangeRate(currency)
-            if (exchangeRate == 0.0) null
-            else value / exchangeRate!!
-        } catch (e: NullPointerException) {
-            null
-        }
+
+        val exchangeRate = currencyRepository.getCurrencyExchangeRate(currency)
+        return if (exchangeRate == null) null
+        else
+            value / exchangeRate
     }
 
     fun convert(value: String): Double? {
