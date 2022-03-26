@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson5.car
+package ru.tinkoff.fintech.homework.lesson5.currency
 
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
