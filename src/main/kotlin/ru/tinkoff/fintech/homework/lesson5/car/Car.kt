@@ -1,5 +1,7 @@
 package ru.tinkoff.fintech.homework.lesson5.car
 
+import ru.tinkoff.fintech.homework.lesson5.car.utils.ValidationException
+
 /**
  * @param name               Название модели
  * @param company            Марка машины
@@ -15,11 +17,25 @@ data class Car(
     val fuelConsumption: Int,
 ) {
     init {
-        if(!validate()) throw IllegalStateException()
+        checkState()
     }
 
     fun validate(): Boolean {
-        return checkName(name) && checkPrice(price) && fuelConsumption >= 0
+        return try {
+            checkState()
+            true
+        } catch (e: ValidationException) {
+            false
+        }
+    }
+
+    private fun checkState() {
+        if (!checkName(name))
+            throw ValidationException("Неверное название")
+        if (!checkPrice(price))
+            throw ValidationException("Неверный формат цены; Необходимый формаь - <число><3 цифры валюты>")
+        if (!checkFuelConsumption(fuelConsumption))
+            throw ValidationException("Неверное потребление топлива")
     }
 
     private fun checkName(name: String): Boolean {
@@ -28,5 +44,9 @@ data class Car(
 
     private fun checkPrice(price: String): Boolean {
         return price.matches("(([1-9][\\d.]*)|(0\\.[\\d.]*))[A-Z]{3}".toRegex())
+    }
+
+    private fun checkFuelConsumption(fuelConsumption: Int): Boolean {
+        return fuelConsumption >= 0
     }
 }
