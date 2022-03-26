@@ -43,10 +43,10 @@ class CarService(
     private fun convertCarToItsDescription(car: Car): String {
         return """{
                 "car": {
-                ${formatParameter("name", car.name)} ,
-                ${formatParameter("company", car.company)} ,
-                ${formatParameter("fuel_consumption", car.fuelConsumption)}
-                }""".replace("\n", "")
+                |${formatParameter("name", car.name)} ,
+                |${formatParameter("company", car.company)} ,
+                |${formatParameter("fuel_consumption", car.fuelConsumption)}
+                |}""".trimMargin("|").replace("\n", "")
     }
 
     private fun formatParameter(parameterName: String, value: Any): String {

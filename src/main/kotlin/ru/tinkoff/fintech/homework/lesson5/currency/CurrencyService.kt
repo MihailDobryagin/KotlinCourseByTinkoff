@@ -26,7 +26,17 @@ class CurrencyService(
 
     private fun format(target: String): Pair<Double, String>? {
 
-        return if (!target.matches(Regex("(([1-9][\\d\\.]*)|(0\\.[\\d.]*))[A-Z]{3}")))
+        val naturalNumber = "[1-9]"
+        val delimiter = "\\."
+        val numberGreaterThanOneByAbs = "$naturalNumber$delimiter?\\d*"
+        val numberLessThanOneByAbs = "0$delimiter\\d*"
+        val numberPattern = "($numberGreaterThanOneByAbs|$numberLessThanOneByAbs)"
+
+        val currencyPattern = "[A-Z]{3}"
+
+        val pattern = "$numberPattern$currencyPattern"
+
+        return if (!target.matches(pattern.toRegex()))
             null
         else
             target.dropLast(3).toDouble() to target.takeLast(3)
