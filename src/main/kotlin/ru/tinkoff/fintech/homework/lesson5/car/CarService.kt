@@ -24,16 +24,15 @@ class CarService(
         return cars.groupBy { it.type }
     }
 
-    fun get3NamesByPredicate(cars: Collection<Car>, predicate: (Car) -> Boolean): Collection<String> {
+    fun get3NamesByPredicate(cars: Collection<Car>, predicate: (Car) -> Boolean): List<String> {
         return cars
             .filter(predicate)
             .take(3)
             .map { it.name }
     }
 
-    fun get3NamesByPredicateWithSequences(cars: Collection<Car>, predicate: (Car) -> Boolean): Collection<String> {
+    fun get3NamesByPredicateWithSequences(cars: Collection<Car>, predicate: (Car) -> Boolean): List<String> {
         return cars
-            .onEach(::validateCar)
             .asSequence()
             .filter(predicate)
             .take(3)
@@ -41,25 +40,50 @@ class CarService(
             .toList()
     }
 
-    fun validateName(name: String) {
-        if (!name.matches("[a-zA-Z\\d][ \\-\\w]*".toRegex()))
-            throw ValidationException("Неверное название")
+    fun newCarBuilder(
+        name: String? = null,
+        company: String? = null,
+        type: CarType? = null,
+        price: Double = 0.0,
+        currency: String? = null,
+        fuelConsumption: Int = 0,
+    ): Car.Builder {
+        return CarBuilderImpl(currencyService, name, company, type, price, currency, fuelConsumption)
     }
 
     private fun convertCarToItsDescription(car: Car): String {
-        validateCar(car)
-
         return """{"car": {"name": "${car.name}", "company": "${car.company}"}, """ +
                 """"fuel-consumption": "${car.fuelConsumption}}"""
     }
 
-    private fun validateFuelConsumption(fuelConsumption: Int) {
-        if (fuelConsumption < 0)
-            throw ValidationException("Неверное потребление топлива")
-    }
+    private class CarBuilderImpl(
+        private val currencyService: CurrencyService,
+        name: String? = null,
+        company: String? = null,
+        type: CarType? = null,
+        price: Double = 0.0,
+        currency: String? = null,
+        fuelConsumption: Int = 0,
+    ) : Car.Builder(name, company, type, price, currency, fuelConsumption) {
+        override fun validate() {
+            validateName(name)
+            validateFuelConsumption(fuelConsumption)
+        }
 
-    private fun validateCar(car: Car) {
-        validateName(car.name)
-        validateFuelConsumption(car.fuelConsumption)
+        private fun validateName(name: String?) {
+            if (name == null || !name.matches("[a-zA-Z\\d][ \\-\\w]*".toRegex()))
+                throw ValidationException("Неверное название")
+        }
+
+        private fun validateFuelConsumption(fuelConsumption: Int) {
+            if (fuelConsumption < 0)
+                throw ValidationException("Неверное потребление топлива")
+        }
+
+        private fun validateCurrency(currency: String?) {
+            if (currency == null)
+                throw ValidationException("Валюта не должна быть null")
+            currencyService.validateCurrency(currency)
+        }
     }
 }

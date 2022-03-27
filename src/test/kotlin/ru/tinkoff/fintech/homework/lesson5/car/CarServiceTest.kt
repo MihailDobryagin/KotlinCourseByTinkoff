@@ -1,7 +1,6 @@
 package ru.tinkoff.fintech.homework.lesson5.car
 
 import io.mockk.clearAllMocks
-import io.mockk.spyk
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
@@ -13,17 +12,26 @@ import kotlin.test.assertTrue
 
 
 class CarServiceTest {
-    private val carService = spyk(CarService())
+    private val carService = CarService()
 
-    private val cars = spyk(
+    private val cars =
         listOf(
-            Car("name1", "company1", CarType.SEDAN, 1.0, "USD", 12),
-            Car("name3", "company3", CarType.SEDAN, 0.5, "USD", 13),
-            Car("name4", "company4", CarType.LIMOUSINE, 2.0, "EUR", 13),
-            Car("name2", "company2", CarType.SEDAN, 2.0, "USD", 12),
-            Car("name5", "company5", CarType.LIMOUSINE, 50.0, "RUB", 1),
+            carService.newCarBuilder("name1", "company1", CarType.SEDAN, 1.0, "USD", 12),
+            carService.newCarBuilder("name3", "company3", CarType.SEDAN, 0.5, "USD", 13),
+            carService.newCarBuilder("name4", "company4", CarType.LIMOUSINE, 2.0, "EUR", 13),
+            carService.newCarBuilder("name2", "company2", CarType.SEDAN, 2.0, "USD", 12),
+            carService.newCarBuilder("name5", "company5", CarType.LIMOUSINE, 50.0, "RUB", 1),
+        ).map(Car.Builder::build)
+
+    private lateinit var defaultCarBuilder: Car.Builder
+
+
+    @BeforeEach
+    fun beforeEach() {
+        defaultCarBuilder = carService.newCarBuilder(
+            "name", "company", CarType.SEDAN, 1.0, "USD", 12
         )
-    )
+    }
 
     @AfterEach
     fun afterEach() {
@@ -76,14 +84,18 @@ class CarServiceTest {
 
     @ParameterizedTest
     @MethodSource("valid names")
-    fun checkValidationValidCarName(name: String) {
-        assertDoesNotThrow { carService.validateName(name) }
+    fun checkBuildingCarWithValidName(name: String) {
+        defaultCarBuilder.withName(name)
+
+        assertDoesNotThrow { defaultCarBuilder.build() }
     }
 
     @ParameterizedTest
     @MethodSource("invalid names")
     fun checkValidationWithInvalidCarName(name: String) {
-        assertThrows<ValidationException> { carService.validateName(name) }
+        defaultCarBuilder.withName(name)
+
+        assertThrows<ValidationException> { defaultCarBuilder.build() }
     }
 
     private fun checkResultOfSorting(actual: Collection<String>, expectedOrder: List<String>): Boolean {
