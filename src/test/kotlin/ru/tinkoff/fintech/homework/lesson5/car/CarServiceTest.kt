@@ -18,6 +18,7 @@ class CarServiceTest {
             Car("name2", "company2", CarType.SEDAN, 2.0, "USD", 12),
             Car("name5", "company5", CarType.LIMOUSINE, 50.0, "RUB", 1),
         )
+    private val expectedOrderGettedByPriceSorting = listOf("5", "3", "1", "2", "4")
 
     @Test
     fun checkGroupingByTypes() {
@@ -36,20 +37,20 @@ class CarServiceTest {
 
     @Test
     fun checkSortingByPrice() {
-        val expectedOrder = listOf("5", "3", "1", "2", "4")
+        val actualOrder =
+            carService.getDescriptionsSortedByPrice(cars)
+                .map { "name(\\d)".toRegex().find(it)?.destructured?.toList()?.first() }
 
-        val actual = carService.getDescriptionsSortedByPrice(cars)
-
-        assertTrue { checkResultOfSorting(actual, expectedOrder) }
+        assertEquals(expectedOrderGettedByPriceSorting, actualOrder)
     }
 
     @Test
     fun checkSortingByPriceWithSequences() {
-        val expectedOrder = listOf("5", "3", "1", "2", "4")
+        val actualOrder =
+            carService.getDescriptionsSortedByPriceWithSequences(cars)
+                .map { "name(\\d)".toRegex().find(it)?.destructured?.toList()?.first() }
 
-        val actual = carService.getDescriptionsSortedByPriceWithSequences(cars)
-
-        assertTrue { checkResultOfSorting(actual, expectedOrder) }
+        assertEquals(expectedOrderGettedByPriceSorting, actualOrder)
     }
 
     @Test
@@ -65,11 +66,5 @@ class CarServiceTest {
             { assertTrue({ expected.containsAll(actual) }, "Отфильтрованные значения не включены в ожидаемые") },
             { assertTrue({ actual.containsAll(expected) }, "Ожидаемы значения не включены в отфильтрованные") },
         )
-    }
-
-    private fun checkResultOfSorting(actual: Collection<String>, expectedOrder: List<String>): Boolean {
-        return actual.zip(expectedOrder).all { (car: String, number: String) ->
-            car.matches(Regex(".*name$number.*"))
-        }
     }
 }
