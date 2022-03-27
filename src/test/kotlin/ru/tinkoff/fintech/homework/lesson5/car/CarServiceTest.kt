@@ -1,12 +1,10 @@
 package ru.tinkoff.fintech.homework.lesson5.car
 
 import io.mockk.clearAllMocks
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
-import ru.tinkoff.fintech.homework.lesson5.car.utils.ValidationException
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import kotlin.test.assertContentEquals
 import kotlin.test.assertTrue
 
@@ -16,22 +14,12 @@ class CarServiceTest {
 
     private val cars =
         listOf(
-            carService.newCarBuilder("name1", "company1", CarType.SEDAN, 1.0, "USD", 12),
-            carService.newCarBuilder("name3", "company3", CarType.SEDAN, 0.5, "USD", 13),
-            carService.newCarBuilder("name4", "company4", CarType.LIMOUSINE, 2.0, "EUR", 13),
-            carService.newCarBuilder("name2", "company2", CarType.SEDAN, 2.0, "USD", 12),
-            carService.newCarBuilder("name5", "company5", CarType.LIMOUSINE, 50.0, "RUB", 1),
-        ).map(Car.Builder::build)
-
-    private lateinit var defaultCarBuilder: Car.Builder
-
-
-    @BeforeEach
-    fun beforeEach() {
-        defaultCarBuilder = carService.newCarBuilder(
-            "name", "company", CarType.SEDAN, 1.0, "USD", 12
+            Car("name1", "company1", CarType.SEDAN, 1.0, "USD", 12),
+            Car("name3", "company3", CarType.SEDAN, 0.5, "USD", 13),
+            Car("name4", "company4", CarType.LIMOUSINE, 2.0, "EUR", 13),
+            Car("name2", "company2", CarType.SEDAN, 2.0, "USD", 12),
+            Car("name5", "company5", CarType.LIMOUSINE, 50.0, "RUB", 1),
         )
-    }
 
     @AfterEach
     fun afterEach() {
@@ -40,11 +28,12 @@ class CarServiceTest {
 
     @Test
     fun checkGroupingByTypes() {
-        val actual = carService.groupByType(cars)
         val expected = mapOf(
             CarType.SEDAN to cars.filter { it.type == CarType.SEDAN },
             CarType.LIMOUSINE to cars.filter { it.type == CarType.LIMOUSINE },
         )
+
+        val actual = carService.groupByType(cars)
 
         assertAll(
             { assertEquals(expected.size, actual.size) },
@@ -55,15 +44,19 @@ class CarServiceTest {
 
     @Test
     fun checkSortingByPrice() {
-        val actual = carService.getDescriptionsSortedByPrice(cars)
         val expectedOrder = listOf("5", "3", "1", "2", "4")
+
+        val actual = carService.getDescriptionsSortedByPrice(cars)
+
         assertTrue { checkResultOfSorting(actual, expectedOrder) }
     }
 
     @Test
     fun checkSortingByPriceWithSequences() {
-        val actual = carService.getDescriptionsSortedByPriceWithSequences(cars)
         val expectedOrder = listOf("5", "3", "1", "2", "4")
+
+        val actual = carService.getDescriptionsSortedByPriceWithSequences(cars)
+
         assertTrue { checkResultOfSorting(actual, expectedOrder) }
     }
 
@@ -72,8 +65,8 @@ class CarServiceTest {
         val predicate = { car: Car ->
             car.currency == "USD"
         }
-
         val expected = listOf("name1", "name2", "name3")
+
         val actual = carService.get3NamesByPredicate(cars, predicate)
 
         assertAll(
@@ -82,44 +75,9 @@ class CarServiceTest {
         )
     }
 
-    @ParameterizedTest
-    @MethodSource("valid names")
-    fun checkBuildingCarWithValidName(name: String) {
-        defaultCarBuilder.withName(name)
-
-        assertDoesNotThrow { defaultCarBuilder.build() }
-    }
-
-    @ParameterizedTest
-    @MethodSource("invalid names")
-    fun checkValidationWithInvalidCarName(name: String) {
-        defaultCarBuilder.withName(name)
-
-        assertThrows<ValidationException> { defaultCarBuilder.build() }
-    }
-
     private fun checkResultOfSorting(actual: Collection<String>, expectedOrder: List<String>): Boolean {
         return actual.zip(expectedOrder).all { (car: String, number: String) ->
             car.matches(Regex(".*name$number.*"))
         }
-    }
-
-    private companion object {
-        @JvmStatic
-        fun `invalid names`() = listOf(
-            "12\n3",
-            "a,a",
-            "a$",
-            " a",
-            "_",
-        ).map { Arguments.of(it) }
-
-        @JvmStatic
-        fun `valid names`(): List<Arguments> = listOf(
-            "123",
-            "aa-a",
-            "a_",
-            "a-a"
-        ).map { Arguments.of(it) }
     }
 }

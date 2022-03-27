@@ -1,6 +1,6 @@
 package ru.tinkoff.fintech.homework.lesson5.currency
 
-import ru.tinkoff.fintech.homework.lesson5.car.utils.ValidationException
+import ru.tinkoff.fintech.homework.lesson5.utils.ValidationException
 
 class CurrencyService(
     private val currencyRepository: CurrencyRepository = CurrencyRepository()

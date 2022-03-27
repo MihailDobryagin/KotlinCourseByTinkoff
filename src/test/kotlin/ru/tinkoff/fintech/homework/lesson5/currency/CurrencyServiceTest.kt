@@ -9,7 +9,7 @@ import io.mockk.impl.annotations.SpyK
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
-import ru.tinkoff.fintech.homework.lesson5.car.utils.ValidationException
+import ru.tinkoff.fintech.homework.lesson5.utils.ValidationException
 
 class CurrencyServiceTest {
     @MockK
@@ -42,12 +42,10 @@ class CurrencyServiceTest {
     @Test
     fun checkConverting() {
         every { currencyRepository.getCurrencyExchangeRate("QWE") } returns 10.0
-        val value = 20.0
-        val expected = 2.0
 
-        val actual = currencyService.convert(value, "QWE")
+        val actual = currencyService.convert(20.0, "QWE")
 
-        assertEquals(expected, actual)
+        assertEquals(2.0, actual)
     }
 
     @Test
