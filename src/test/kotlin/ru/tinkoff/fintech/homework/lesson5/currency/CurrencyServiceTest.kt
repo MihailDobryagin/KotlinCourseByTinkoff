@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions.assertNull
 import ru.tinkoff.fintech.homework.lesson5.utils.ValidationException
 
 class CurrencyServiceTest {
-    
+
     @MockK
     private lateinit var currencyRepository: CurrencyRepository
 

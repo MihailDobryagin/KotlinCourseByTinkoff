@@ -1,12 +1,10 @@
 package ru.tinkoff.fintech.homework.lesson5.car
 
-import io.mockk.clearAllMocks
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import kotlin.test.assertContentEquals
-import kotlin.test.assertTrue
 
 
 class CarServiceTest {
@@ -21,11 +19,6 @@ class CarServiceTest {
             Car("name5", "company5", CarType.LIMOUSINE, 50.0, "RUB", 1),
         )
 
-    @AfterEach
-    fun afterEach() {
-        clearAllMocks()
-    }
-
     @Test
     fun checkGroupingByTypes() {
         val expected = mapOf(
@@ -35,11 +28,10 @@ class CarServiceTest {
 
         val actual = carService.groupByType(cars)
 
-        assertAll(
-            { assertEquals(expected.size, actual.size) },
-            { assertContentEquals(expected[CarType.SEDAN], actual[CarType.SEDAN]) },
-            { assertContentEquals(expected[CarType.LIMOUSINE], actual[CarType.LIMOUSINE]) },
-        )
+        assertEquals(expected.size, actual.size)
+        assertContentEquals(expected[CarType.SEDAN], actual[CarType.SEDAN])
+        assertContentEquals(expected[CarType.LIMOUSINE], actual[CarType.LIMOUSINE])
+
     }
 
     @Test
@@ -62,16 +54,16 @@ class CarServiceTest {
 
     @Test
     fun get3NamesByPredicate() {
-        val predicate = { car: Car ->
-            car.currency == "USD"
-        }
+        val filter = { car: Car -> car.currency == "USD" }
+
         val expected = listOf("name1", "name2", "name3")
 
-        val actual = carService.get3NamesByPredicate(cars, predicate)
+        val actual = carService.get3NamesByPredicate(cars, filter)
 
         assertAll(
-            { assertTrue { expected.containsAll(actual) } },
-            { assertTrue { actual.containsAll(expected) } },
+            "Проверка на фильтрацию 3х названий по предикату",
+            { assertTrue({ expected.containsAll(actual) }, "Отфильтрованные значения не включены в ожидаемые") },
+            { assertTrue({ actual.containsAll(expected) }, "Ожидаемы значения не включены в отфильтрованные") },
         )
     }
 

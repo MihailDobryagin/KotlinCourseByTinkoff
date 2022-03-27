@@ -13,9 +13,7 @@ class CurrencyService(
 
         val exchangeRate = currencyRepository.getCurrencyExchangeRate(currency)
 
-        return if (exchangeRate == null) null
-        else
-            value / exchangeRate
+        return if (exchangeRate == null) null else value / exchangeRate
     }
 
     fun validateCurrency(currency: String) {
