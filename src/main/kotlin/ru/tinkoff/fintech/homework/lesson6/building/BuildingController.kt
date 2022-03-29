@@ -1,13 +1,20 @@
 package ru.tinkoff.fintech.homework.lesson6.building
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import ru.tinkoff.fintech.homework.lesson6.building.requests.dto.MoveWorkerDto
 
 @RestController
 @RequestMapping("building")
 class BuildingController @Autowired constructor(
     private val buildingService: BuildingService
+
 ) {
+    companion object {
+        private val logger = LoggerFactory.getLogger(BuildingController::class.java)
+    }
+
     @GetMapping("rooms")
     @ResponseBody
     fun getRooms(): Map<Long, Room> {
@@ -20,7 +27,14 @@ class BuildingController @Autowired constructor(
         return buildingService.addRoom(name)
     }
 
-    @GetMapping("workers/move")
+    @PostMapping("workers/move")
     @ResponseBody
-    fun moveWorker(@RequestParam )
+    fun moveWorker(
+        @RequestBody moveWorkerDto: MoveWorkerDto,
+    ) {
+        val from = moveWorkerDto.from
+        val to = moveWorkerDto.to
+        logger.info("Перемещение работника из $from в $to")
+        buildingService.moveWorker(from, to)
+    }
 }

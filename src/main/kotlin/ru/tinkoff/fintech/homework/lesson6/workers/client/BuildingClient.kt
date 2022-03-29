@@ -1,41 +1,26 @@
 package ru.tinkoff.fintech.homework.lesson6.workers.client
 
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
+import ru.tinkoff.fintech.homework.lesson6.workers.client.requests.MoveWorkerRequest
+import ru.tinkoff.fintech.homework.lesson6.workers.client.requests.RequestTemplate
+import ru.tinkoff.fintech.homework.lesson6.workers.client.requests.dto.MoveWorkerDto
 
-class BuildingClient {
-
-    val PATH = "/building"
+@Component
+class BuildingClient @Autowired constructor(
+    globalUri: String,
+) {
+    private val PATH = globalUri + "building/"
 
     private val restTemplate = RestTemplate()
 
     fun moveWorker(from: Long, to: Long) {
-        val reqObj = MoveWorkerObj(from, to)
-        doRequest(MoveWorkerRequest)
+        val requestDto = MoveWorkerDto(from, to)
+        doRequest(MoveWorkerRequest(requestDto))
     }
 
     private fun doRequest(request: RequestTemplate) {
-        restTemplate.postForObject(PATH + request.uri, request.obj, request.responseType)
+        restTemplate.postForObject(PATH + request.uri, request.dto, request.responseType)
     }
-
-    private abstract class RequestTemplate {
-        abstract val uri: String
-        abstract val responseType: Class<*>
-        abstract val obj: Any
-    }
-
-    private data class MoveWorkerObj(
-        val from: Long,
-        val to: Long,
-    )
-
-    private class MoveWorkerRequest(
-        override val obj: MoveWorkerObj,
-    ) : RequestTemplate() {
-        override val uri = "rooms/add"
-        override val responseType = MoveWorkerResponse::class.java
-    }
-
-    private data class MoveWorkerResponse(
-        val id: Long
-    )
 }

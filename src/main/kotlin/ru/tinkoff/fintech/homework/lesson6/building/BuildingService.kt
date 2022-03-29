@@ -18,4 +18,9 @@ class BuildingService @Autowired constructor(
         rooms[room.id] = room
         return room.id
     }
+
+    fun moveWorker(from: Long, to: Long) {
+        rooms[from]?.countOfPeople = rooms[from]?.countOfPeople?.minus(1)!!
+        rooms[to]?.countOfPeople = rooms[to]?.countOfPeople?.plus(1)!!
+    }
 }
