@@ -1,11 +1,13 @@
 package ru.tinkoff.fintech.homework.lesson6.workers.client
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
-import ru.tinkoff.fintech.homework.lesson6.workers.client.requests.MoveWorkerRequest
-import ru.tinkoff.fintech.homework.lesson6.workers.client.requests.RequestTemplate
-import ru.tinkoff.fintech.homework.lesson6.workers.client.requests.dto.MoveWorkerDto
+import org.springframework.web.client.postForEntity
+import ru.tinkoff.fintech.homework.lesson6.workers.client.request.MoveWorkerRequest
+import ru.tinkoff.fintech.homework.lesson6.workers.client.request.RequestTemplate
+import ru.tinkoff.fintech.homework.lesson6.workers.client.request.dto.MoveWorkerDto
 
 @Component
 class BuildingClient @Autowired constructor(
@@ -15,12 +17,13 @@ class BuildingClient @Autowired constructor(
 
     private val restTemplate = RestTemplate()
 
-    fun moveWorker(from: Long, to: Long) {
+    fun moveWorker(from: Long?, to: Long?): Boolean {
         val requestDto = MoveWorkerDto(from, to)
-        doRequest(MoveWorkerRequest(requestDto))
+        val movingResult = doRequest(MoveWorkerRequest(requestDto)).body as Map<*, *>
+        return movingResult["success"] as Boolean
     }
 
-    private fun doRequest(request: RequestTemplate) {
-        restTemplate.postForObject(PATH + request.uri, request.dto, request.responseType)
+    private fun doRequest(request: RequestTemplate): ResponseEntity<Any> {
+        return restTemplate.postForEntity(PATH + request.uri, request.dto)
     }
 }
