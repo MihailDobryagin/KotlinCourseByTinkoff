@@ -3,7 +3,7 @@ package ru.tinkoff.fintech.homework.lesson6.building
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import ru.tinkoff.fintech.homework.lesson6.building.requests.dto.MoveWorkerDto
+import ru.tinkoff.fintech.homework.lesson6.building.request.dto.MoveWorkerDto
 
 @RestController
 @RequestMapping("building")
