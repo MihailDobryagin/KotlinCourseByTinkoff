@@ -1,0 +1,5 @@
+package building
+
+class BuildingControllerTest {
+
+}

@@ -36,7 +36,7 @@ class BuildingService @Autowired constructor(
         if (roomFrom != null)
             roomFrom.countOfPeople--
         if (roomTo != null)
-            roomTo.countOfPeople--
+            roomTo.countOfPeople++
 
         return true
     }

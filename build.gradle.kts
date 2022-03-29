@@ -24,6 +24,14 @@ dependencies {
     implementation("io.springfox:springfox-swagger-ui:2.7.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    testImplementation(kotlin("test"))
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
+
+    testImplementation("io.mockk:mockk:1.12.3")
 }
 
 tasks.withType<KotlinCompile> {
