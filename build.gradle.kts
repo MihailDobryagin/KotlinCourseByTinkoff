@@ -23,6 +23,8 @@ dependencies {
     implementation("io.springfox:springfox-swagger2:2.7.0")
     implementation("io.springfox:springfox-swagger-ui:2.7.0")
 
+    implementation("com.google.code.gson:gson:2.9.0")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     testImplementation(kotlin("test"))

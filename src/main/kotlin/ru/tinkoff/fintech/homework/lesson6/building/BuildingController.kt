@@ -2,6 +2,7 @@ package ru.tinkoff.fintech.homework.lesson6.building
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.support.MethodOverride
 import org.springframework.web.bind.annotation.*
 import ru.tinkoff.fintech.homework.lesson6.building.request.dto.MoveWorkerDto
 import ru.tinkoff.fintech.homework.lesson6.building.response.ErrorResponse
@@ -28,10 +29,10 @@ class BuildingController @Autowired constructor(
     @GetMapping("room")
     @ResponseBody
     fun getRoom(
-        @RequestParam id: Long,
+        @RequestParam roomId: Long,
     ): Room? {
         logger.info("Запрос на получение помещения")
-        return buildingService.getRoom(id)
+        return buildingService.getRoom(roomId)
     }
 
     @GetMapping("rooms/add")
