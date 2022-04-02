@@ -43,6 +43,7 @@ class WorkersController @Autowired constructor(
         @RequestParam workerId: Long,
         @RequestParam to: Long?,
     ): Boolean {
+        logger.info("Запрос на перемещение работника $workerId в помещение $to")
         return workersService.moveWorker(workerId, to)
     }
 }

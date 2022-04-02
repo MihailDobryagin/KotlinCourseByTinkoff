@@ -73,7 +73,7 @@ class WorkersControllerTest {
     @Test
     fun checkMoveWorker() {
         val worker = Worker(777, "name1", null)
-        workers[worker.id] = Worker(777, "name1", null)
+        workers[worker.id] = worker
         every { buildingClient.moveWorker(null, 123) } returns true
         val requestBuilder = MockMvcRequestBuilders
             .get("/workers/move")
