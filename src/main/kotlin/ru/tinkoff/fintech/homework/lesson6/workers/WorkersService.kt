@@ -24,9 +24,7 @@ class WorkersService @Autowired constructor(
         return workersDb.getWorker(id)
     }
 
-    fun addWorker(
-        name: String,
-    ): Long {
+    fun addWorker(name: String): Long {
         val workerDto = WorkerDto(name = name)
         return workersDb.addWorker(workerDto)
     }

@@ -10,11 +10,9 @@ import ru.tinkoff.fintech.homework.lesson6.workers.client.request.RequestTemplat
 
 @Component
 class BuildingClient(
-    globalUri: String,
+    private val restTemplate: RestTemplate,
 ) {
-    private val PATH = globalUri + "building/"
-
-    private val restTemplate = RestTemplate()
+    private val PATH = "building/"
 
     fun moveWorker(from: Long?, to: Long?): Boolean {
         val requestDto = MoveWorkerDto(from, to)
