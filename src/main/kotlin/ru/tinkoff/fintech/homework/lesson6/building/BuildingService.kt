@@ -11,8 +11,6 @@ class BuildingService(
         private val logger = LoggerFactory.getLogger(BuildingService::class.java)
     }
 
-    private var nextRoomId: Long = 0
-
     fun getRooms(): Map<Long, Room> {
         return roomsDb.getRooms()
     }
@@ -40,20 +38,13 @@ class BuildingService(
 
     private fun validateMoveWorkerReq(from: Long?, to: Long?): Boolean {
         val rooms = roomsDb.getRooms()
-        return when {
-            from != null && !rooms.contains(from) -> {
-                logger.error("Не существует комнаты с id $from")
-                false
-            }
-            from != null && rooms[from]?.countOfPeople == 0 -> {
-                logger.error("В комнате $from нет людей")
-                false
-            }
-            to != null && !rooms.contains(to) -> {
-                logger.error("Не существует комнаты с id $to")
-                false
-            }
-            else -> true
+        val error = when {
+            from != null && !rooms.contains(from) -> "Не существует комнаты с id $from"
+            from != null && rooms[from]?.countOfPeople == 0 -> "В комнате $from нет людей"
+            to != null && !rooms.contains(to) -> "Не существует комнаты с id $to"
+            else -> null
         }
+        error?.let(logger::error)
+        return error == null
     }
 }

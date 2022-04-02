@@ -75,7 +75,7 @@ class WorkersControllerTest {
     @Test
     fun checkMoveWorker() {
 
-        for(i in 0 until 777)
+        for (i in 0 until 777)
             workersDb.addWorker("qwerty")
         workersDb.addWorker("name1")
         val worker = workersDb.getWorker(777)!!
