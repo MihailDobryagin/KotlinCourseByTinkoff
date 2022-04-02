@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingController
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingService
 import ru.tinkoff.fintech.homework.lesson6.building.dto.RoomDto
-import ru.tinkoff.fintech.homework.lesson6.building.request.dto.MoveWorkerDto
+import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
 import ru.tinkoff.fintech.homework.lesson6.building.response.SuccessResponse
 
 class BuildingControllerTest {

@@ -3,7 +3,7 @@ package ru.tinkoff.fintech.homework.lesson6.building
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import ru.tinkoff.fintech.homework.lesson6.building.dto.RoomDto
-import ru.tinkoff.fintech.homework.lesson6.building.request.dto.MoveWorkerDto
+import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
 import ru.tinkoff.fintech.homework.lesson6.building.response.ErrorResponse
 import ru.tinkoff.fintech.homework.lesson6.building.response.SimpleResponse
 import ru.tinkoff.fintech.homework.lesson6.building.response.SuccessResponse

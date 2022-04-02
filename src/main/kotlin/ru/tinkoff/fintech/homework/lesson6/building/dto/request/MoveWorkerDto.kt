@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson6.building.request.dto
+package ru.tinkoff.fintech.homework.lesson6.building.dto.request
 
 data class MoveWorkerDto(
     val from: Long?,
