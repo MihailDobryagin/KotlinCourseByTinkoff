@@ -1,9 +1,10 @@
 package ru.tinkoff.fintech.homework.lesson6.workers
 
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import ru.tinkoff.fintech.homework.lesson6.workers.client.SimpleResponse
 
 @RestControllerAdvice(assignableTypes = [WorkersController::class])
 class WorkersControllerHandler {
@@ -12,8 +13,8 @@ class WorkersControllerHandler {
     }
 
     @ExceptionHandler
-    fun exceptionHandler(e: Exception): SimpleResponse {
+    fun exceptionHandler(e: Exception): ResponseEntity<*> {
         logger.error("Неперехваченное исключение", e)
-        return SimpleResponse(false, "Произошла ошибка на сервере")
+        return ResponseEntity("Произошла ошибка на сервере", HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
