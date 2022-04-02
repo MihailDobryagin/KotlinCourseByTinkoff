@@ -36,8 +36,7 @@ class BuildingControllerTest {
         val expectingRoom = Room(1, "room1", 123)
         every { buildingService.getRoom(1) } returns expectingRoom
         val requestBuilder = MockMvcRequestBuilders
-            .get("/building/room")
-            .param("roomId", "1")
+            .get("/building/room/1")
 
         val room = sendReq<Room>(requestBuilder)
 

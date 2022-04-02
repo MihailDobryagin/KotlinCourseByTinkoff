@@ -76,8 +76,7 @@ class WorkersControllerTest {
         workers[worker.id] = worker
         every { buildingClient.moveWorker(null, 123) } returns true
         val requestBuilder = MockMvcRequestBuilders
-            .get("/workers/move")
-            .param("workerId", "777")
+            .get("/workers/move/777")
             .param("to", "123")
 
         val movingResult = sendReq<Boolean>(requestBuilder)

@@ -19,30 +19,26 @@ class BuildingController @Autowired constructor(
     }
 
     @GetMapping("rooms")
-    @ResponseBody
     fun getRooms(): Map<Long, Room> {
         logger.info("Запрос на получение помещений")
         return buildingService.getRooms()
     }
 
-    @GetMapping("room")
-    @ResponseBody
+    @GetMapping("room/{roomId}")
     fun getRoom(
-        @RequestParam roomId: Long,
+        @PathVariable roomId: Long,
     ): Room? {
         logger.info("Запрос на получение помещения")
         return buildingService.getRoom(roomId)
     }
 
     @GetMapping("rooms/add")
-    @ResponseBody
     fun addRoom(@RequestParam name: String): Long {
         logger.info("""Запрос на добавление помещения "$name"""")
         return buildingService.addRoom(name)
     }
 
     @PostMapping("workers/move")
-    @ResponseBody
     fun moveWorker(
         @RequestBody moveWorkerDto: MoveWorkerDto,
     ): SimpleResponse {

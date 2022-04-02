@@ -14,14 +14,12 @@ class WorkersController @Autowired constructor(
     }
 
     @GetMapping
-    @ResponseBody
     fun get(): Map<Long, Worker> {
         logger.info("Запрос на получение работников")
         return workersService.workers
     }
 
     @GetMapping("{id}")
-    @ResponseBody
     fun getById(
         @PathVariable id: Long,
     ): Worker? {
@@ -30,7 +28,6 @@ class WorkersController @Autowired constructor(
     }
 
     @GetMapping("add")
-    @ResponseBody
     fun add(
         @RequestParam name: String
     ): Long {
@@ -38,9 +35,9 @@ class WorkersController @Autowired constructor(
         return workersService.addWorker(name)
     }
 
-    @GetMapping("move")
+    @GetMapping("move/{workerId}")
     fun moveWorker(
-        @RequestParam workerId: Long,
+        @PathVariable workerId: Long,
         @RequestParam to: Long?,
     ): Boolean {
         logger.info("Запрос на перемещение работника $workerId в помещение $to")

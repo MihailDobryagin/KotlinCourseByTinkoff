@@ -21,8 +21,7 @@ class BuildingControllerHandlerTest {
     @Test
     fun checkExceptionHandling() {
         val requestBuilder = MockMvcRequestBuilders
-            .get("/building/room")
-            .param("roomId", "qwerty")
+            .get("/building/room/querty")
 
         val response = mockMvc
             .perform(requestBuilder)
