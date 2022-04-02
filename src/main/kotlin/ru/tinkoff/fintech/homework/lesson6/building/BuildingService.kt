@@ -1,11 +1,10 @@
 package ru.tinkoff.fintech.homework.lesson6.building
 
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class BuildingService @Autowired constructor(
+class BuildingService(
     private val rooms: MutableMap<Long, Room>,
 ) {
 

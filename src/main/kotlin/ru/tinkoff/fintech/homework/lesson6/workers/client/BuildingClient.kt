@@ -1,6 +1,5 @@
 package ru.tinkoff.fintech.homework.lesson6.workers.client
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
@@ -10,7 +9,7 @@ import ru.tinkoff.fintech.homework.lesson6.workers.client.request.RequestTemplat
 import ru.tinkoff.fintech.homework.lesson6.workers.client.request.dto.MoveWorkerDto
 
 @Component
-class BuildingClient @Autowired constructor(
+class BuildingClient(
     globalUri: String,
 ) {
     private val PATH = globalUri + "building/"

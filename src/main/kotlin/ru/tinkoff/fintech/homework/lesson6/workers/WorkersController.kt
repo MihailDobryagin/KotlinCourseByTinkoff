@@ -1,12 +1,11 @@
 package ru.tinkoff.fintech.homework.lesson6.workers
 
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("workers")
-class WorkersController @Autowired constructor(
+class WorkersController(
     private val workersService: WorkersService,
 ) {
     companion object {
