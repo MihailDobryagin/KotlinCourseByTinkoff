@@ -33,7 +33,7 @@ class WorkersService @Autowired constructor(
         logger.info("Перемещение работника $workerId в комнату $to")
 
         val worker = getWorker(workerId)
-        if(worker == null) {
+        if (worker == null) {
             logger.error("Не существует работника с id $workerId")
             return false
         }

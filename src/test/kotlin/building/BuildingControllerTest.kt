@@ -51,7 +51,7 @@ class BuildingControllerTest {
             .get("/building/rooms/add")
             .param("name", "name1")
 
-       val roomId = sendReq<Long>(requestBuilder)
+        val roomId = sendReq<Long>(requestBuilder)
 
         verify { buildingService.addRoom("name1") }
         assertEquals(123, roomId)
