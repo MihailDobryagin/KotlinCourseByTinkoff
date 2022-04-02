@@ -18,7 +18,7 @@ import ru.tinkoff.fintech.homework.lesson6.building.BuildingController
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingService
 import ru.tinkoff.fintech.homework.lesson6.building.dto.RoomDto
 import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
-import ru.tinkoff.fintech.homework.lesson6.building.response.SuccessResponse
+import ru.tinkoff.fintech.homework.lesson6.building.response.SimpleResponse
 
 class BuildingControllerTest {
     private var buildingService = mockk<BuildingService>()
@@ -65,7 +65,7 @@ class BuildingControllerTest {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(gson.toJson(moveWorkerDto))
 
-        val result = sendReq<SuccessResponse>(requestBuilder)
+        val result = sendReq<SimpleResponse>(requestBuilder)
 
         verify { buildingService.moveWorker(123, 456) }
         assertTrue(result.success)
