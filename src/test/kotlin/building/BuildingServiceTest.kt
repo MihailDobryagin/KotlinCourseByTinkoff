@@ -1,28 +1,30 @@
 package building
 
+import io.mockk.clearAllMocks
+import io.mockk.spyk
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingService
-import ru.tinkoff.fintech.homework.lesson6.building.Room
+import ru.tinkoff.fintech.homework.lesson6.building.utils.RoomsDb
 
 class BuildingServiceTest {
-    private val rooms: MutableMap<Long, Room> = mutableMapOf()
+    private val roomsDb = spyk<RoomsDb>()
+    private val buildingService = BuildingService(roomsDb)
 
-    private val buildingService = BuildingService(rooms)
-
-    @BeforeEach
-    fun beforeAll() {
-        rooms.clear()
+    @AfterEach
+    fun afterEach() {
+        clearAllMocks()
     }
 
     @Test
     fun checkMoveWorker() {
-        val roomFrom = Room(0, "room0", 1)
-        val roomTo = Room(1, "room1", 0)
-        rooms[0] = roomFrom
-        rooms[1] = roomTo
+        roomsDb.addRoom("room0")
+        roomsDb.addRoom("room1")
+        val roomFrom = roomsDb.getRoom(0)!!
+        roomFrom.countOfPeople = 1
+        val roomTo = roomsDb.getRoom(1)!!
 
         buildingService.moveWorker(0, 1)
 

@@ -43,6 +43,7 @@ class BuildingController(
         val from = moveWorkerDto.from
         val to = moveWorkerDto.to
         logger.info("Запрос на перемещение работника из $from в $to")
-        return if (buildingService.moveWorker(from, to)) SuccessResponse() else ErrorResponse()
+        val movingResult = buildingService.moveWorker(from, to)
+        return if (movingResult) SuccessResponse() else ErrorResponse()
     }
 }

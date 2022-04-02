@@ -2,12 +2,12 @@ package ru.tinkoff.fintech.homework.lesson6.building
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import ru.tinkoff.fintech.homework.lesson6.building.utils.RoomsDb
 
 @Service
 class BuildingService(
-    private val rooms: MutableMap<Long, Room>,
+    private val roomsDb: RoomsDb
 ) {
-
     companion object {
         private val logger = LoggerFactory.getLogger(BuildingService::class.java)
     }
@@ -15,37 +15,33 @@ class BuildingService(
     private var nextRoomId: Long = 0
 
     fun getRooms(): Map<Long, Room> {
-        return rooms
+        return roomsDb.getRooms()
     }
 
-    fun getRoom(id: Long): Room? = rooms[id]
+    fun getRoom(id: Long): Room? = roomsDb.getRoom(id)
 
     fun addRoom(name: String): Long {
-        val room = Room(nextRoomId++, name, 0)
-        rooms[room.id] = room
-        return room.id
+        return roomsDb.addRoom(name)
     }
 
     fun moveWorker(from: Long?, to: Long?): Boolean {
-        if (!validateMoveWorkerReq(from, to))
-            return false
-
-        val roomFrom = rooms[from]
-        val roomTo = rooms[to]
-        if (roomFrom != null)
-            roomFrom.countOfPeople--
-        if (roomTo != null)
-            roomTo.countOfPeople++
-
-        return true
+        return if (!validateMoveWorkerReq(from, to))
+            false
+        else {
+            val rooms = roomsDb.getRooms()
+            val roomFrom = rooms[from]
+            val roomTo = rooms[to]
+            if (roomFrom != null)
+                roomFrom.countOfPeople--
+            if (roomTo != null)
+                roomTo.countOfPeople++
+            true
+        }
     }
 
     private fun validateMoveWorkerReq(from: Long?, to: Long?): Boolean {
+        val rooms = roomsDb.getRooms()
         return when {
-            from == to -> {
-                logger.error("Нельзя переместить человека из комнаты $from в $from")
-                false
-            }
             from != null && !rooms.contains(from) -> {
                 logger.error("Не существует комнаты с id $from")
                 false
