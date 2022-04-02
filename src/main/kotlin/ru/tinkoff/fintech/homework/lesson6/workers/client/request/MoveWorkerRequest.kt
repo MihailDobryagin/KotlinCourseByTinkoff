@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.homework.lesson6.workers.client.request
 
 import ru.tinkoff.fintech.homework.lesson6.workers.client.SimpleResponse
-import ru.tinkoff.fintech.homework.lesson6.workers.client.request.dto.MoveWorkerDto
+import ru.tinkoff.fintech.homework.lesson6.workers.client.dto.MoveWorkerDto
 
 data class MoveWorkerRequest(
     override val dto: MoveWorkerDto,

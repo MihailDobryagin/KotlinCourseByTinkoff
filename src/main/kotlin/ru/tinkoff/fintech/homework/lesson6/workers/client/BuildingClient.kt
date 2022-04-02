@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.postForEntity
 import ru.tinkoff.fintech.homework.lesson6.workers.client.request.MoveWorkerRequest
 import ru.tinkoff.fintech.homework.lesson6.workers.client.request.RequestTemplate
-import ru.tinkoff.fintech.homework.lesson6.workers.client.request.dto.MoveWorkerDto
+import ru.tinkoff.fintech.homework.lesson6.workers.client.dto.MoveWorkerDto
 
 @Component
 class BuildingClient(
