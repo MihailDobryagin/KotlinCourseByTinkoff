@@ -48,7 +48,7 @@ class BuildingControllerTest {
     fun checkAddRoom() {
         every { buildingService.addRoom("name1") } returns 123
         val requestBuilder = MockMvcRequestBuilders
-            .get("/building/rooms/add")
+            .post("/building/rooms/add")
             .param("name", "name1")
 
         val roomId = sendReq<Long>(requestBuilder)

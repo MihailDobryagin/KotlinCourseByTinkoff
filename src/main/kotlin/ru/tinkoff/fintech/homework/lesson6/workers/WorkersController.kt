@@ -27,15 +27,13 @@ class WorkersController(
         return workersService.getWorker(id)
     }
 
-    @GetMapping("add")
-    fun add(
-        @RequestParam name: String
-    ): Long {
+    @PostMapping("add")
+    fun add(@RequestParam name: String): Long {
         logger.info("Запрос на добавление работника $name")
         return workersService.addWorker(name)
     }
 
-    @GetMapping("move/{workerId}")
+    @PostMapping("move/{workerId}")
     fun moveWorker(
         @PathVariable workerId: Long,
         @RequestParam to: Long?,

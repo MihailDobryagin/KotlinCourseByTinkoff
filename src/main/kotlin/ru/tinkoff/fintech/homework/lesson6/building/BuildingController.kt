@@ -31,7 +31,7 @@ class BuildingController(
         return buildingService.getRoom(roomId)
     }
 
-    @GetMapping("rooms/add")
+    @PostMapping("rooms/add")
     fun addRoom(@RequestParam name: String): Long {
         logger.info("""Запрос на добавление помещения "$name"""")
         return buildingService.addRoom(name)

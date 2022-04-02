@@ -55,12 +55,12 @@ class WorkersControllerTest {
     @Test
     fun checkAddWorker() {
         val prevRequestBuilder = MockMvcRequestBuilders
-            .get("/workers/add")
+            .post("/workers/add")
             .param("name", "")
         sendReq<Long>(prevRequestBuilder)
         sendReq<Long>(prevRequestBuilder)
         var requestBuilder = MockMvcRequestBuilders
-            .get("/workers/add")
+            .post("/workers/add")
             .param("name", "expectedName")
 
         val workerId = sendReq<Long>(requestBuilder)
@@ -75,14 +75,13 @@ class WorkersControllerTest {
 
     @Test
     fun checkMoveWorker() {
-
         for (i in 0 until 777)
             workersDb.addWorker(WorkerDto(name = "qwerty"))
         workersDb.addWorker(WorkerDto(name = "name1"))
 
         every { buildingClient.moveWorker(null, 123) } returns true
         val requestBuilder = MockMvcRequestBuilders
-            .get("/workers/move/777")
+            .post("/workers/move/777")
             .param("to", "123")
 
         val movingResult = sendReq<Boolean>(requestBuilder)
