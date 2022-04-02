@@ -8,25 +8,24 @@ import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
 @Service
 class WorkersService @Autowired constructor(
     val buildingClient: BuildingClient,
-    val workers: MutableMap<Long, Worker>,
+    val workersDb: WorkersDb,
 ) {
     companion object {
         private val logger = LoggerFactory.getLogger(WorkersService::class.java)
     }
 
-    private var nextWorkerId: Long = 0
+    fun getWorkers(): Map<Long, Worker> {
+        return workersDb.getWorkers()
+    }
 
     fun getWorker(id: Long): Worker? {
-        return workers[id]
+        return workersDb.getWorker(id)
     }
 
     fun addWorker(
         name: String,
     ): Long {
-        val worker = Worker(nextWorkerId++, name)
-        logger.info("Добавлен работник $worker")
-        workers[worker.id] = worker
-        return worker.id
+        return workersDb.addWorker(name)
     }
 
     fun moveWorker(workerId: Long, to: Long?): Boolean {

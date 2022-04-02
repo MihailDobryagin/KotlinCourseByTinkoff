@@ -14,13 +14,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import ru.tinkoff.fintech.homework.lesson6.workers.Worker
 import ru.tinkoff.fintech.homework.lesson6.workers.WorkersController
+import ru.tinkoff.fintech.homework.lesson6.workers.WorkersDb
 import ru.tinkoff.fintech.homework.lesson6.workers.WorkersService
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
 
 class WorkersControllerTest {
     private var buildingClient = mockk<BuildingClient>()
-    private val workers = mutableMapOf<Long, Worker>()
-    private var workersService = spyk(WorkersService(buildingClient, workers))
+    private val workersDb = spyk<WorkersDb>()
+    private var workersService = spyk(WorkersService(buildingClient, workersDb))
     private lateinit var workersController: WorkersController
     private lateinit var mockMvc: MockMvc
     private val gson = Gson()
@@ -33,14 +34,15 @@ class WorkersControllerTest {
 
     @AfterEach
     fun afterEach() {
-        workers.clear()
         clearAllMocks()
     }
 
     @Test
     fun checkGetById() {
+        workersDb.addWorker("qwerty")
         val expectedWorker = Worker(1, "name1")
-        workers[1] = expectedWorker
+        workersDb.addWorker("name1")
+
         val requestBuilder = MockMvcRequestBuilders
             .get("/workers/1")
 
@@ -72,8 +74,12 @@ class WorkersControllerTest {
 
     @Test
     fun checkMoveWorker() {
-        val worker = Worker(777, "name1", null)
-        workers[worker.id] = worker
+
+        for(i in 0 until 777)
+            workersDb.addWorker("qwerty")
+        workersDb.addWorker("name1")
+        val worker = workersDb.getWorker(777)!!
+
         every { buildingClient.moveWorker(null, 123) } returns true
         val requestBuilder = MockMvcRequestBuilders
             .get("/workers/move/777")

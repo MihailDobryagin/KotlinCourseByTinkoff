@@ -15,7 +15,7 @@ class WorkersController(
     @GetMapping
     fun get(): Map<Long, Worker> {
         logger.info("Запрос на получение работников")
-        return workersService.workers
+        return workersService.getWorkers()
     }
 
     @GetMapping("{id}")

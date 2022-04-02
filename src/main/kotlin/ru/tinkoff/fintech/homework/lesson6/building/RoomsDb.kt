@@ -1,7 +1,6 @@
-package ru.tinkoff.fintech.homework.lesson6.building.utils
+package ru.tinkoff.fintech.homework.lesson6.building
 
 import org.springframework.stereotype.Component
-import ru.tinkoff.fintech.homework.lesson6.building.Room
 
 @Component
 data class RoomsDb(

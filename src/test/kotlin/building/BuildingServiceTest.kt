@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingService
-import ru.tinkoff.fintech.homework.lesson6.building.utils.RoomsDb
+import ru.tinkoff.fintech.homework.lesson6.building.RoomsDb
 
 class BuildingServiceTest {
     private val roomsDb = spyk<RoomsDb>()

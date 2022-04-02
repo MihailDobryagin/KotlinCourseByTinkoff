@@ -2,7 +2,6 @@ package ru.tinkoff.fintech.homework.lesson6.building
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import ru.tinkoff.fintech.homework.lesson6.building.utils.RoomsDb
 
 @Service
 class BuildingService(
