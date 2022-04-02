@@ -20,8 +20,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation("io.springfox:springfox-swagger2:2.7.0")
-    implementation("io.springfox:springfox-swagger-ui:2.7.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
 
     implementation("com.google.code.gson:gson:2.9.0")
 
