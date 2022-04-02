@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -21,11 +22,8 @@ import ru.tinkoff.fintech.homework.lesson6.building.response.SuccessResponse
 
 class BuildingControllerTest {
     private var buildingService = mockk<BuildingService>()
-
     private val buildingController = BuildingController(buildingService)
-
     private val mockMvc = MockMvcBuilders.standaloneSetup(buildingController).build()
-
     private val gson = Gson()
 
     @AfterEach
@@ -41,12 +39,7 @@ class BuildingControllerTest {
             .get("/building/room")
             .param("roomId", "1")
 
-        val response = mockMvc
-            .perform(requestBuilder)
-            .andExpect(status().isOk)
-            .andReturn()
-            .response
-        val room = gson.fromJson(response.contentAsString, Room::class.java)
+        val room = sendReq<Room>(requestBuilder)
 
         assertEquals(expectingRoom, room)
     }
@@ -58,13 +51,7 @@ class BuildingControllerTest {
             .get("/building/rooms/add")
             .param("name", "name1")
 
-        val response = mockMvc
-            .perform(requestBuilder)
-            .andExpect(status().isOk)
-            .andReturn()
-            .response
-
-        val roomId = gson.fromJson(response.contentAsString, Long::class.java)
+       val roomId = sendReq<Long>(requestBuilder)
 
         verify { buildingService.addRoom("name1") }
         assertEquals(123, roomId)
@@ -79,15 +66,19 @@ class BuildingControllerTest {
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(gson.toJson(moveWorkerDto))
 
+        val result = sendReq<SuccessResponse>(requestBuilder)
+
+        verify { buildingService.moveWorker(123, 456) }
+        assertTrue(result.success)
+    }
+
+    private inline fun <reified T> sendReq(requestBuilder: RequestBuilder): T {
         val response = mockMvc
             .perform(requestBuilder)
             .andExpect(status().isOk)
             .andReturn()
             .response
 
-        val result = gson.fromJson(response.contentAsString, SuccessResponse::class.java)
-
-        verify { buildingService.moveWorker(123, 456) }
-        assertTrue(result.success)
+        return gson.fromJson(response.contentAsString, T::class.java)
     }
 }

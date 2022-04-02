@@ -30,11 +30,12 @@ class WorkersService @Autowired constructor(
     }
 
     fun moveWorker(workerId: Long, to: Long?): Boolean {
+        logger.info("Перемещение работника $workerId в комнату $to")
         if (!workers.contains(workerId)) {
             logger.error("Не существует работника с id $workerId")
             return false
         }
-        val worker = workers[workerId]!!
+        val worker: Worker = workers[workerId]!!
 
         val from = worker.roomId
 
