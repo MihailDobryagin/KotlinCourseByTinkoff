@@ -39,11 +39,6 @@ class WorkersService @Autowired constructor(
 
         val from = worker.roomId
 
-        if (from == to) {
-            logger.error("Нельзя переместить работника из $to в $to")
-            return false
-        }
-
         val movingResult = buildingClient.moveWorker(from, to)
 
         if (!movingResult) {
