@@ -4,6 +4,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
+import ru.tinkoff.fintech.homework.lesson6.workers.db.WorkersDb
+import ru.tinkoff.fintech.homework.lesson6.workers.dto.WorkerDto
 
 @Service
 class WorkersService @Autowired constructor(
@@ -14,18 +16,19 @@ class WorkersService @Autowired constructor(
         private val logger = LoggerFactory.getLogger(WorkersService::class.java)
     }
 
-    fun getWorkers(): Map<Long, Worker> {
+    fun getWorkers(): Map<Long, WorkerDto> {
         return workersDb.getWorkers()
     }
 
-    fun getWorker(id: Long): Worker? {
+    fun getWorker(id: Long): WorkerDto? {
         return workersDb.getWorker(id)
     }
 
     fun addWorker(
         name: String,
     ): Long {
-        return workersDb.addWorker(name)
+        val workerDto = WorkerDto(name = name)
+        return workersDb.addWorker(workerDto)
     }
 
     fun moveWorker(workerId: Long, to: Long?): Boolean {
@@ -45,6 +48,7 @@ class WorkersService @Autowired constructor(
             logger.error("Не удалось переместить работника ${worker.id} из $from в $to")
         } else {
             worker.roomId = to
+            workersDb.updateWorker(workerId, worker)
         }
 
         return movingResult

@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson6.workers
+package ru.tinkoff.fintech.homework.lesson6.workers.db
 
 /**
  * Класс, который мы храним в базе

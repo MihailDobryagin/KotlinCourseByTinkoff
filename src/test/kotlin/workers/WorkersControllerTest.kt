@@ -12,11 +12,12 @@ import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import ru.tinkoff.fintech.homework.lesson6.workers.Worker
 import ru.tinkoff.fintech.homework.lesson6.workers.WorkersController
-import ru.tinkoff.fintech.homework.lesson6.workers.WorkersDb
 import ru.tinkoff.fintech.homework.lesson6.workers.WorkersService
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
+import ru.tinkoff.fintech.homework.lesson6.workers.db.Worker
+import ru.tinkoff.fintech.homework.lesson6.workers.db.WorkersDb
+import ru.tinkoff.fintech.homework.lesson6.workers.dto.WorkerDto
 
 class WorkersControllerTest {
     private var buildingClient = mockk<BuildingClient>()
@@ -39,14 +40,14 @@ class WorkersControllerTest {
 
     @Test
     fun checkGetById() {
-        workersDb.addWorker("qwerty")
-        val expectedWorker = Worker(1, "name1")
-        workersDb.addWorker("name1")
+        workersDb.addWorker(WorkerDto(name = "qwerty"))
+        val expectedWorker = WorkerDto(1, "name1")
+        workersDb.addWorker(expectedWorker)
 
         val requestBuilder = MockMvcRequestBuilders
             .get("/workers/1")
 
-        val worker = sendReq<Worker>(requestBuilder)
+        val worker = sendReq<WorkerDto>(requestBuilder)
 
         assertEquals(expectedWorker, worker)
     }
@@ -66,7 +67,7 @@ class WorkersControllerTest {
 
         requestBuilder = MockMvcRequestBuilders
             .get("/workers/2")
-        val worker = sendReq<Worker>(requestBuilder)
+        val worker = sendReq<WorkerDto>(requestBuilder)
         verify { workersService.addWorker("expectedName") }
         assertEquals(2, workerId)
         assertEquals("expectedName", worker.name)
@@ -76,9 +77,8 @@ class WorkersControllerTest {
     fun checkMoveWorker() {
 
         for (i in 0 until 777)
-            workersDb.addWorker("qwerty")
-        workersDb.addWorker("name1")
-        val worker = workersDb.getWorker(777)!!
+            workersDb.addWorker(WorkerDto(name = "qwerty"))
+        workersDb.addWorker(WorkerDto(name = "name1"))
 
         every { buildingClient.moveWorker(null, 123) } returns true
         val requestBuilder = MockMvcRequestBuilders
@@ -86,6 +86,8 @@ class WorkersControllerTest {
             .param("to", "123")
 
         val movingResult = sendReq<Boolean>(requestBuilder)
+
+        val worker = workersDb.getWorker(777)!!
         verify { workersService.moveWorker(777, 123) }
         verify { buildingClient.moveWorker(null, 123) }
         assertTrue(movingResult)

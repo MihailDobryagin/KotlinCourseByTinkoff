@@ -2,6 +2,7 @@ package ru.tinkoff.fintech.homework.lesson6.building
 
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
+import ru.tinkoff.fintech.homework.lesson6.building.dto.RoomDto
 import ru.tinkoff.fintech.homework.lesson6.building.request.dto.MoveWorkerDto
 import ru.tinkoff.fintech.homework.lesson6.building.response.ErrorResponse
 import ru.tinkoff.fintech.homework.lesson6.building.response.SimpleResponse
@@ -17,7 +18,7 @@ class BuildingController(
     }
 
     @GetMapping("rooms")
-    fun getRooms(): Map<Long, Room> {
+    fun getRooms(): Map<Long, RoomDto> {
         logger.info("Запрос на получение помещений")
         return buildingService.getRooms()
     }
@@ -25,7 +26,7 @@ class BuildingController(
     @GetMapping("room/{roomId}")
     fun getRoom(
         @PathVariable roomId: Long,
-    ): Room? {
+    ): RoomDto? {
         logger.info("Запрос на получение помещения")
         return buildingService.getRoom(roomId)
     }

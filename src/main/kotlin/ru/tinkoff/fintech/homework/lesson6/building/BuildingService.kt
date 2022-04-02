@@ -2,6 +2,8 @@ package ru.tinkoff.fintech.homework.lesson6.building
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import ru.tinkoff.fintech.homework.lesson6.building.db.RoomsDb
+import ru.tinkoff.fintech.homework.lesson6.building.dto.RoomDto
 
 @Service
 class BuildingService(
@@ -11,27 +13,30 @@ class BuildingService(
         private val logger = LoggerFactory.getLogger(BuildingService::class.java)
     }
 
-    fun getRooms(): Map<Long, Room> {
+    fun getRooms(): Map<Long, RoomDto> {
         return roomsDb.getRooms()
     }
 
-    fun getRoom(id: Long): Room? = roomsDb.getRoom(id)
+    fun getRoom(id: Long): RoomDto? = roomsDb.getRoom(id)
 
     fun addRoom(name: String): Long {
-        return roomsDb.addRoom(name)
+        val roomDto = RoomDto(name = name)
+        return roomsDb.addRoom(roomDto)
     }
 
     fun moveWorker(from: Long?, to: Long?): Boolean {
-        return if (!validateMoveWorkerReq(from, to))
-            false
+        return if (!validateMoveWorkerReq(from, to)) false
         else {
-            val rooms = roomsDb.getRooms()
-            val roomFrom = rooms[from]
-            val roomTo = rooms[to]
-            if (roomFrom != null)
+            val roomFrom = from?.let { roomsDb.getRoom(it) }
+            val roomTo = to?.let { roomsDb.getRoom(it) }
+            if (roomFrom != null) {
                 roomFrom.countOfPeople--
-            if (roomTo != null)
+                roomsDb.updateRoom(from, roomFrom)
+            }
+            if (roomTo != null) {
                 roomTo.countOfPeople++
+                roomsDb.updateRoom(to, roomTo)
+            }
             true
         }
     }

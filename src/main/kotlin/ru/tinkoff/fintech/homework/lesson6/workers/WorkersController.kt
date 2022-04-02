@@ -2,6 +2,7 @@ package ru.tinkoff.fintech.homework.lesson6.workers
 
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
+import ru.tinkoff.fintech.homework.lesson6.workers.dto.WorkerDto
 
 @RestController
 @RequestMapping("workers")
@@ -13,7 +14,7 @@ class WorkersController(
     }
 
     @GetMapping
-    fun get(): Map<Long, Worker> {
+    fun get(): Map<Long, WorkerDto> {
         logger.info("Запрос на получение работников")
         return workersService.getWorkers()
     }
@@ -21,7 +22,7 @@ class WorkersController(
     @GetMapping("{id}")
     fun getById(
         @PathVariable id: Long,
-    ): Worker? {
+    ): WorkerDto? {
         logger.info("Запрос на получение работника $id")
         return workersService.getWorker(id)
     }
