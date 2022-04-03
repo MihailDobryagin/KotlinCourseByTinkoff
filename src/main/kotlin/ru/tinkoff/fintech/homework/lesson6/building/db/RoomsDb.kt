@@ -14,7 +14,7 @@ data class RoomsDb(
     }
 
     fun addRoom(roomForAdd: Room): Long {
-        val room = Room(nextRoomId, roomForAdd.name, roomForAdd.countOfPeople)
+        val room = roomForAdd.copy(id = nextRoomId)
         rooms[nextRoomId++] = room
         return room.id!!
     }
@@ -22,7 +22,7 @@ data class RoomsDb(
     fun updateRoom(id: Long, room: Room): Boolean {
         return if (!rooms.contains(id)) false
         else {
-            rooms[id] = Room(id, room.name, room.countOfPeople)
+            rooms[id] = room.copy(id = id)
             true
         }
     }

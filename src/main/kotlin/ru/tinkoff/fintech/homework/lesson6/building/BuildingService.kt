@@ -33,13 +33,13 @@ class BuildingService(
             if (roomFrom != null) {
                 var countOfPeople = roomFrom.countOfPeople
                 countOfPeople--
-                val updatedRoomFrom = Room(from, roomFrom.name, countOfPeople)
+                val updatedRoomFrom = roomFrom.copy(countOfPeople = countOfPeople)
                 roomsDb.updateRoom(from, updatedRoomFrom)
             }
             if (roomTo != null) {
                 var countOfPeople = roomTo.countOfPeople
                 countOfPeople++
-                val updatedRoomTo = Room(to, roomTo.name, countOfPeople)
+                val updatedRoomTo = roomTo.copy(countOfPeople = countOfPeople)
                 roomsDb.updateRoom(to, updatedRoomTo)
             }
             true
