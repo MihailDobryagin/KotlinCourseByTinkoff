@@ -45,7 +45,7 @@ class WorkersService @Autowired constructor(
         if (!movingResult) {
             logger.error("Не удалось переместить работника ${worker.id} из $from в $to")
         } else {
-            val workerForUpdate = Worker(workerId, worker.name, to)
+            val workerForUpdate = worker.copy(roomId = to)
             workersDb.updateWorker(workerId, workerForUpdate)
         }
 
