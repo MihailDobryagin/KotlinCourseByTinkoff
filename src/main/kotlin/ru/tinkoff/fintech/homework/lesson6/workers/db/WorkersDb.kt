@@ -4,8 +4,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class WorkersDb(
-    private val workers: MutableMap<Long, Worker> = mutableMapOf()
+    inputWorkers: Map<Long, Worker> = mapOf()
 ) {
+    private val workers = inputWorkers.toMutableMap()
     private var nextWorkerId: Long = 0
     fun getWorkers(): Map<Long, Worker> = workers.toMap()
 

@@ -31,15 +31,11 @@ class BuildingService(
             val roomTo = to?.let { roomsDb.getRoom(it) }
 
             if (roomFrom != null) {
-                var countOfPeople = roomFrom.countOfPeople
-                countOfPeople--
-                val updatedRoomFrom = roomFrom.copy(countOfPeople = countOfPeople)
+                val updatedRoomFrom = roomFrom.copy(countOfPeople = roomFrom.countOfPeople - 1)
                 roomsDb.updateRoom(from, updatedRoomFrom)
             }
             if (roomTo != null) {
-                var countOfPeople = roomTo.countOfPeople
-                countOfPeople++
-                val updatedRoomTo = roomTo.copy(countOfPeople = countOfPeople)
+                val updatedRoomTo = roomTo.copy(countOfPeople = roomTo.countOfPeople + 1)
                 roomsDb.updateRoom(to, updatedRoomTo)
             }
             true

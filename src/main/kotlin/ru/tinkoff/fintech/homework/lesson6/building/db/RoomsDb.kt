@@ -3,15 +3,14 @@ package ru.tinkoff.fintech.homework.lesson6.building.db
 import org.springframework.stereotype.Component
 
 @Component
-data class RoomsDb(
-    private val rooms: MutableMap<Long, Room> = mutableMapOf()
+class RoomsDb(
+    inputRooms: Map<Long, Room> = mapOf()
 ) {
+    private val rooms = inputRooms.toMutableMap()
     private var nextRoomId: Long = 0
     fun getRooms(): Map<Long, Room> = rooms.toMap()
 
-    fun getRoom(roomId: Long): Room? {
-        return rooms[roomId]
-    }
+    fun getRoom(roomId: Long): Room? = rooms[roomId]
 
     fun addRoom(roomForAdd: Room): Long {
         val room = roomForAdd.copy(id = nextRoomId)
