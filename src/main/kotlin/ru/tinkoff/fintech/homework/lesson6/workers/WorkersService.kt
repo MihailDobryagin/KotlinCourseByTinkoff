@@ -1,7 +1,6 @@
 package ru.tinkoff.fintech.homework.lesson6.workers
 
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
 import ru.tinkoff.fintech.homework.lesson6.workers.db.Worker
@@ -9,9 +8,9 @@ import ru.tinkoff.fintech.homework.lesson6.workers.db.WorkersDb
 import utils.ValidationException
 
 @Service
-class WorkersService @Autowired constructor(
-    val buildingClient: BuildingClient,
-    val workersDb: WorkersDb,
+class WorkersService(
+    private val buildingClient: BuildingClient,
+    private val workersDb: WorkersDb,
 ) {
     companion object {
         private val logger = LoggerFactory.getLogger(WorkersService::class.java)

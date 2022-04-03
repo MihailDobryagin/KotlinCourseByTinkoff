@@ -8,14 +8,15 @@ class RoomsDb(
 ) {
     private val rooms = inputRooms.toMutableMap()
     private var nextRoomId: Long = 0
+
     fun getRooms(): Map<Long, Room> = rooms.toMap()
 
     fun getRoom(roomId: Long): Room? = rooms[roomId]
 
     fun addRoom(roomForAdd: Room): Long {
-        val room = roomForAdd.copy(id = nextRoomId)
-        rooms[nextRoomId++] = room
-        return room.id!!
+        val room = roomForAdd.copy(id = nextRoomId++)
+        rooms[room.id!!] = room
+        return room.id
     }
 
     fun updateRoom(id: Long, room: Room): Boolean {

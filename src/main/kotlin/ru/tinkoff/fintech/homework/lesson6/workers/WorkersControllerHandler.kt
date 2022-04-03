@@ -14,14 +14,14 @@ class WorkersControllerHandler {
         private val logger = LoggerFactory.getLogger(WorkersControllerHandler::class.java)
     }
 
-    @ExceptionHandler(ValidationException::class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST, reason = "Ошибка валидации")
     fun exceptionHandler(e: ValidationException) {
         logger.error(e.message, e)
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR, reason = "Внутренняя ошибка сервера")
     fun exceptionHandler(e: Exception) {
         logger.error("Неперехваченное исключение", e)
     }

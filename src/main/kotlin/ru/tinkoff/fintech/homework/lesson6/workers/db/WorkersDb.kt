@@ -8,14 +8,15 @@ class WorkersDb(
 ) {
     private val workers = inputWorkers.toMutableMap()
     private var nextWorkerId: Long = 0
+
     fun getWorkers(): Map<Long, Worker> = workers.toMap()
 
     fun getWorker(workerId: Long): Worker? = workers[workerId]
 
     fun addWorker(workerForAdd: Worker): Long {
-        val worker = workerForAdd.copy(id = nextWorkerId)
-        workers[nextWorkerId++] = worker
-        return worker.id!!
+        val worker = workerForAdd.copy(id = nextWorkerId++)
+        workers[worker.id!!] = worker
+        return worker.id
     }
 
     fun updateWorker(id: Long, worker: Worker): Boolean {

@@ -8,10 +8,7 @@ import org.springframework.web.client.RestTemplate
 
 @Configuration
 class Configuration {
-
-    @Value("\${rootUri}")
-    private lateinit var rootUri: String
-
     @Bean
-    fun restTemplate(): RestTemplate = RestTemplateBuilder().rootUri(rootUri).build()
+    fun restTemplate(@Value("\${rootUri}") rootUri: String): RestTemplate =
+        RestTemplateBuilder().rootUri(rootUri).build()
 }
