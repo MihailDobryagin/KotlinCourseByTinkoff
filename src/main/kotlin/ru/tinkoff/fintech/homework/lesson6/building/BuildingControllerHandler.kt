@@ -16,13 +16,15 @@ class BuildingControllerHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST, reason = "Ошибка валидации")
-    fun exceptionHandler(e: ValidationException) {
+    fun exceptionHandler(e: ValidationException): String {
         logger.error(e.message, e)
+        return "Ошибка валидации"
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR, reason = "Внутренняя ошибка сервера")
-    fun exceptionHandler(e: Exception) {
+    fun exceptionHandler(e: Exception): String {
         logger.error("Необработанное исключение", e)
+        return "Внутрення ошибка сервера"
     }
 }
