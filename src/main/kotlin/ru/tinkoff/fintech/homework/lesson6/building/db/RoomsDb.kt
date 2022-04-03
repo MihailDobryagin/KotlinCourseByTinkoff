@@ -22,7 +22,7 @@ data class RoomsDb(
     fun updateRoom(id: Long, room: Room): Boolean {
         return if (!rooms.contains(id)) false
         else {
-            rooms[id] = room.copy(id = id)
+            rooms[id] = room
             true
         }
     }

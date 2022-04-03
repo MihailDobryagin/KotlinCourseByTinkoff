@@ -12,7 +12,7 @@ class WorkersDb(
     fun getWorker(workerId: Long): Worker? = workers[workerId]
 
     fun addWorker(workerForAdd: Worker): Long {
-        val worker = Worker(nextWorkerId, workerForAdd.name, workerForAdd.roomId)
+        val worker = workerForAdd.copy(id = nextWorkerId)
         workers[nextWorkerId++] = worker
         return worker.id!!
     }
@@ -20,7 +20,7 @@ class WorkersDb(
     fun updateWorker(id: Long, worker: Worker): Boolean {
         return if (!workers.contains(id)) false
         else {
-            workers[id] = Worker(id, worker.name, worker.roomId)
+            workers[id] = worker
             true
         }
     }
