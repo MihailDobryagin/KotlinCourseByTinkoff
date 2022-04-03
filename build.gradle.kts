@@ -21,6 +21,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
 
+    testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("com.google.code.gson:gson:2.9.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(kotlin("test"))

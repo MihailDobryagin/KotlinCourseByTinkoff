@@ -1,27 +1,35 @@
 package building
 
 import com.google.gson.Gson
+import com.ninjasquad.springmockk.MockkBean
 import io.mockk.clearAllMocks
 import io.mockk.every
-import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import ru.tinkoff.fintech.homework.lesson6.building.BuildingController
+import ru.tinkoff.fintech.homework.lesson6.Application
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingService
 import ru.tinkoff.fintech.homework.lesson6.building.db.Room
 import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
 
+@SpringBootTest(classes = [Application::class])
+@AutoConfigureMockMvc
 class BuildingControllerTest {
-    private var buildingService = mockk<BuildingService>()
-    private val buildingController = BuildingController(buildingService)
-    private val mockMvc = MockMvcBuilders.standaloneSetup(buildingController).build()
+    @Autowired
+    private lateinit var mockMvc: MockMvc
+
+    @MockkBean
+    private lateinit var buildingService: BuildingService
+
     private val gson = Gson()
 
     @AfterEach
