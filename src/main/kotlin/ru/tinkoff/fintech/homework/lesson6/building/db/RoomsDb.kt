@@ -19,11 +19,8 @@ class RoomsDb(
         return room.id
     }
 
-    fun updateRoom(id: Long, room: Room): Boolean {
-        return if (!rooms.contains(id)) false
-        else {
-            rooms[id] = room
-            true
-        }
+    fun updateRoom(id: Long, room: Room) {
+        if (!rooms.contains(id)) throw IllegalArgumentException("Нет помещениея с id $id")
+        rooms[id] = room
     }
 }

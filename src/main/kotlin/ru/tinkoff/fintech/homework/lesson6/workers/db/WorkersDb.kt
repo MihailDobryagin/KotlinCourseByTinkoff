@@ -19,11 +19,8 @@ class WorkersDb(
         return worker.id
     }
 
-    fun updateWorker(id: Long, worker: Worker): Boolean {
-        return if (!workers.contains(id)) false
-        else {
-            workers[id] = worker
-            true
-        }
+    fun updateWorker(id: Long, worker: Worker) {
+        if (!workers.contains(id)) throw IllegalArgumentException("Нет работника с id $id")
+        workers[id] = worker
     }
 }
