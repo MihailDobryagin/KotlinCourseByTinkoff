@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingService
+import ru.tinkoff.fintech.homework.lesson6.building.db.Room
 import ru.tinkoff.fintech.homework.lesson6.building.db.RoomsDb
-import ru.tinkoff.fintech.homework.lesson6.building.dto.RoomDto
 
 class BuildingServiceTest {
     private val roomsDb = spyk<RoomsDb>()
@@ -21,8 +21,8 @@ class BuildingServiceTest {
 
     @Test
     fun checkMoveWorker() {
-        roomsDb.addRoom(RoomDto(name = "room0", countOfPeople = 1))
-        roomsDb.addRoom(RoomDto(name = "room1"))
+        roomsDb.addRoom(Room(name = "room0", countOfPeople = 1))
+        roomsDb.addRoom(Room(name = "room1"))
 
         buildingService.moveWorker(0, 1)
 

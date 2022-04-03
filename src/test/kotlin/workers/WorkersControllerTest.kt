@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import ru.tinkoff.fintech.homework.lesson6.workers.WorkersController
 import ru.tinkoff.fintech.homework.lesson6.workers.WorkersService
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
+import ru.tinkoff.fintech.homework.lesson6.workers.db.Worker
 import ru.tinkoff.fintech.homework.lesson6.workers.db.WorkersDb
-import ru.tinkoff.fintech.homework.lesson6.workers.dto.WorkerDto
 
 class WorkersControllerTest {
     private var buildingClient = mockk<BuildingClient>()
@@ -39,14 +39,14 @@ class WorkersControllerTest {
 
     @Test
     fun checkGetById() {
-        workersDb.addWorker(WorkerDto(name = "qwerty"))
-        val expectedWorker = WorkerDto(1, "name1")
+        workersDb.addWorker(Worker(name = "qwerty"))
+        val expectedWorker = Worker(1, "name1")
         workersDb.addWorker(expectedWorker)
 
         val requestBuilder = MockMvcRequestBuilders
             .get("/workers/1")
 
-        val worker = sendReq<WorkerDto>(requestBuilder)
+        val worker = sendReq<Worker>(requestBuilder)
 
         assertEquals(expectedWorker, worker)
     }
@@ -66,7 +66,7 @@ class WorkersControllerTest {
 
         requestBuilder = MockMvcRequestBuilders
             .get("/workers/2")
-        val worker = sendReq<WorkerDto>(requestBuilder)
+        val worker = sendReq<Worker>(requestBuilder)
         verify { workersService.addWorker("expectedName") }
         assertEquals(2, workerId)
         assertEquals("expectedName", worker.name)
@@ -75,8 +75,8 @@ class WorkersControllerTest {
     @Test
     fun checkMoveWorker() {
         for (i in 0 until 777)
-            workersDb.addWorker(WorkerDto(name = "qwerty"))
-        workersDb.addWorker(WorkerDto(name = "name1"))
+            workersDb.addWorker(Worker(name = "qwerty"))
+        workersDb.addWorker(Worker(name = "name1"))
 
         every { buildingClient.moveWorker(null, 123) } returns true
         val requestBuilder = MockMvcRequestBuilders

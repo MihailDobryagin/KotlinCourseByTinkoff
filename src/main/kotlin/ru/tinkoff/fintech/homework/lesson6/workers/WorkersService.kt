@@ -4,8 +4,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
+import ru.tinkoff.fintech.homework.lesson6.workers.db.Worker
 import ru.tinkoff.fintech.homework.lesson6.workers.db.WorkersDb
-import ru.tinkoff.fintech.homework.lesson6.workers.dto.WorkerDto
 
 @Service
 class WorkersService @Autowired constructor(
@@ -16,17 +16,17 @@ class WorkersService @Autowired constructor(
         private val logger = LoggerFactory.getLogger(WorkersService::class.java)
     }
 
-    fun getWorkers(): Map<Long, WorkerDto> {
+    fun getWorkers(): Map<Long, Worker> {
         return workersDb.getWorkers()
     }
 
-    fun getWorker(id: Long): WorkerDto? {
+    fun getWorker(id: Long): Worker? {
         return workersDb.getWorker(id)
     }
 
     fun addWorker(name: String): Long {
-        val workerDto = WorkerDto(name = name)
-        return workersDb.addWorker(workerDto)
+        val worker = Worker(name = name)
+        return workersDb.addWorker(worker)
     }
 
     fun moveWorker(workerId: Long, to: Long?): Boolean {
@@ -45,8 +45,8 @@ class WorkersService @Autowired constructor(
         if (!movingResult) {
             logger.error("Не удалось переместить работника ${worker.id} из $from в $to")
         } else {
-            worker.roomId = to
-            workersDb.updateWorker(workerId, worker)
+            val workerForUpdate = Worker(workerId, worker.name, to)
+            workersDb.updateWorker(workerId, workerForUpdate)
         }
 
         return movingResult

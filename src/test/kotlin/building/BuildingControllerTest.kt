@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingController
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingService
-import ru.tinkoff.fintech.homework.lesson6.building.dto.RoomDto
+import ru.tinkoff.fintech.homework.lesson6.building.db.Room
 import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
 import ru.tinkoff.fintech.homework.lesson6.building.response.SimpleResponse
 
@@ -33,12 +33,12 @@ class BuildingControllerTest {
 
     @Test
     fun checkGetRoom() {
-        val expectingRoom = RoomDto(1, "room1", 123)
+        val expectingRoom = Room(1, "room1", 123)
         every { buildingService.getRoom(1) } returns expectingRoom
         val requestBuilder = MockMvcRequestBuilders
             .get("/building/room/1")
 
-        val room = sendReq<RoomDto>(requestBuilder)
+        val room = sendReq<Room>(requestBuilder)
 
         assertEquals(expectingRoom, room)
     }
