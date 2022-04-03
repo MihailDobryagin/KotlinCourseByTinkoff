@@ -22,10 +22,9 @@ import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class BuildingControllerTest {
-    @Autowired
-    private lateinit var mockMvc: MockMvc
-
+class BuildingControllerTest @Autowired constructor(
+    private val mockMvc: MockMvc
+) {
     @MockkBean
     private lateinit var buildingService: BuildingService
 
