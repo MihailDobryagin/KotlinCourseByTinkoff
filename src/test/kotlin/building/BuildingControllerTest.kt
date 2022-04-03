@@ -7,7 +7,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.RequestBuilder
@@ -18,7 +17,6 @@ import ru.tinkoff.fintech.homework.lesson6.building.BuildingController
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingService
 import ru.tinkoff.fintech.homework.lesson6.building.db.Room
 import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
-import ru.tinkoff.fintech.homework.lesson6.building.response.SimpleResponse
 
 class BuildingControllerTest {
     private var buildingService = mockk<BuildingService>()
@@ -58,17 +56,16 @@ class BuildingControllerTest {
 
     @Test
     fun checkMovingWorkers() {
-        every { buildingService.moveWorker(123, 456) } returns true
+        every { buildingService.moveWorker(123, 456) } returns Unit
         val moveWorkerDto = MoveWorkerDto(123, 456)
         val requestBuilder = MockMvcRequestBuilders
             .post("/building/workers/move")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(gson.toJson(moveWorkerDto))
 
-        val result = sendReq<SimpleResponse>(requestBuilder)
+        sendReq<Any>(requestBuilder)
 
         verify { buildingService.moveWorker(123, 456) }
-        assertTrue(result.success)
     }
 
     private inline fun <reified T> sendReq(requestBuilder: RequestBuilder): T {

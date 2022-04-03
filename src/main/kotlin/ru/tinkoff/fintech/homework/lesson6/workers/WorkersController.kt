@@ -37,8 +37,8 @@ class WorkersController(
     fun moveWorker(
         @PathVariable workerId: Long,
         @RequestParam to: Long?,
-    ): Boolean {
+    ) {
         logger.info("Запрос на перемещение работника $workerId в помещение $to")
-        return workersService.moveWorker(workerId, to)
+        workersService.moveWorker(workerId, to)
     }
 }

@@ -83,12 +83,11 @@ class WorkersControllerTest {
             .post("/workers/move/777")
             .param("to", "123")
 
-        val movingResult = sendReq<Boolean>(requestBuilder)
+        sendReq<Any>(requestBuilder)
 
         val worker = workersDb.getWorker(777)!!
         verify { workersService.moveWorker(777, 123) }
         verify { buildingClient.moveWorker(null, 123) }
-        assertTrue(movingResult)
         assertEquals(123, worker.roomId)
     }
 

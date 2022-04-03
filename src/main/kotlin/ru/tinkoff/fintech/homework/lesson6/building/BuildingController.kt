@@ -4,7 +4,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import ru.tinkoff.fintech.homework.lesson6.building.db.Room
 import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
-import ru.tinkoff.fintech.homework.lesson6.building.response.SimpleResponse
 
 @RestController
 @RequestMapping("building")
@@ -38,11 +37,10 @@ class BuildingController(
     @PostMapping("workers/move")
     fun moveWorker(
         @RequestBody moveWorkerDto: MoveWorkerDto,
-    ): SimpleResponse {
+    ) {
         val from = moveWorkerDto.from
         val to = moveWorkerDto.to
         logger.info("Запрос на перемещение работника из $from в $to")
-        val movingResult = buildingService.moveWorker(from, to)
-        return SimpleResponse(movingResult)
+        buildingService.moveWorker(from, to)
     }
 }

@@ -1,9 +1,11 @@
 package ru.tinkoff.fintech.homework.lesson6.building
 
 import org.slf4j.LoggerFactory
+import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson6.building.db.Room
 import ru.tinkoff.fintech.homework.lesson6.building.db.RoomsDb
+import utils.ValidationException
 
 @Service
 class BuildingService(
@@ -24,21 +26,20 @@ class BuildingService(
         return roomsDb.addRoom(room)
     }
 
-    fun moveWorker(from: Long?, to: Long?): Boolean {
-        return if (!validateMoveWorkerReq(from, to)) false
-        else {
-            val roomFrom = from?.let { roomsDb.getRoom(it) }
-            val roomTo = to?.let { roomsDb.getRoom(it) }
+    fun moveWorker(from: Long?, to: Long?) {
+        if (!validateMoveWorkerReq(from, to))
+            throw ValidationException("Ошибка при валидации перемещения работника")
 
-            if (roomFrom != null) {
-                val updatedRoomFrom = roomFrom.copy(countOfPeople = roomFrom.countOfPeople - 1)
-                roomsDb.updateRoom(from, updatedRoomFrom)
-            }
-            if (roomTo != null) {
-                val updatedRoomTo = roomTo.copy(countOfPeople = roomTo.countOfPeople + 1)
-                roomsDb.updateRoom(to, updatedRoomTo)
-            }
-            true
+        val roomFrom = from?.let { roomsDb.getRoom(it) }
+        val roomTo = to?.let { roomsDb.getRoom(it) }
+
+        if (roomFrom != null) {
+            val updatedRoomFrom = roomFrom.copy(countOfPeople = roomFrom.countOfPeople - 1)
+            roomsDb.updateRoom(from, updatedRoomFrom)
+        }
+        if (roomTo != null) {
+            val updatedRoomTo = roomTo.copy(countOfPeople = roomTo.countOfPeople + 1)
+            roomsDb.updateRoom(to, updatedRoomTo)
         }
     }
 

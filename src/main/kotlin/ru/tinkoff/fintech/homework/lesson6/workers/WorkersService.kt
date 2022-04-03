@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
 import ru.tinkoff.fintech.homework.lesson6.workers.db.Worker
 import ru.tinkoff.fintech.homework.lesson6.workers.db.WorkersDb
+import utils.ValidationException
 
 @Service
 class WorkersService @Autowired constructor(
@@ -29,26 +30,18 @@ class WorkersService @Autowired constructor(
         return workersDb.addWorker(worker)
     }
 
-    fun moveWorker(workerId: Long, to: Long?): Boolean {
+    fun moveWorker(workerId: Long, to: Long?) {
         logger.info("Перемещение работника $workerId в комнату $to")
 
-        val worker = getWorker(workerId)
-        if (worker == null) {
-            logger.error("Не существует работника с id $workerId")
-            return false
-        }
-
+        val worker = getWorker(workerId) ?: throw ValidationException("Не существует работника с id $workerId")
         val from = worker.roomId
-
         val movingResult = buildingClient.moveWorker(from, to)
 
         if (!movingResult) {
-            logger.error("Не удалось переместить работника ${worker.id} из $from в $to")
+            throw Exception("Не удалось переместить работника ${worker.id} из $from в $to")
         } else {
             val workerForUpdate = worker.copy(roomId = to)
             workersDb.updateWorker(workerId, workerForUpdate)
         }
-
-        return movingResult
     }
 }
