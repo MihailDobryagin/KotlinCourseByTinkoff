@@ -1,10 +1,9 @@
-package workers
+package ru.tinkoff.fintech.homework.lesson6.ru.tinkoff.fintech.homework.lesson6.workers
 
 import com.google.gson.Gson
 import io.mockk.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.test.web.servlet.MockMvc

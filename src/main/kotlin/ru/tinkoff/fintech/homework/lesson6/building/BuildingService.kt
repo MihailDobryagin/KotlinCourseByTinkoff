@@ -3,7 +3,7 @@ package ru.tinkoff.fintech.homework.lesson6.building
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson6.building.db.Room
 import ru.tinkoff.fintech.homework.lesson6.building.db.RoomsDb
-import utils.ValidationException
+import ru.tinkoff.fintech.homework.lesson6.utils.ValidationException
 
 @Service
 class BuildingService(

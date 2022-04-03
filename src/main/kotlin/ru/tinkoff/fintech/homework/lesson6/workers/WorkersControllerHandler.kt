@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import utils.ValidationException
+import ru.tinkoff.fintech.homework.lesson6.utils.ValidationException
 
 @RestControllerAdvice(assignableTypes = [WorkersController::class])
 class WorkersControllerHandler {

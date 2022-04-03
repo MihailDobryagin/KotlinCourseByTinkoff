@@ -1,4 +1,4 @@
-package building
+package ru.tinkoff.fintech.homework.lesson6.ru.tinkoff.fintech.homework.lesson6.building
 
 import io.mockk.clearAllMocks
 import io.mockk.spyk

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
 import ru.tinkoff.fintech.homework.lesson6.workers.db.Worker
 import ru.tinkoff.fintech.homework.lesson6.workers.db.WorkersDb
-import utils.ValidationException
+import ru.tinkoff.fintech.homework.lesson6.utils.ValidationException
 
 @Service
 class WorkersService(

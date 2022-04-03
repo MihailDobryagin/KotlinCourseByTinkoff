@@ -1,4 +1,4 @@
-package building
+package ru.tinkoff.fintech.homework.lesson6.ru.tinkoff.fintech.homework.lesson6.building
 
 import com.google.gson.Gson
 import com.ninjasquad.springmockk.MockkBean
@@ -16,12 +16,11 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import ru.tinkoff.fintech.homework.lesson6.Application
 import ru.tinkoff.fintech.homework.lesson6.building.BuildingService
 import ru.tinkoff.fintech.homework.lesson6.building.db.Room
 import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
 
-@SpringBootTest(classes = [Application::class])
+@SpringBootTest
 @AutoConfigureMockMvc
 class BuildingControllerTest {
     @Autowired
