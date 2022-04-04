@@ -21,7 +21,7 @@ class WorkersControllerHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR, reason = "Внутренняя ошибка сервера")
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     fun exceptionHandler(e: Exception): String {
         logger.error("Неперехваченное исключение", e)
         return "Внутренняя ошибка сервера"
