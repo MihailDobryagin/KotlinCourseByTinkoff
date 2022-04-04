@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson6.ru.tinkoff.fintech.homework.lesson6.workers
+package ru.tinkoff.fintech.homework.lesson6.workers
 
 import io.mockk.mockk
 import org.junit.jupiter.api.Test

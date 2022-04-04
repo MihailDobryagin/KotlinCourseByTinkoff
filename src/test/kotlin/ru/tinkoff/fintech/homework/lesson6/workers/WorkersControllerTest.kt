@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson6.ru.tinkoff.fintech.homework.lesson6.workers
+package ru.tinkoff.fintech.homework.lesson6.workers
 
 import com.google.gson.Gson
 import io.mockk.*
@@ -11,8 +11,6 @@ import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import ru.tinkoff.fintech.homework.lesson6.workers.WorkersController
-import ru.tinkoff.fintech.homework.lesson6.workers.WorkersService
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
 import ru.tinkoff.fintech.homework.lesson6.workers.db.Worker
 import ru.tinkoff.fintech.homework.lesson6.workers.db.WorkersDb
