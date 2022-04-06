@@ -9,7 +9,6 @@ import ru.tinkoff.fintech.homework.lesson7.utils.ValidationException
 
 @RestControllerAdvice(assignableTypes = [BuildingController::class])
 class BuildingControllerHandler {
-
     companion object {
         private val logger = LoggerFactory.getLogger(BuildingControllerHandler::class.java)
     }
