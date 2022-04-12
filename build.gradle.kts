@@ -23,7 +23,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.h2database:h2:2.1.210")
-    implementation("org.liquibase:liquibase-core:4.9.0")
+//    implementation("org.liquibase:liquibase-core:4.9.0")
+    implementation("io.swagger.core.v3:swagger-annotations:2.1.13")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
 
     testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("com.google.code.gson:gson:2.9.0")

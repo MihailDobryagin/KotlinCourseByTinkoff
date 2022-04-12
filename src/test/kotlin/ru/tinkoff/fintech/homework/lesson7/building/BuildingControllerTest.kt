@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import ru.tinkoff.fintech.homework.lesson7.building.db.Room
+import ru.tinkoff.fintech.homework.lesson7.building.entities.Room
 import ru.tinkoff.fintech.homework.lesson7.building.dto.request.MoveWorkerDto
 
 @SpringBootTest
