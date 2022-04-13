@@ -17,7 +17,7 @@ class BuildingService(
 
     fun addRoom(name: String): Long {
         val room = Room(name = name)
-        return devRoomDao.addRoom(room)
+        return devRoomDao.addRoom(room) ?: throw IllegalStateException()
     }
 
     fun moveWorker(from: Long?, to: Long?) {

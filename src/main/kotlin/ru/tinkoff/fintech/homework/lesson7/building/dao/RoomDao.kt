@@ -7,7 +7,7 @@ interface RoomDao {
 
     fun getRoom(roomId: Long): Room?
 
-    fun addRoom(roomForAdd: Room): Long
+    fun addRoom(roomForAdd: Room): Long?
 
     fun updateRoom(id: Long, room: Room)
 }
