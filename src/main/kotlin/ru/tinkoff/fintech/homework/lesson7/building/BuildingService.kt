@@ -1,13 +1,13 @@
 package ru.tinkoff.fintech.homework.lesson7.building
 
 import org.springframework.stereotype.Service
-import ru.tinkoff.fintech.homework.lesson7.building.dao.DevRoomDao
+import ru.tinkoff.fintech.homework.lesson7.building.dao.RoomDao
 import ru.tinkoff.fintech.homework.lesson7.building.entities.Room
 import ru.tinkoff.fintech.homework.lesson7.utils.ValidationException
 
 @Service
 class BuildingService(
-    private val devRoomDao: DevRoomDao
+    private val devRoomDao: RoomDao
 ) {
     fun getRooms(): Map<Long, Room> {
         return devRoomDao.getRooms()

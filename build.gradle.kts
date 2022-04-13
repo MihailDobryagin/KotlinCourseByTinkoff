@@ -24,6 +24,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.h2database:h2:2.1.210")
 //    implementation("org.liquibase:liquibase-core:4.9.0")
+    implementation("org.postgresql:postgresql:42.3.3")
+
     implementation("io.swagger.core.v3:swagger-annotations:2.1.13")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
 

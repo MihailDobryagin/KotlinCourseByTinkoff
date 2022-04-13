@@ -1,5 +1,7 @@
 package ru.tinkoff.fintech.homework.lesson7.configuration
 
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -15,8 +17,22 @@ class Configuration {
         RestTemplateBuilder().rootUri(rootUri).build()
 
     @Bean
-    fun dataSource(): DataSource = TODO()
+    fun dataSource(
+        @Value("\${datasource.driverClassName}") driverClassName: String,
+        @Value("\${datasource.jdbcUrl}") jdbcUrl: String,
+        @Value("\${datasourceClassName}") className: String,
+        @Value("\${datasource.username}") username: String,
+        @Value("\${datasource.password}") password: String,
+    ): DataSource {
+        val config = HikariConfig()
+        config.jdbcUrl = jdbcUrl
+        config.driverClassName = driverClassName
+        config.username = username
+        config.password = password
+
+        return HikariDataSource(config)
+    }
 
     @Bean
-    fun jdbcTemplate(): JdbcTemplate = TODO()
+    fun jdbcTemplate(dataSource: DataSource): JdbcTemplate = JdbcTemplate(dataSource)
 }
