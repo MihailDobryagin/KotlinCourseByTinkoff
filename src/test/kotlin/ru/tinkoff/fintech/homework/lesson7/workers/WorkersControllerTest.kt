@@ -12,13 +12,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import ru.tinkoff.fintech.homework.lesson7.workers.client.BuildingClient
-import ru.tinkoff.fintech.homework.lesson7.workers.entities.Worker
 import ru.tinkoff.fintech.homework.lesson7.workers.dao.DevWorkerDao
-import ru.tinkoff.fintech.homework.lesson7.workers.dao.WorkerDao
+import ru.tinkoff.fintech.homework.lesson7.workers.entities.Worker
 
 class WorkersControllerTest {
     private var buildingClient = mockk<BuildingClient>()
-    private val workerDao = spyk<WorkerDao>()
+
+    private val workerDao = spyk(DevWorkerDao())
     private var workersService = spyk(WorkersService(buildingClient, workerDao))
     private lateinit var workersController: WorkersController
     private lateinit var mockMvc: MockMvc

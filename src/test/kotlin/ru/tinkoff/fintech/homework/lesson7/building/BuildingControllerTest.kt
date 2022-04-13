@@ -4,9 +4,11 @@ import com.google.gson.Gson
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.clearAllMocks
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -16,18 +18,25 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import ru.tinkoff.fintech.homework.lesson7.building.entities.Room
 import ru.tinkoff.fintech.homework.lesson7.building.dto.request.MoveWorkerDto
+import ru.tinkoff.fintech.homework.lesson7.workers.WorkersController
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class BuildingControllerTest @Autowired constructor(
-    private val mockMvc: MockMvc
-) {
-    @MockkBean
-    private lateinit var buildingService: BuildingService
+class BuildingControllerTest {
+
+    private lateinit var buildingController: BuildingController
+    private lateinit var mockMvc: MockMvc
+
+    private var buildingService: BuildingService = mockk()
 
     private val gson = Gson()
+
+    @BeforeEach
+    fun beforeEach() {
+        buildingController = BuildingController(buildingService)
+        mockMvc = MockMvcBuilders.standaloneSetup(buildingController).build()
+    }
 
     @AfterEach
     fun afterEach() {

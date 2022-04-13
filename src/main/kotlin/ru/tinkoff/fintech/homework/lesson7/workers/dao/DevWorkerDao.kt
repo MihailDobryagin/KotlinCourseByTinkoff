@@ -1,9 +1,11 @@
 package ru.tinkoff.fintech.homework.lesson7.workers.dao
 
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import ru.tinkoff.fintech.homework.lesson7.workers.entities.Worker
 
 @Component
+@Profile("dev", "test")
 class DevWorkerDao(
     inputWorkers: Map<Long, Worker> = mapOf()
 ) : WorkerDao {
