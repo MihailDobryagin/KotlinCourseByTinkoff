@@ -2,7 +2,7 @@ package ru.tinkoff.fintech.homework.lesson7.workers
 
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
-import ru.tinkoff.fintech.homework.lesson7.workers.db.Worker
+import ru.tinkoff.fintech.homework.lesson7.workers.entities.Worker
 
 @RestController
 @RequestMapping("workers")

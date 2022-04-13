@@ -12,13 +12,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import ru.tinkoff.fintech.homework.lesson7.workers.client.BuildingClient
-import ru.tinkoff.fintech.homework.lesson7.workers.db.Worker
-import ru.tinkoff.fintech.homework.lesson7.workers.db.WorkersDb
+import ru.tinkoff.fintech.homework.lesson7.workers.entities.Worker
+import ru.tinkoff.fintech.homework.lesson7.workers.dao.DevWorkerDao
+import ru.tinkoff.fintech.homework.lesson7.workers.dao.WorkerDao
 
 class WorkersControllerTest {
     private var buildingClient = mockk<BuildingClient>()
-    private val workersDb = spyk<WorkersDb>()
-    private var workersService = spyk(WorkersService(buildingClient, workersDb))
+    private val workerDao = spyk<WorkerDao>()
+    private var workersService = spyk(WorkersService(buildingClient, workerDao))
     private lateinit var workersController: WorkersController
     private lateinit var mockMvc: MockMvc
     private val gson = Gson()
@@ -36,9 +37,9 @@ class WorkersControllerTest {
 
     @Test
     fun checkGetById() {
-        workersDb.addWorker(Worker(name = "qwerty"))
+        workerDao.addWorker(Worker(name = "qwerty"))
         val expectedWorker = Worker(1, "name1")
-        workersDb.addWorker(expectedWorker)
+        workerDao.addWorker(expectedWorker)
 
         val requestBuilder = MockMvcRequestBuilders
             .get("/workers/1")
@@ -72,8 +73,8 @@ class WorkersControllerTest {
     @Test
     fun checkMoveWorker() {
         for (i in 0 until 777)
-            workersDb.addWorker(Worker(name = "qwerty"))
-        workersDb.addWorker(Worker(name = "name1"))
+            workerDao.addWorker(Worker(name = "qwerty"))
+        workerDao.addWorker(Worker(name = "name1"))
 
         every { buildingClient.moveWorker(null, 123) } returns true
         val requestBuilder = MockMvcRequestBuilders
@@ -82,7 +83,7 @@ class WorkersControllerTest {
 
         sendReq<Any>(requestBuilder)
 
-        val worker = workersDb.getWorker(777)!!
+        val worker = workerDao.getWorker(777)!!
         verify { workersService.moveWorker(777, 123) }
         verify { buildingClient.moveWorker(null, 123) }
         assertEquals(123, worker.roomId)

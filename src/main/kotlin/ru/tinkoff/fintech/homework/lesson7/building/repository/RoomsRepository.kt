@@ -7,5 +7,4 @@ import ru.tinkoff.fintech.homework.lesson7.building.entities.Room
 @Repository
 interface RoomsRepository : CrudRepository<Room, Long> {
     fun findAllBy(): Iterable<Room>
-    fun save(room: Room): Room
 }

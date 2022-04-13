@@ -2,8 +2,8 @@ package ru.tinkoff.fintech.homework.lesson7.building
 
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
-import ru.tinkoff.fintech.homework.lesson7.building.entities.Room
 import ru.tinkoff.fintech.homework.lesson7.building.dto.request.MoveWorkerDto
+import ru.tinkoff.fintech.homework.lesson7.building.entities.Room
 
 @RestController
 @RequestMapping("building")
