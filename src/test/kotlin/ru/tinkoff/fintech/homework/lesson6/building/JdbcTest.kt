@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import ru.tinkoff.fintech.homework.lesson6.building.dao.RoomDao
 
-//@ContextConfiguration("/application.properties")
 @ActiveProfiles("dev")
 @SpringBootTest
 class JdbcTest {
