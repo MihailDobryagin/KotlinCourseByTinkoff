@@ -28,6 +28,7 @@ dependencies {
 
     implementation("io.swagger.core.v3:swagger-annotations:2.1.13")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
+    implementation("junit:junit:4.13.1")
 
     testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("com.google.code.gson:gson:2.9.0")
