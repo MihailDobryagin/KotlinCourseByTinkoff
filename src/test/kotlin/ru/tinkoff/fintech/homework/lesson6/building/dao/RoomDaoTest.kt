@@ -4,10 +4,12 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
 
 abstract class RoomDaoTest {
-    protected open lateinit var roomDao: RoomDao
+    @Autowired
+    protected lateinit var roomDao: RoomDao
 
     private val rooms = Array(3) { Room(it.toLong() + 1, "room$it", it) }
 
