@@ -16,8 +16,8 @@ class DevWorkerDao(
 
     override fun getWorker(workerId: Long): Worker? = workers[workerId]
 
-    override fun addWorker(workerForAdd: Worker): Long {
-        val worker = workerForAdd.copy(id = nextWorkerId++)
+    override fun addWorker(newWorker: Worker): Long {
+        val worker = newWorker.copy(id = nextWorkerId++)
         workers[worker.id!!] = worker
         return worker.id
     }

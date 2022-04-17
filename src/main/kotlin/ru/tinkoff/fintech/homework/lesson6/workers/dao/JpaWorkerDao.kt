@@ -11,15 +11,15 @@ class JpaWorkerDao(
     private val workersRepository: WorkersRepository,
 ) : WorkerDao {
     override fun getWorkers(): Map<Long, Worker> {
-        return workersRepository.findAllBy().associateBy { it.id!! }
+        return workersRepository.findAll().associateBy { it.id!! }
     }
 
     override fun getWorker(workerId: Long): Worker? {
         return workersRepository.findById(workerId).orElse(null)
     }
 
-    override fun addWorker(workerForAdd: Worker): Long? {
-        return workersRepository.save(workerForAdd).id
+    override fun addWorker(newWorker: Worker): Long? {
+        return workersRepository.save(newWorker).id
     }
 
     override fun updateWorker(worker: Worker) {

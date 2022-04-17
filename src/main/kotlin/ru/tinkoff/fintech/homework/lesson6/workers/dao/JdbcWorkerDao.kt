@@ -38,11 +38,11 @@ class JdbcWorkerDao(
         return Worker(id, name, roomId)
     }
 
-    override fun addWorker(workerForAdd: Worker): Long {
+    override fun addWorker(newWorker: Worker): Long {
         val simpleJdbcInsert = SimpleJdbcInsert(jdbcTemplate).withTableName("workers").usingGeneratedKeyColumns("id")
         val params = MapSqlParameterSource()
-            .addValue("name", workerForAdd.name)
-            .addValue("room_id", workerForAdd.roomId)
+            .addValue("name", newWorker.name)
+            .addValue("room_id", newWorker.roomId)
         val id = simpleJdbcInsert.executeAndReturnKey(params) as Long
         return id
     }

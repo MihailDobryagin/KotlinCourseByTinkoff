@@ -39,11 +39,11 @@ class JdbcRoomDao(
         return Room(id, name, countOfPeople)
     }
 
-    override fun addRoom(roomForAdd: Room): Long {
+    override fun addRoom(newRoom: Room): Long {
         val simpleJdbcInsert = SimpleJdbcInsert(jdbcTemplate).withTableName("rooms").usingGeneratedKeyColumns("id")
         val params = MapSqlParameterSource()
-            .addValue("name", roomForAdd.name)
-            .addValue("count_of_people", roomForAdd.countOfPeople)
+            .addValue("name", newRoom.name)
+            .addValue("count_of_people", newRoom.countOfPeople)
         val id = simpleJdbcInsert.executeAndReturnKey(params) as Long
         return id
     }

@@ -7,7 +7,7 @@ interface WorkerDao {
 
     fun getWorker(workerId: Long): Worker?
 
-    fun addWorker(workerForAdd: Worker): Long?
+    fun addWorker(newWorker: Worker): Long?
 
     fun updateWorker(worker: Worker)
 }

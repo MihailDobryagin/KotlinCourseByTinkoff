@@ -11,15 +11,15 @@ class JpaRoomDao(
     private val roomsRepository: RoomsRepository,
 ) : RoomDao {
     override fun getRooms(): Map<Long, Room> {
-        return roomsRepository.findAllBy().associateBy { it.id!! }
+        return roomsRepository.findAll().associateBy { it.id!! }
     }
 
     override fun getRoom(roomId: Long): Room? {
         return roomsRepository.findById(roomId).orElse(null)
     }
 
-    override fun addRoom(roomForAdd: Room): Long? {
-        return roomsRepository.save(roomForAdd).id
+    override fun addRoom(newRoom: Room): Long? {
+        return roomsRepository.save(newRoom).id
     }
 
     override fun updateRoom(room: Room) {

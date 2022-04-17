@@ -26,7 +26,7 @@ class WorkersService(
 
     fun addWorker(name: String): Long {
         val worker = Worker(name = name)
-        return workerDao.addWorker(worker) ?: throw IllegalStateException()
+        return workerDao.addWorker(worker) ?: throw IllegalStateException("Ошибка при добавлении работника")
     }
 
     fun moveWorker(workerId: Long, to: Long?) {

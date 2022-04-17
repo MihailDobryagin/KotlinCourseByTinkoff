@@ -16,8 +16,8 @@ class DevRoomDao(
 
     override fun getRoom(roomId: Long): Room? = rooms[roomId]
 
-    override fun addRoom(roomForAdd: Room): Long {
-        val room = roomForAdd.copy(id = nextRoomId++)
+    override fun addRoom(newRoom: Room): Long {
+        val room = newRoom.copy(id = nextRoomId++)
         rooms[room.id!!] = room
         return room.id
     }
