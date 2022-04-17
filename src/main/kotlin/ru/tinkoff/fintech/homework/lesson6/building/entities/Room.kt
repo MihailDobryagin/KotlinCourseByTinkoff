@@ -10,6 +10,4 @@ data class Room(
     val id: Long? = null,
     val name: String,
     val countOfPeople: Int = 0,
-) {
-    constructor() : this(name = "")
-}
+)

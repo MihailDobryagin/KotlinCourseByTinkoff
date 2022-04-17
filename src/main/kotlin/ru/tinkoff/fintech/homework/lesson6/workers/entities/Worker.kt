@@ -10,6 +10,4 @@ data class Worker(
     val id: Long? = null,
     val name: String,
     val roomId: Long? = null,
-) {
-    constructor() : this(null, "", null)
-}
+)
