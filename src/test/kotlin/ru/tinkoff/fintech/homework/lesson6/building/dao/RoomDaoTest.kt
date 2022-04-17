@@ -58,7 +58,7 @@ abstract class RoomDaoTest {
         val room = insertingRoom.copy(id = id)
         val expectedRoom = room.copy(name = room.name + "-")
 
-        roomDao.updateRoom(id, expectedRoom)
+        roomDao.updateRoom(expectedRoom)
 
         val actualRoom = roomDao.getRoom(id)
 

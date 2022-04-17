@@ -9,5 +9,5 @@ interface WorkerDao {
 
     fun addWorker(workerForAdd: Worker): Long?
 
-    fun updateWorker(id: Long, worker: Worker)
+    fun updateWorker(worker: Worker)
 }

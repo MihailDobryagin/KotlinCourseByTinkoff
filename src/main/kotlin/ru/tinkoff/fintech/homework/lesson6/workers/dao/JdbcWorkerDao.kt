@@ -1,33 +1,35 @@
 package ru.tinkoff.fintech.homework.lesson6.workers.dao
 
 import org.springframework.context.annotation.Profile
+import org.springframework.jdbc.core.DataClassRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert
 import org.springframework.stereotype.Component
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
+import java.util.function.Function
+import java.util.stream.Collectors
 
 @Component
 @Profile("jdbc")
 class JdbcWorkerDao(
-    val jdbcTemplate: JdbcTemplate
+    private val jdbcTemplate: JdbcTemplate
 ) : WorkerDao {
+    private val workerRowMapper = DataClassRowMapper(Worker::class.java)
+
     override fun getWorkers(): Map<Long, Worker> {
-        val row = jdbcTemplate.queryForRowSet("select * from workers")
-        val workers = mutableMapOf<Long, Worker>()
+        val resultStream = jdbcTemplate.queryForStream(GET_ALL_WORKERS_QUERY, workerRowMapper)
 
-        while (row.next()) {
-            val id = row.getLong("id")
-            val name = row.getString("name")!!
-            val roomId = row.getLong("room_id")
-            workers[id] = Worker(id, name, roomId)
-        }
-
-        return workers
+        return resultStream.collect(
+            Collectors.toMap(
+                { it.id },
+                Function.identity()
+            )
+        )
     }
 
     override fun getWorker(workerId: Long): Worker? {
-        val row = jdbcTemplate.queryForRowSet("select * from workers where id=?", workerId)
+        val row = jdbcTemplate.queryForRowSet(GET_WORKER_QUERY, workerId)
         row.next()
         val id = row.getLong("id")
         val name = row.getString("name")!!
@@ -45,12 +47,11 @@ class JdbcWorkerDao(
         return id
     }
 
-    override fun updateWorker(id: Long, worker: Worker) {
-        jdbcTemplate.update(
-            "update workers set name=?, roomId=? where id=?",
-            worker.name,
-            worker.roomId,
-            id
-        )
+    override fun updateWorker(worker: Worker) {
+        jdbcTemplate.update(UPDATE_WORKER_QUERY, worker.name, worker.roomId, worker.id)
     }
+
+    private val GET_ALL_WORKERS_QUERY = "select * from workers"
+    private val GET_WORKER_QUERY = "select * from workers where id = ?"
+    private val UPDATE_WORKER_QUERY = "update workers set name = ?, roomId = ? where id = ?"
 }

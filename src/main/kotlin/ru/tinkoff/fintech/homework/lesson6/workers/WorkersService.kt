@@ -10,23 +10,23 @@ import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
 @Service
 class WorkersService(
     private val buildingClient: BuildingClient,
-    private val devWorkerDao: WorkerDao,
+    private val workerDao: WorkerDao,
 ) {
     companion object {
         private val logger = LoggerFactory.getLogger(WorkersService::class.java)
     }
 
     fun getWorkers(): Map<Long, Worker> {
-        return devWorkerDao.getWorkers()
+        return workerDao.getWorkers()
     }
 
     fun getWorker(id: Long): Worker? {
-        return devWorkerDao.getWorker(id)
+        return workerDao.getWorker(id)
     }
 
     fun addWorker(name: String): Long {
         val worker = Worker(name = name)
-        return devWorkerDao.addWorker(worker) ?: throw IllegalStateException()
+        return workerDao.addWorker(worker) ?: throw IllegalStateException()
     }
 
     fun moveWorker(workerId: Long, to: Long?) {
@@ -40,7 +40,7 @@ class WorkersService(
             throw Exception("Не удалось переместить работника ${worker.id} из $from в $to")
         } else {
             val workerForUpdate = worker.copy(roomId = to)
-            devWorkerDao.updateWorker(workerId, workerForUpdate)
+            workerDao.updateWorker(workerForUpdate)
         }
     }
 }

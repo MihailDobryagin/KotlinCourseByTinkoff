@@ -8,7 +8,7 @@ import ru.tinkoff.fintech.homework.lesson6.building.repository.RoomsRepository
 @Component
 @Profile("jpa")
 class JpaRoomDao(
-    val roomsRepository: RoomsRepository,
+    private val roomsRepository: RoomsRepository,
 ) : RoomDao {
     override fun getRooms(): Map<Long, Room> {
         return roomsRepository.findAllBy().associateBy { it.id!! }
@@ -22,8 +22,7 @@ class JpaRoomDao(
         return roomsRepository.save(roomForAdd).id
     }
 
-    override fun updateRoom(id: Long, room: Room) {
-        val prevRoom = getRoom(id) ?: throw IllegalArgumentException("Не сушествует комнаты с id = $id")
-        roomsRepository.save(prevRoom.copy(name = room.name, countOfPeople = room.countOfPeople))
+    override fun updateRoom(room: Room) {
+        roomsRepository.save(room)
     }
 }

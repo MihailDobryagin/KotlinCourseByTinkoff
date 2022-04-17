@@ -22,8 +22,8 @@ class DevWorkerDao(
         return worker.id
     }
 
-    override fun updateWorker(id: Long, worker: Worker) {
-        if (!workers.contains(id)) throw IllegalArgumentException("Нет работника с id $id")
-        workers[id] = worker
+    override fun updateWorker(worker: Worker) {
+        if (!workers.contains(worker.id)) throw IllegalArgumentException("Нет работника с id ${worker.id}")
+        workers[worker.id!!] = worker
     }
 }

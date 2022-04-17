@@ -8,7 +8,7 @@ import ru.tinkoff.fintech.homework.lesson6.workers.repository.WorkersRepository
 @Component
 @Profile("jpa")
 class JpaWorkerDao(
-    val workersRepository: WorkersRepository,
+    private val workersRepository: WorkersRepository,
 ) : WorkerDao {
     override fun getWorkers(): Map<Long, Worker> {
         return workersRepository.findAllBy().associateBy { it.id!! }
@@ -22,8 +22,7 @@ class JpaWorkerDao(
         return workersRepository.save(workerForAdd).id
     }
 
-    override fun updateWorker(id: Long, worker: Worker) {
-        val prevRoom = getWorker(id) ?: throw IllegalArgumentException("Не сушествует работника с id = $id")
-        workersRepository.save(prevRoom.copy(name = worker.name, roomId = worker.roomId))
+    override fun updateWorker(worker: Worker) {
+        workersRepository.save(worker)
     }
 }

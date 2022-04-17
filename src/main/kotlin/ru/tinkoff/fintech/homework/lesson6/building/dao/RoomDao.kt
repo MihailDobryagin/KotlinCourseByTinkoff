@@ -9,5 +9,5 @@ interface RoomDao {
 
     fun addRoom(roomForAdd: Room): Long?
 
-    fun updateRoom(id: Long, room: Room)
+    fun updateRoom(room: Room)
 }

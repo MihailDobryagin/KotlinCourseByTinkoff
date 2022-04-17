@@ -22,8 +22,8 @@ class DevRoomDao(
         return room.id
     }
 
-    override fun updateRoom(id: Long, room: Room) {
-        if (!rooms.contains(id)) throw IllegalArgumentException("Нет помещениея с id $id")
-        rooms[id] = room
+    override fun updateRoom(room: Room) {
+        if (!rooms.contains(room.id)) throw IllegalArgumentException("Нет помещениея с id ${room.id}")
+        rooms[room.id!!] = room
     }
 }
