@@ -25,12 +25,7 @@ class JdbcRoomDao(
     }
 
     override fun addRoom(newRoom: Room): Long {
-        val simpleJdbcInsert = SimpleJdbcInsert(jdbcTemplate).withTableName("rooms").usingGeneratedKeyColumns("id")
-        val params = MapSqlParameterSource()
-            .addValue("name", newRoom.name)
-            .addValue("count_of_people", newRoom.countOfPeople)
-        val id = simpleJdbcInsert.executeAndReturnKey(params) as Long
-        return id
+        return jdbcTemplate.queryForObject(ADD_ROOM_QUERY, Long::class.java, newRoom.name, newRoom.countOfPeople, ) ?: throw IllegalStateException("Не удалось добавить комнату")
     }
 
     override fun updateRoom(room: Room) {
@@ -39,5 +34,6 @@ class JdbcRoomDao(
 
     private val GET_ALL_ROOMS_QUERY = "select * from rooms"
     private val GET_ROOM_QUERY = "select * from rooms where id = ?";
+    private val ADD_ROOM_QUERY = "insert into rooms (name, count_of_people) values (?, ?) returning id"
     private val UPDATE_ROOM_QUERY = "update rooms set name = ?, count_of_people = ? where id = ?"
 }

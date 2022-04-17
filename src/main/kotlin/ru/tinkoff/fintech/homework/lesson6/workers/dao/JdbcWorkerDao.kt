@@ -26,12 +26,7 @@ class JdbcWorkerDao(
     }
 
     override fun addWorker(newWorker: Worker): Long {
-        val simpleJdbcInsert = SimpleJdbcInsert(jdbcTemplate).withTableName("workers").usingGeneratedKeyColumns("id")
-        val params = MapSqlParameterSource()
-            .addValue("name", newWorker.name)
-            .addValue("room_id", newWorker.roomId)
-        val id = simpleJdbcInsert.executeAndReturnKey(params) as Long
-        return id
+        return jdbcTemplate.queryForObject(ADD_WORKER_QUERY, Long::class.java, newWorker.name, newWorker.roomId) ?: throw IllegalStateException("Не удалось добавить работника")
     }
 
     override fun updateWorker(worker: Worker) {
@@ -40,5 +35,6 @@ class JdbcWorkerDao(
 
     private val GET_ALL_WORKERS_QUERY = "select * from workers"
     private val GET_WORKER_QUERY = "select * from workers where id = ?"
+    private val ADD_WORKER_QUERY = "insert into workers (name, room_id) values (?, ?) returning id"
     private val UPDATE_WORKER_QUERY = "update workers set name = ?, roomId = ? where id = ?"
 }
