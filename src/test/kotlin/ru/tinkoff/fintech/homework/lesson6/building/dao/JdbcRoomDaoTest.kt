@@ -39,9 +39,9 @@ class JdbcRoomDaoTest : RoomDaoTest() {
         jdbcTemplate.update(
             "CREATE TABLE rooms\n" +
                     "(\n" +
-                    "    id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),\n" +
+                    "    id bigserial primary key ,\n" +
                     "    name character varying COLLATE pg_catalog.\"default\" NOT NULL,\n" +
-                    "    count_of_people integer NOT NULL\n" +
+                    "   count_of_people integer NOT NULL\n" +
                     ")"
         )
     }
