@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
 import ru.tinkoff.fintech.homework.lesson6.building.dto.request.MoveWorkerDto
+import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
 
 class BuildingControllerTest {
 

@@ -7,8 +7,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert
 import org.springframework.stereotype.Component
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
-import java.util.function.Function
-import java.util.stream.Collectors
 import kotlin.streams.toList
 
 @Component

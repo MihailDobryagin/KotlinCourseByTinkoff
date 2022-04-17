@@ -7,8 +7,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert
 import org.springframework.stereotype.Component
 import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
-import java.util.function.Function
-import java.util.stream.Collectors
 import kotlin.streams.toList
 
 
@@ -20,7 +18,7 @@ class JdbcRoomDao(
     private val roomRowMapper = DataClassRowMapper(Room::class.java)
 
     override fun getRooms(): List<Room> {
-        return  jdbcTemplate.queryForStream(GET_ALL_ROOMS_QUERY, roomRowMapper).toList()
+        return jdbcTemplate.queryForStream(GET_ALL_ROOMS_QUERY, roomRowMapper).toList()
     }
 
     override fun getRoom(roomId: Long): Room? {
