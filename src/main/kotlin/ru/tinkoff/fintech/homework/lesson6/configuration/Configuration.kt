@@ -9,6 +9,6 @@ import org.springframework.web.client.RestTemplate
 @Configuration
 class Configuration {
     @Bean
-    fun restTemplate(@Value("\${applicationAddress}") rootUri: String): RestTemplate =
-        RestTemplateBuilder().rootUri(rootUri).build()
+    fun restTemplate(@Value("\${myapplication.building.address}") buildingAddress: String): RestTemplate =
+        RestTemplateBuilder().rootUri(buildingAddress).build()
 }

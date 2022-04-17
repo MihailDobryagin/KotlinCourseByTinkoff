@@ -1,4 +1,6 @@
-applicationAddress: http://localhost:8080
+myapplication:
+  building:
+    address: http://localhost:8080
 spring:
   profiles:
     active: dev
