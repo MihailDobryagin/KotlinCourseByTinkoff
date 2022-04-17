@@ -16,7 +16,7 @@ class BuildingControllerHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun exceptionHandler(e: ValidationException): String {
-        logger.error(e.message, e)
+        logger.warn(e.message, e)
         return "Ошибка валидации"
     }
 

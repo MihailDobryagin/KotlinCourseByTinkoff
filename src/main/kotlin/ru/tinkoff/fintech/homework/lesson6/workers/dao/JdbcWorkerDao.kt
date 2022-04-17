@@ -19,17 +19,14 @@ class JdbcWorkerDao(
     private val workerRowMapper = DataClassRowMapper(Worker::class.java)
 
     override fun getWorkers(): List<Worker> {
-        return jdbcTemplate.queryForStream(GET_ALL_WORKERS_QUERY, workerRowMapper).toList()
+        return jdbcTemplate
+            .queryForStream(GET_ALL_WORKERS_QUERY, workerRowMapper).toList()
     }
 
     override fun getWorker(workerId: Long): Worker? {
-        val row = jdbcTemplate.queryForRowSet(GET_WORKER_QUERY, workerId)
-        row.next()
-        val id = row.getLong("id")
-        val name = row.getString("name")!!
-        val roomId = row.getLong("room_id")
-
-        return Worker(id, name, roomId)
+        return jdbcTemplate
+            .queryForStream(GET_WORKER_QUERY, workerRowMapper, workerId)
+            .findAny().orElse(null)
     }
 
     override fun addWorker(newWorker: Worker): Long {

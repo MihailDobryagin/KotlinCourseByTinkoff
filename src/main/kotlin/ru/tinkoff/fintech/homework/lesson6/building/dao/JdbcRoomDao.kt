@@ -24,13 +24,9 @@ class JdbcRoomDao(
     }
 
     override fun getRoom(roomId: Long): Room? {
-        val row = jdbcTemplate.queryForRowSet(GET_ROOM_QUERY, roomId)
-        row.next()
-        val id = row.getLong("id")
-        val name = row.getString("name")!!
-        val countOfPeople = row.getInt("count_of_people")
-
-        return Room(id, name, countOfPeople)
+        return jdbcTemplate
+            .queryForStream(GET_ROOM_QUERY, roomRowMapper, roomId)
+            .findAny().orElseGet(null)
     }
 
     override fun addRoom(newRoom: Room): Long {
