@@ -6,3 +6,4 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres_jpa_test
     username: postgres
     password: user
+    driverClassName: org.postgresql.Driver
