@@ -11,7 +11,7 @@ abstract class RoomDaoTest {
     @Autowired
     protected lateinit var roomDao: RoomDao
 
-    private val rooms = Array(3) { Room(it.toLong() + 1, "room$it", it) }
+    protected val rooms = Array(3) { Room(null, "room" + ('a' + it), it) }
 
     @BeforeEach
     fun beforeEach() {
@@ -28,7 +28,13 @@ abstract class RoomDaoTest {
         val actualRooms = roomDao.getRooms()
 
         Assertions.assertEquals(rooms.size, actualRooms.size)
-        Assertions.assertTrue(rooms.all { actualRooms[it.id] == it })
+        Assertions.assertTrue(actualRooms.all {
+            rooms.any { room ->
+                room.name == it.value.name
+                        && room.countOfPeople == it.value.countOfPeople
+            }
+                    && it.value.id != null
+        })
     }
 
     @Test
@@ -42,7 +48,6 @@ abstract class RoomDaoTest {
 
         val actualRoom = actualRooms[id]
 
-        Assertions.assertEquals(rooms.size.toLong() + 1, id)
         Assertions.assertEquals(expectedRoom, actualRoom)
     }
 

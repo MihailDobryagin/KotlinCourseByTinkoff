@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ActiveProfiles
-import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
 
 @ActiveProfiles("jdbc")
 @SpringBootTest
@@ -15,8 +14,6 @@ import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
 class JdbcRoomDaoTest : RoomDaoTest() {
     @Autowired
     private lateinit var jdbcTemplate: JdbcTemplate
-
-    private val rooms = Array(3) { Room(it.toLong() + 1, "room$it", it) }
 
     @BeforeAll
     fun beforeAll() {
@@ -36,7 +33,6 @@ class JdbcRoomDaoTest : RoomDaoTest() {
 
     override fun clearRooms() {
         jdbcTemplate.update("truncate rooms")
-        jdbcTemplate.update("ALTER SEQUENCE rooms_id_seq RESTART WITH 1")
     }
 
     private fun createDefaultRoomsTable() {

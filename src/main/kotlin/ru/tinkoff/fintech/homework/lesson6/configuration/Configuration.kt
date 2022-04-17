@@ -4,7 +4,7 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
-import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.*
 import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.web.client.RestTemplate
@@ -16,6 +16,7 @@ class Configuration {
     fun restTemplate(@Value("\${rootUri}") rootUri: String): RestTemplate =
         RestTemplateBuilder().rootUri(rootUri).build()
 
+    @Profile("jdbc")
     @Bean
     fun dataSource(
         @Value("\${datasource.driverClassName}") driverClassName: String,
@@ -33,6 +34,7 @@ class Configuration {
         return HikariDataSource(config)
     }
 
+    @Profile("jdbc")
     @Bean
     fun jdbcTemplate(dataSource: DataSource): JdbcTemplate = JdbcTemplate(dataSource)
 }
