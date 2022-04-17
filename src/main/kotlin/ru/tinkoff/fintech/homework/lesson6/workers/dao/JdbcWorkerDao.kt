@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert
 import org.springframework.stereotype.Component
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
-import kotlin.streams.toList
 
 @Component
 @Profile("jdbc")
@@ -17,14 +16,13 @@ class JdbcWorkerDao(
     private val workerRowMapper = DataClassRowMapper(Worker::class.java)
 
     override fun getWorkers(): List<Worker> {
-        return jdbcTemplate
-            .queryForStream(GET_ALL_WORKERS_QUERY, workerRowMapper).toList()
+        return jdbcTemplate.query(GET_ALL_WORKERS_QUERY, workerRowMapper)
     }
 
     override fun getWorker(workerId: Long): Worker? {
         return jdbcTemplate
-            .queryForStream(GET_WORKER_QUERY, workerRowMapper, workerId)
-            .findAny().orElse(null)
+            .query(GET_WORKER_QUERY, workerRowMapper, workerId)
+            .firstOrNull()
     }
 
     override fun addWorker(newWorker: Worker): Long {
