@@ -12,7 +12,7 @@ class DevWorkerDao(
     private val workers = inputWorkers.toMutableMap()
     private var nextWorkerId: Long = 0
 
-    override fun getWorkers(): Map<Long, Worker> = workers.toMap()
+    override fun getWorkers(): List<Worker> = workers.values.toList()
 
     override fun getWorker(workerId: Long): Worker? = workers[workerId]
 

@@ -10,8 +10,8 @@ import ru.tinkoff.fintech.homework.lesson6.building.repository.RoomsRepository
 class JpaRoomDao(
     private val roomsRepository: RoomsRepository,
 ) : RoomDao {
-    override fun getRooms(): Map<Long, Room> {
-        return roomsRepository.findAll().associateBy { it.id!! }
+    override fun getRooms(): List<Room> {
+        return roomsRepository.findAll().toList()
     }
 
     override fun getRoom(roomId: Long): Room? {

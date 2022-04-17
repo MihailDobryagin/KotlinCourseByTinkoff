@@ -12,7 +12,7 @@ class DevRoomDao(
     private val rooms = inputRooms.toMutableMap()
     private var nextRoomId: Long = 0
 
-    override fun getRooms(): Map<Long, Room> = rooms.toMap()
+    override fun getRooms(): List<Room> = rooms.values.toList()
 
     override fun getRoom(roomId: Long): Room? = rooms[roomId]
 

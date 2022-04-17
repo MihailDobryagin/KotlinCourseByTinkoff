@@ -10,8 +10,8 @@ import ru.tinkoff.fintech.homework.lesson6.workers.repository.WorkersRepository
 class JpaWorkerDao(
     private val workersRepository: WorkersRepository,
 ) : WorkerDao {
-    override fun getWorkers(): Map<Long, Worker> {
-        return workersRepository.findAll().associateBy { it.id!! }
+    override fun getWorkers(): List<Worker> {
+        return workersRepository.findAll().toList()
     }
 
     override fun getWorker(workerId: Long): Worker? {

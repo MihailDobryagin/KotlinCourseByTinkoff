@@ -16,7 +16,7 @@ class WorkersService(
         private val logger = LoggerFactory.getLogger(WorkersService::class.java)
     }
 
-    fun getWorkers(): Map<Long, Worker> {
+    fun getWorkers(): List<Worker> {
         return workerDao.getWorkers()
     }
 

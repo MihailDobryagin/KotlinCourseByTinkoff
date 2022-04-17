@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
 import java.util.function.Function
 import java.util.stream.Collectors
+import kotlin.streams.toList
 
 @Component
 @Profile("jdbc")
@@ -17,15 +18,8 @@ class JdbcWorkerDao(
 ) : WorkerDao {
     private val workerRowMapper = DataClassRowMapper(Worker::class.java)
 
-    override fun getWorkers(): Map<Long, Worker> {
-        val resultStream = jdbcTemplate.queryForStream(GET_ALL_WORKERS_QUERY, workerRowMapper)
-
-        return resultStream.collect(
-            Collectors.toMap(
-                { it.id },
-                Function.identity()
-            )
-        )
+    override fun getWorkers(): List<Worker> {
+        return jdbcTemplate.queryForStream(GET_ALL_WORKERS_QUERY, workerRowMapper).toList()
     }
 
     override fun getWorker(workerId: Long): Worker? {

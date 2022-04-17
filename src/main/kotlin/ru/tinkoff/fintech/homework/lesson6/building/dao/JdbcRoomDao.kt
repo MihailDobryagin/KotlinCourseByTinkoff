@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component
 import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
 import java.util.function.Function
 import java.util.stream.Collectors
+import kotlin.streams.toList
 
 
 @Component
@@ -18,15 +19,8 @@ class JdbcRoomDao(
 ) : RoomDao {
     private val roomRowMapper = DataClassRowMapper(Room::class.java)
 
-    override fun getRooms(): Map<Long, Room> {
-        val resultStream = jdbcTemplate.queryForStream(GET_ALL_ROOMS_QUERY, roomRowMapper)
-
-        return resultStream.collect(
-            Collectors.toMap(
-                { it.id },
-                Function.identity()
-            )
-        )
+    override fun getRooms(): List<Room> {
+        return  jdbcTemplate.queryForStream(GET_ALL_ROOMS_QUERY, roomRowMapper).toList()
     }
 
     override fun getRoom(roomId: Long): Room? {

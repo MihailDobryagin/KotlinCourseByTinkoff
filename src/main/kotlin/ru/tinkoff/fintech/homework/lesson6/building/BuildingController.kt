@@ -15,7 +15,7 @@ class BuildingController(
     }
 
     @GetMapping("rooms")
-    fun getRooms(): Map<Long, Room> {
+    fun getRooms(): List<Room> {
         logger.info("Запрос на получение помещений")
         return buildingService.getRooms()
     }

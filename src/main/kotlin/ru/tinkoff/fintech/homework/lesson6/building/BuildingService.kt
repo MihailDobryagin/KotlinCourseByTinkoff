@@ -9,7 +9,7 @@ import ru.tinkoff.fintech.homework.lesson6.utils.ValidationException
 class BuildingService(
     private val roomDao: RoomDao
 ) {
-    fun getRooms(): Map<Long, Room> {
+    fun getRooms(): List<Room> {
         return roomDao.getRooms()
     }
 
@@ -17,14 +17,14 @@ class BuildingService(
 
     fun addRoom(name: String): Long {
         val room = Room(name = name)
-        return roomDao.addRoom(room) ?: throw IllegalStateException()
+        return roomDao.addRoom(room) ?: throw IllegalStateException("Не удалось добавить комнату")
     }
 
     fun moveWorker(from: Long?, to: Long?) {
-        validateMoveWorkerReq(from, to)
-
         val roomFrom = from?.let { roomDao.getRoom(it) }
         val roomTo = to?.let { roomDao.getRoom(it) }
+
+        validateMoveWorkerReq(from, roomFrom, to, roomTo)
 
         if (roomFrom != null) {
             val updatedRoomFrom = roomFrom.copy(countOfPeople = roomFrom.countOfPeople - 1)
@@ -36,12 +36,12 @@ class BuildingService(
         }
     }
 
-    private fun validateMoveWorkerReq(from: Long?, to: Long?) {
+    private fun validateMoveWorkerReq(from: Long?, roomFrom: Room?, to: Long?, roomTo: Room?) {
         val rooms = roomDao.getRooms()
         val error = when {
-            from != null && !rooms.contains(from) -> "Не существует комнаты с id $from"
-            from != null && rooms[from]?.countOfPeople == 0 -> "В комнате $from нет людей"
-            to != null && !rooms.contains(to) -> "Не существует комнаты с id $to"
+            from != null && roomFrom == null -> "Не существует комнаты с id $from"
+            from != null && roomFrom!!.countOfPeople == 0 -> "В комнате $from нет людей"
+            to != null && roomTo == null -> "Не существует комнаты с id $to"
             else -> null
         }
         if (error != null) throw ValidationException(error)

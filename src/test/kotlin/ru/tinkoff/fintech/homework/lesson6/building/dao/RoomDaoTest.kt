@@ -30,10 +30,10 @@ abstract class RoomDaoTest {
         Assertions.assertEquals(rooms.size, actualRooms.size)
         Assertions.assertTrue(actualRooms.all {
             rooms.any { room ->
-                room.name == it.value.name
-                        && room.countOfPeople == it.value.countOfPeople
+                room.name == it.name
+                        && room.countOfPeople == it.countOfPeople
             }
-                    && it.value.id != null
+                    && it.id != null
         })
     }
 
@@ -43,10 +43,7 @@ abstract class RoomDaoTest {
         val id = roomDao.addRoom(Room(null, "room4", 123))
         val expectedRoom = insertingRoom.copy(id = id)
 
-
-        val actualRooms = roomDao.getRooms()
-
-        val actualRoom = actualRooms[id]
+        val actualRoom = roomDao.getRoom(id!!)
 
         Assertions.assertEquals(expectedRoom, actualRoom)
     }
