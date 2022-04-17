@@ -4,11 +4,11 @@ myapplication:
 spring:
   profiles:
     active: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: user
-  jpa:
-    hibernate:
-      ddl-auto: update
