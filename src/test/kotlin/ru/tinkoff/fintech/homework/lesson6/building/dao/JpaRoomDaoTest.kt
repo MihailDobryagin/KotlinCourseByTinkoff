@@ -32,12 +32,4 @@ class JpaRoomDaoTest : RoomDaoTest() {
     override fun clearRooms() {
         roomsRepository.deleteAll()
     }
-
-    private fun createDefaultRoomsTable() {
-
-    }
-
-    private fun dropRoomsTable() {
-
-    }
 }

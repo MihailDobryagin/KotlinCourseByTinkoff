@@ -1,7 +1,8 @@
 package ru.tinkoff.fintech.homework.lesson6.building.dao
 
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,12 +28,9 @@ abstract class RoomDaoTest {
     fun checkGetRooms() {
         val actualRooms = roomDao.getRooms()
 
-        Assertions.assertEquals(rooms.size, actualRooms.size)
-        Assertions.assertTrue(actualRooms.all {
-            rooms.any { room ->
-                room.name == it.name
-                        && room.countOfPeople == it.countOfPeople
-            }
+        assertEquals(rooms.size, actualRooms.size)
+        assertTrue(actualRooms.all {
+            rooms.any { room -> room.name == it.name && room.countOfPeople == it.countOfPeople }
                     && it.id != null
         })
     }
@@ -45,7 +43,7 @@ abstract class RoomDaoTest {
 
         val actualRoom = roomDao.getRoom(id!!)
 
-        Assertions.assertEquals(expectedRoom, actualRoom)
+        assertEquals(expectedRoom, actualRoom)
     }
 
     @Test
@@ -59,7 +57,7 @@ abstract class RoomDaoTest {
 
         val actualRoom = roomDao.getRoom(id)
 
-        Assertions.assertEquals(expectedRoom, actualRoom)
+        assertEquals(expectedRoom, actualRoom)
     }
 
     protected abstract fun initRooms()
