@@ -11,12 +11,10 @@ import org.springframework.test.context.ActiveProfiles
 @ActiveProfiles("jdbc")
 @SpringBootTest
 class JdbcTemplateTest(
-    @Value("\${datasource.testNumber}") expectedTestNumber: Int,
+    @Value("\${datasource.testNumber}") private val expectedTestNumber: Int,
 ) {
     @Autowired
     private lateinit var jdbcTemplate: JdbcTemplate
-
-    private val expectedTestNumber = 123987
 
     @Test
     fun checkByExistingTable() {
