@@ -15,16 +15,6 @@ class JpaRoomDaoTest : RoomDaoTest() {
     @Autowired
     private lateinit var roomsRepository: RoomsRepository
 
-    @BeforeAll
-    fun beforeAll() {
-        createDefaultRoomsTable()
-    }
-
-    @AfterAll
-    fun afterAll() {
-        dropRoomsTable()
-    }
-
     override fun initRooms() {
         roomsRepository.saveAll(rooms.toMutableList())
     }
