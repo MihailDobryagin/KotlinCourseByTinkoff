@@ -36,17 +36,20 @@ class JdbcRoomDaoTest : RoomDaoTest() {
     }
 
     private fun createDefaultRoomsTable() {
-        jdbcTemplate.update(
-            "CREATE TABLE rooms\n" +
-                    "(\n" +
-                    "    id bigserial primary key ,\n" +
-                    "    name character varying COLLATE pg_catalog.\"default\" NOT NULL,\n" +
-                    "   count_of_people integer NOT NULL\n" +
-                    ")"
-        )
+        jdbcTemplate.update(CREATE_TABLE_QUERY)
     }
 
     private fun dropRoomsTable() {
         jdbcTemplate.update("DROP TABLE rooms")
     }
+
+    private val CREATE_TABLE_QUERY =
+        """
+            CREATE TABLE rooms
+                    (
+                        id bigint primary key generated always as identity ,
+                        name character varying COLLATE pg_catalog."default" NOT NULL,
+                        count_of_people integer NOT NULL
+                    )
+        """
 }
