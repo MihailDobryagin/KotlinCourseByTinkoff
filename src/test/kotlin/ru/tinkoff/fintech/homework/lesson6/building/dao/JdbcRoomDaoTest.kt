@@ -48,7 +48,7 @@ class JdbcRoomDaoTest : RoomDaoTest() {
             CREATE TABLE rooms
                     (
                         id bigint primary key generated always as identity ,
-                        name character varying COLLATE pg_catalog."default" NOT NULL,
+                        name character varying  NOT NULL,
                         count_of_people integer NOT NULL
                     )
         """
