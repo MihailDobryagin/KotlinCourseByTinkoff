@@ -5,15 +5,18 @@ import java.util.concurrent.Executor
 import java.util.concurrent.LinkedBlockingQueue
 
 class ThreadPool(
-    amount: Int,
-    tasks: Array<Runnable>,
+    private val amount: Int,
+    tasks: Array<Runnable> = emptyArray(),
 ) : Executor {
-
     private val tasksQueue: LinkedBlockingQueue<Runnable> = tasks.toCollection(LinkedBlockingQueue())
     private val threads: List<WorkerThread> = (0 until amount).map { workerThreadInstance() }.toCollection(LinkedList())
 
+    private var isActive = false
+
     init {
         threads.forEach(Thread::start)
+        println(threads.size)
+        isActive = true
         Thread { run() }.start()
     }
 
@@ -22,13 +25,28 @@ class ThreadPool(
     }
 
     fun shutdown() {
-        threads.filter { it.state == Thread.State.WAITING}.forEach(Thread::interrupt)
+        isActive = false
+        var countOfStoppedThreads = 0
+        threads
+            .filter { it.state == Thread.State.WAITING }
+            .forEach {
+                synchronized(it) {
+                    if (it.state == Thread.State.WAITING)
+                        countOfStoppedThreads++
+                    it.interrupt()
+                }
+            }
+
     }
 
     private fun run() {
-        while (true) {
+        while (isActive) {
             threads.filter { it.state == Thread.State.WAITING }.forEach {
-                if(tasksQueue.isNotEmpty()) (it as Object).notify()
+                if (tasksQueue.isNotEmpty()) {
+                    synchronized(it) {
+                        (it as Object).notify()
+                    }
+                }
             }
         }
     }
@@ -38,14 +56,23 @@ class ThreadPool(
     }
 
     private class WorkerThread(
-        private val popTask: () -> Runnable?
+        private val getTask: () -> Runnable?,
     ) : Thread() {
         override fun run() {
-            val task = popTask.invoke()
-            if (task != null)
-                task.run()
-            else
-                (this as Object).wait()
+            while (!this.isInterrupted) {
+                val task = getTask.invoke()
+                if (task != null) {
+                    task.run()
+                } else {
+                    synchronized(this) {
+                        try {
+                            (this as Object).wait()
+                        } catch (e: InterruptedException) {
+                            this.interrupt()
+                        }
+                    }
+                }
+            }
         }
     }
 }
