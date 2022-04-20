@@ -14,4 +14,7 @@ fun main() {
     val threadPool = ThreadPool(3, tasks)
     Thread.sleep(2000)
     threadPool.shutdown()
+    threadPool.execute {
+        println("NEW TASK EXECUTION")
+    }
 }

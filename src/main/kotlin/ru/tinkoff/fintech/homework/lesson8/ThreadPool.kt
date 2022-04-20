@@ -15,7 +15,6 @@ class ThreadPool(
 
     init {
         threads.forEach(Thread::start)
-        println(threads.size)
         isActive = true
         Thread { run() }.start()
     }
@@ -26,17 +25,19 @@ class ThreadPool(
 
     fun shutdown() {
         isActive = false
-        var countOfStoppedThreads = 0
-        threads
-            .filter { it.state == Thread.State.WAITING }
-            .forEach {
-                synchronized(it) {
-                    if (it.state == Thread.State.WAITING)
-                        countOfStoppedThreads++
-                    it.interrupt()
+        var isAllThreadsStopped = false
+        while (!isAllThreadsStopped) {
+            isAllThreadsStopped = true
+            threads
+                .forEach {
+                    synchronized(it) {
+                        if (it.state != Thread.State.TERMINATED) {
+                            it.interrupt()
+                            isAllThreadsStopped = false
+                        }
+                    }
                 }
-            }
-
+        }
     }
 
     private fun run() {
@@ -59,9 +60,11 @@ class ThreadPool(
         private val getTask: () -> Runnable?,
     ) : Thread() {
         override fun run() {
+            print("$line$name START$line")
             while (!this.isInterrupted) {
                 val task = getTask.invoke()
                 if (task != null) {
+                    print("$line$name TAKE$line") // TAKE TASK
                     task.run()
                 } else {
                     synchronized(this) {
@@ -69,10 +72,16 @@ class ThreadPool(
                             (this as Object).wait()
                         } catch (e: InterruptedException) {
                             this.interrupt()
+                            print("$line$name TERMINATE$line")
                         }
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        @JvmStatic
+        val line = "\n____________________________________________________________\n"
     }
 }
