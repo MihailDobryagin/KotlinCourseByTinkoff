@@ -5,22 +5,26 @@ import java.util.concurrent.Executor
 import java.util.concurrent.LinkedBlockingQueue
 
 class ThreadPool(
-    private val amount: Int,
-    tasks: Array<Runnable> = emptyArray(),
+    private val amount: Int = 1,
 ) : Executor {
-    private val tasksQueue: LinkedBlockingQueue<Runnable> = tasks.toCollection(LinkedBlockingQueue())
-    private val threads: List<WorkerThread> = (0 until amount).map { workerThreadInstance() }.toCollection(LinkedList())
+    private val limitOfThreads = 100
+
+    private val tasksQueue: LinkedBlockingQueue<Runnable> = LinkedBlockingQueue()
+    private val threads: List<WorkerThread> = (0 until amount)
+        .map { WorkerThread() }.toCollection(LinkedList())
 
     private var isActive = false
 
     init {
-        threads.forEach(Thread::start)
+        if (amount > limitOfThreads) throw IllegalArgumentException("Превышено максимальное кол-во потоков ($limitOfThreads)")
         isActive = true
-        Thread { run() }.start()
+        threads.forEach(Thread::start)
     }
 
     override fun execute(command: Runnable) {
+        if(!isActive) throw IllegalStateException("Все потоки завершены")
         tasksQueue.add(command)
+        notifyWaitingThreads()
     }
 
     fun shutdown() {
@@ -28,41 +32,33 @@ class ThreadPool(
         var isAllThreadsStopped = false
         while (!isAllThreadsStopped) {
             isAllThreadsStopped = true
-            threads
-                .forEach {
-                    synchronized(it) {
-                        if (it.state != Thread.State.TERMINATED) {
-                            it.interrupt()
-                            isAllThreadsStopped = false
-                        }
-                    }
-                }
-        }
-    }
-
-    private fun run() {
-        while (isActive) {
-            threads.filter { it.state == Thread.State.WAITING }.forEach {
-                if (tasksQueue.isNotEmpty()) {
-                    synchronized(it) {
-                        (it as Object).notify()
+            threads.forEach {
+                synchronized(it) {
+                    if (it.state != Thread.State.TERMINATED) {
+                        it.interrupt()
+                        isAllThreadsStopped = false
                     }
                 }
             }
         }
     }
 
-    private fun workerThreadInstance(): WorkerThread {
-        return WorkerThread(tasksQueue::poll)
+    private fun notifyWaitingThreads() {
+        threads.filter { it.state == Thread.State.WAITING}.forEach {
+            if (tasksQueue.isNotEmpty()) {
+                synchronized(it) {
+                    if(it.state == Thread.State.WAITING)
+                        (it as Object).notify()
+                }
+            }
+        }
     }
 
-    private class WorkerThread(
-        private val getTask: () -> Runnable?,
-    ) : Thread() {
+    private inner class WorkerThread : Thread() {
         override fun run() {
             print("$line$name START$line")
             while (!this.isInterrupted) {
-                val task = getTask.invoke()
+                val task = getTask()
                 if (task != null) {
                     print("$line$name TAKE$line") // TAKE TASK
                     task.run()
@@ -78,6 +74,8 @@ class ThreadPool(
                 }
             }
         }
+
+        private fun getTask(): Runnable? = tasksQueue.poll()
     }
 
     companion object {
