@@ -79,10 +79,6 @@ class ThreadPoolTest {
         val tasks = Array(100) {
             Runnable {
                 actual++
-                var maxNum = 0
-                for (i in 1 until it + 2) {
-                    maxNum = max(maxNum, i)
-                }
                 sleep(1000)
             }
         }
