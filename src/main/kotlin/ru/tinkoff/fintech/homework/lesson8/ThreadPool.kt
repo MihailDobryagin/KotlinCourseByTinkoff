@@ -35,11 +35,9 @@ class ThreadPool(
         while (!isAllThreadsStopped) {
             isAllThreadsStopped = true
             threads.forEach {
-                synchronized(it) {
-                    if (it.status != ThreadExecutionStatus.TERMINATED) {
-                        it.interrupt()
-                        isAllThreadsStopped = false
-                    }
+                if (it.status != ThreadExecutionStatus.TERMINATED) {
+                    it.interrupt()
+                    isAllThreadsStopped = false
                 }
             }
         }
