@@ -88,8 +88,5 @@ class ThreadPool(
         }
     }
 
-    companion object {
-        @JvmStatic
-        private val line = "\n____________________________________________________________\n"
-    }
+    private val line = "\n____________________________________________________________\n"
 }
