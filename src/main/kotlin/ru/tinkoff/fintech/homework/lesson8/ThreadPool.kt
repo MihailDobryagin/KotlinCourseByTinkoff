@@ -6,11 +6,6 @@ import java.util.concurrent.LinkedBlockingQueue
 class ThreadPool(
     private val amount: Int = 1,
 ) : Executor {
-    companion object {
-        @JvmStatic
-        val line = "\n____________________________________________________________\n"
-    }
-
     private val limitOfThreads = 100
 
     private val tasksQueue: LinkedBlockingQueue<Runnable> = LinkedBlockingQueue()
@@ -47,11 +42,9 @@ class ThreadPool(
 
     private fun notifyWaitingThreads() {
         threads.find { it.status == ThreadExecutionStatus.WAITING }?.let {
-            if (tasksQueue.isNotEmpty()) {
-                synchronized(it) {
-                    if (it.status == ThreadExecutionStatus.WAITING)
-                        (it as Object).notify()
-                }
+            synchronized(it) {
+                if (it.status == ThreadExecutionStatus.WAITING)
+                    (it as Object).notify()
             }
         }
     }
@@ -75,7 +68,7 @@ class ThreadPool(
             status = ThreadExecutionStatus.RUNNING
             print("$line$name START$line")
             while (status != ThreadExecutionStatus.TERMINATED) {
-                val task = getTask()
+                val task = tasksQueue.poll()
                 if (task != null) {
                     print("$line$name TAKE$line") // TAKE TASK
                     task.run()
@@ -93,7 +86,10 @@ class ThreadPool(
                 }
             }
         }
+    }
 
-        private fun getTask(): Runnable? = tasksQueue.poll()
+    companion object {
+        @JvmStatic
+        private val line = "\n____________________________________________________________\n"
     }
 }

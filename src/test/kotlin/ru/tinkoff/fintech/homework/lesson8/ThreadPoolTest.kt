@@ -75,7 +75,6 @@ class ThreadPoolTest {
 
     @Test
     fun checkCountOfActiveThreads() {
-        var actual = 0
         val tasks = Array(100) {
             Runnable {
                 var maxNum = 0
@@ -83,7 +82,6 @@ class ThreadPoolTest {
                     maxNum = max(maxNum, i)
                 }
                 sleep(1000)
-                actual += maxNum
             }
         }
 
