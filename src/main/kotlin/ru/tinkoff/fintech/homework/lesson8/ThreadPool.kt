@@ -7,6 +7,11 @@ import java.util.concurrent.LinkedBlockingQueue
 class ThreadPool(
     private val amount: Int = 1,
 ) : Executor {
+    companion object {
+        @JvmStatic
+        val line = "\n____________________________________________________________\n"
+    }
+
     private val limitOfThreads = 100
 
     private val tasksQueue: LinkedBlockingQueue<Runnable> = LinkedBlockingQueue()
@@ -22,7 +27,7 @@ class ThreadPool(
     }
 
     override fun execute(command: Runnable) {
-        if(!isActive) throw IllegalStateException("Все потоки завершены")
+        if (!isActive) throw IllegalStateException("Все потоки завершены")
         tasksQueue.add(command)
         notifyWaitingThreads()
     }
@@ -34,7 +39,7 @@ class ThreadPool(
             isAllThreadsStopped = true
             threads.forEach {
                 synchronized(it) {
-                    if (it.state != Thread.State.TERMINATED) {
+                    if (it.status != ThreadExecutionStatus.TERMINATED) {
                         it.interrupt()
                         isAllThreadsStopped = false
                     }
@@ -43,21 +48,38 @@ class ThreadPool(
         }
     }
 
+    fun countOfActiveThreads(): Int = threads.count { it.status == ThreadExecutionStatus.RUNNING }
+
     private fun notifyWaitingThreads() {
-        threads.filter { it.state == Thread.State.WAITING}.forEach {
+        threads.find { it.status == ThreadExecutionStatus.WAITING }?.let {
             if (tasksQueue.isNotEmpty()) {
                 synchronized(it) {
-                    if(it.state == Thread.State.WAITING)
+                    if (it.status == ThreadExecutionStatus.WAITING)
                         (it as Object).notify()
                 }
             }
         }
     }
 
+    enum class ThreadExecutionStatus {
+        RUNNING,
+        WAITING,
+        TERMINATED,
+    }
+
     private inner class WorkerThread : Thread() {
+        var status: ThreadExecutionStatus = ThreadExecutionStatus.WAITING
+            private set
+
+        override fun interrupt() {
+            status = ThreadExecutionStatus.TERMINATED
+            super.interrupt()
+        }
+
         override fun run() {
+            status = ThreadExecutionStatus.RUNNING
             print("$line$name START$line")
-            while (!this.isInterrupted) {
+            while (status != ThreadExecutionStatus.TERMINATED) {
                 val task = getTask()
                 if (task != null) {
                     print("$line$name TAKE$line") // TAKE TASK
@@ -65,7 +87,9 @@ class ThreadPool(
                 } else {
                     synchronized(this) {
                         try {
+                            status = ThreadExecutionStatus.WAITING
                             (this as Object).wait()
+                            status = ThreadExecutionStatus.RUNNING
                         } catch (e: InterruptedException) {
                             this.interrupt()
                             print("$line$name TERMINATE$line")
@@ -76,10 +100,5 @@ class ThreadPool(
         }
 
         private fun getTask(): Runnable? = tasksQueue.poll()
-    }
-
-    companion object {
-        @JvmStatic
-        val line = "\n____________________________________________________________\n"
     }
 }

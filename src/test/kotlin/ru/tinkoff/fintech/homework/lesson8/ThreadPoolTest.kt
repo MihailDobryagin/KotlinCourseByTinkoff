@@ -8,10 +8,17 @@ import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import java.lang.Integer.max
 import java.lang.Thread.sleep
+import java.lang.management.ManagementFactory
 
 class ThreadPoolTest {
     private val numOfThreads = 5
-    private val threadPool: ThreadPool = spyk(ThreadPool(numOfThreads))
+    private val threadPool: ThreadPool
+    private val startCountOfActiveThreads: Int
+
+    init {
+        startCountOfActiveThreads = ManagementFactory.getThreadMXBean().threadCount
+        threadPool = spyk(ThreadPool(numOfThreads))
+    }
 
     @AfterEach
     fun afterEach() {
@@ -71,5 +78,27 @@ class ThreadPoolTest {
         threadPool.shutdown()
 
         assertNotEquals(sumOfAllNumbers, actual)
+    }
+
+    @Test
+    fun checkCountOfActiveThreads() {
+        println("Изначально $startCountOfActiveThreads потоков")
+        var actual = 0
+        val tasks = Array(100) {
+            Runnable {
+                var maxNum = 0
+                for (i in 1 until it + 2) {
+                    maxNum = max(maxNum, i)
+                }
+                sleep(1000)
+                actual += maxNum
+            }
+        }
+
+        tasks.forEach(threadPool::execute)
+        sleep(100)
+
+//        val countOfActiveThreads = ManagementFactory.getThreadMXBean().threadCount - startCountOfActiveThreads
+        assertEquals(5, threadPool.countOfActiveThreads())
     }
 }
