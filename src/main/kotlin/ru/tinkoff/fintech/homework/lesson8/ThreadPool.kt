@@ -1,6 +1,5 @@
 package ru.tinkoff.fintech.homework.lesson8
 
-import java.util.*
 import java.util.concurrent.Executor
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -15,14 +14,12 @@ class ThreadPool(
     private val limitOfThreads = 100
 
     private val tasksQueue: LinkedBlockingQueue<Runnable> = LinkedBlockingQueue()
-    private val threads: List<WorkerThread> = (0 until amount)
-        .map { WorkerThread() }.toCollection(LinkedList())
+    private val threads: List<WorkerThread> = (0 until amount).map { WorkerThread() }
 
-    private var isActive = false
+    private var isActive = true
 
     init {
         if (amount > limitOfThreads) throw IllegalArgumentException("Превышено максимальное кол-во потоков ($limitOfThreads)")
-        isActive = true
         threads.forEach(Thread::start)
     }
 

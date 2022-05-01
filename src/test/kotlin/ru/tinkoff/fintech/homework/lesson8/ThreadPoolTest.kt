@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
 import java.lang.Integer.max
 import java.lang.Thread.sleep
-import java.lang.management.ManagementFactory
 
 class ThreadPoolTest {
     private val numOfThreads = 5
@@ -90,7 +89,7 @@ class ThreadPoolTest {
 
         tasks.forEach(threadPool::execute)
         sleep(100)
-        
+
         assertEquals(5, threadPool.countOfActiveThreads())
     }
 }
