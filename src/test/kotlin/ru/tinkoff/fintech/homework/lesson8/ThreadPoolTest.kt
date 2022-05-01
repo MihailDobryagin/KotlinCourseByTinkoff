@@ -12,13 +12,7 @@ import java.lang.management.ManagementFactory
 
 class ThreadPoolTest {
     private val numOfThreads = 5
-    private val threadPool: ThreadPool
-    private val startCountOfActiveThreads: Int
-
-    init {
-        startCountOfActiveThreads = ManagementFactory.getThreadMXBean().threadCount
-        threadPool = spyk(ThreadPool(numOfThreads))
-    }
+    private val threadPool: ThreadPool = spyk(ThreadPool(numOfThreads))
 
     @AfterEach
     fun afterEach() {
@@ -82,7 +76,6 @@ class ThreadPoolTest {
 
     @Test
     fun checkCountOfActiveThreads() {
-        println("Изначально $startCountOfActiveThreads потоков")
         var actual = 0
         val tasks = Array(100) {
             Runnable {
@@ -97,8 +90,7 @@ class ThreadPoolTest {
 
         tasks.forEach(threadPool::execute)
         sleep(100)
-
-//        val countOfActiveThreads = ManagementFactory.getThreadMXBean().threadCount - startCountOfActiveThreads
+        
         assertEquals(5, threadPool.countOfActiveThreads())
     }
 }
