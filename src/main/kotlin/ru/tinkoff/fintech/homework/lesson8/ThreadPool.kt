@@ -38,8 +38,6 @@ class ThreadPool(
         }
     }
 
-    fun countOfActiveThreads(): Int = threads.count { it.status == ThreadExecutionStatus.RUNNING }
-
     private fun notifyWaitingThreads() {
         threads.find { it.status == ThreadExecutionStatus.WAITING }?.let {
             synchronized(it) {

@@ -75,8 +75,10 @@ class ThreadPoolTest {
 
     @Test
     fun checkCountOfActiveThreads() {
+        var actual = 0
         val tasks = Array(100) {
             Runnable {
+                actual++
                 var maxNum = 0
                 for (i in 1 until it + 2) {
                     maxNum = max(maxNum, i)
@@ -88,6 +90,6 @@ class ThreadPoolTest {
         tasks.forEach(threadPool::execute)
         sleep(100)
 
-        assertEquals(5, threadPool.countOfActiveThreads())
+        assertEquals(5, actual)
     }
 }
