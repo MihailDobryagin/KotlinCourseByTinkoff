@@ -1,9 +1,12 @@
 myapplication:
   building:
     address: http://localhost:8080
+  db:
+    move-worker-req:
+      table-name: move_worker_requests
 spring:
   profiles:
-    active: dev
+    active: jdbc
   jpa:
     hibernate:
       ddl-auto: update

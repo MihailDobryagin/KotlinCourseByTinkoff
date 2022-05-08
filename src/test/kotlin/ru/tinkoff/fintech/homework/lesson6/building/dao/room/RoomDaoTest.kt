@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson6.building.dao
+package ru.tinkoff.fintech.homework.lesson6.building.dao.room
 
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals

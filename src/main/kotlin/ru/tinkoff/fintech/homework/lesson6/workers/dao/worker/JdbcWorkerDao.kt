@@ -1,10 +1,8 @@
-package ru.tinkoff.fintech.homework.lesson6.workers.dao
+package ru.tinkoff.fintech.homework.lesson6.workers.dao.worker
 
 import org.springframework.context.annotation.Profile
 import org.springframework.jdbc.core.DataClassRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert
 import org.springframework.stereotype.Component
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
 

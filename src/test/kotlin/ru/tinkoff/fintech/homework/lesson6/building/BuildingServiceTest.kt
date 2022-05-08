@@ -6,7 +6,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
-import ru.tinkoff.fintech.homework.lesson6.building.dao.DevRoomDao
+import ru.tinkoff.fintech.homework.lesson6.building.dao.room.DevRoomDao
 import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
 
 class BuildingServiceTest {

@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson6.building.dao
+package ru.tinkoff.fintech.homework.lesson6.building.dao.room
 
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component

@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
-import ru.tinkoff.fintech.homework.lesson6.workers.dao.DevWorkerDao
+import ru.tinkoff.fintech.homework.lesson6.workers.dao.worker.DevWorkerDao
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
 
 class WorkersControllerTest {

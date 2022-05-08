@@ -4,7 +4,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson6.utils.ValidationException
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
-import ru.tinkoff.fintech.homework.lesson6.workers.dao.WorkerDao
+import ru.tinkoff.fintech.homework.lesson6.workers.dao.worker.WorkerDao
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
 
 @Service

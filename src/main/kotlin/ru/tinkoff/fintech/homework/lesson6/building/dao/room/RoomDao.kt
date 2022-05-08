@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.homework.lesson6.building.dao
+package ru.tinkoff.fintech.homework.lesson6.building.dao.room
 
 import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
 

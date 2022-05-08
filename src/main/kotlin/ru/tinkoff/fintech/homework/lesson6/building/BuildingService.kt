@@ -1,7 +1,7 @@
 package ru.tinkoff.fintech.homework.lesson6.building
 
 import org.springframework.stereotype.Service
-import ru.tinkoff.fintech.homework.lesson6.building.dao.RoomDao
+import ru.tinkoff.fintech.homework.lesson6.building.dao.room.RoomDao
 import ru.tinkoff.fintech.homework.lesson6.building.entities.Room
 import ru.tinkoff.fintech.homework.lesson6.utils.ValidationException
 
