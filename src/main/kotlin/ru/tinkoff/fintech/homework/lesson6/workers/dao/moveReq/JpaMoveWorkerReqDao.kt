@@ -36,7 +36,7 @@ class JpaMoveWorkerReqDao(
         return moveWorkerRequestsRepository.findById(id).orElse(null)?.workerId
     }
 
-    override fun failReq(id: Long, message: String) {
+    override fun changeToFailed(id: Long, message: String) {
         val actualReq = getReq(id) ?: throw IllegalArgumentException("Нет запроса на перемещение работника с id $id")
         updateReq(actualReq.copy(status = MoveWorkerReqStatus.FAILED, message = message))
     }

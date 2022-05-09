@@ -36,7 +36,7 @@ class DevMoveWorkerReqDao(
         addReq(req.copy(status = newStatus))
     }
 
-    override fun failReq(id: Long, message: String) {
+    override fun changeToFailed(id: Long, message: String) {
         val request = MoveWorkerRequest(id, MoveWorkerReqStatus.FAILED, message)
         updateReq(request)
     }

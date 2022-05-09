@@ -24,23 +24,22 @@ class JdbcMoveWorkerReqDao(
     }
 
     override fun addReq(newRequest: MoveWorkerRequest): Long {
-        return jdbcTemplate.queryForObject(ADD_QUERY, Long::class.java, newRequest.status, newRequest.message)
+        return jdbcTemplate.queryForObject(ADD_QUERY, Long::class.java, newRequest.status.name, newRequest.message)
     }
 
     override fun updateReq(request: MoveWorkerRequest) {
-        jdbcTemplate.update(UPDATE_QUERY, request.status, request.message, request.workerId, request.id)
+        jdbcTemplate.update(UPDATE_QUERY, request.status.name, request.message, request.workerId, request.id)
     }
 
     override fun getStatus(id: Long): MoveWorkerReqStatus? {
-        val statusAsString = jdbcTemplate.queryForObject(GET_STATUS_QUERY, String::class.java, id)
-        return MoveWorkerReqStatus.valueOf(statusAsString)
+        return jdbcTemplate.queryForObject(GET_STATUS_QUERY, MoveWorkerReqStatus::class.java, id)
     }
 
     override fun changeStatus(id: Long, newStatus: MoveWorkerReqStatus) {
-        jdbcTemplate.update(UPDATE_STATUS_QUERY, newStatus.toString(), id)
+        jdbcTemplate.update(UPDATE_STATUS_QUERY, newStatus.name, id)
     }
 
-    override fun failReq(id: Long, message: String) {
+    override fun changeToFailed(id: Long, message: String) {
         jdbcTemplate.update(FAIL_REQ_QUERY, message, id)
     }
 
@@ -49,7 +48,7 @@ class JdbcMoveWorkerReqDao(
     }
 
     private val GET_QUERY = "select * from $tableName where id = ?"
-    private val ADD_QUERY = "insert into $tableName values (status, message) values (?, ?) returning id"
+    private val ADD_QUERY = "insert into $tableName (status, message) values (?, ?) returning id"
     private val UPDATE_QUERY = "update $tableName set status = ?, message = ?, worker_id = ? where id = ?"
     private val GET_STATUS_QUERY = "select status from $tableName where id = ?"
     private val UPDATE_STATUS_QUERY = "update $tableName set status = ? where id = ?"

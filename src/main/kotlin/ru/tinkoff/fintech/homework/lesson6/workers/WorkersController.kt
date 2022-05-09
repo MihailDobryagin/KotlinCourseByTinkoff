@@ -2,12 +2,14 @@ package ru.tinkoff.fintech.homework.lesson6.workers
 
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
+import ru.tinkoff.fintech.homework.lesson6.workers.entities.MoveWorkerRequest
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
 
 @RestController
 @RequestMapping("workers")
 class WorkersController(
     private val workersService: WorkersService,
+    private val moveWorkerRequestsService: MoveWorkerRequestsService,
 ) {
     companion object {
         private val logger = LoggerFactory.getLogger(WorkersController::class.java)
@@ -20,9 +22,7 @@ class WorkersController(
     }
 
     @GetMapping("{id}")
-    fun getById(
-        @PathVariable id: Long,
-    ): Worker? {
+    fun getById(@PathVariable id: Long): Worker? {
         logger.info("Запрос на получение работника $id")
         return workersService.getWorker(id)
     }
@@ -31,6 +31,12 @@ class WorkersController(
     fun add(@RequestParam name: String): Long {
         logger.info("Запрос на добавление работника $name")
         return workersService.addWorker(name)
+    }
+
+    @GetMapping("requests/{reqId}/result-of-operation")
+    fun getResultOfAdding(@PathVariable reqId: Long): MoveWorkerRequest {
+        logger.info("Получение информации о результате добавления с reqId=$reqId")
+        return moveWorkerRequestsService.get(reqId) ?: throw IllegalArgumentException("Не нашлось запроса с reqId=$reqId")
     }
 
     @PostMapping("move/{workerId}")

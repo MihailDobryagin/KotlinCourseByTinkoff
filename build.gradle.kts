@@ -30,6 +30,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
     implementation("junit:junit:4.13.1")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+
     testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("com.google.code.gson:gson:2.9.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

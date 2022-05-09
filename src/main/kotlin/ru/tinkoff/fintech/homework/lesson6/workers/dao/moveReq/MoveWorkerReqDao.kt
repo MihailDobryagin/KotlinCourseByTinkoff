@@ -16,5 +16,5 @@ interface MoveWorkerReqDao {
 
     fun getWorkerId(id: Long): Long?
 
-    fun failReq(id: Long, message: String = "")
+    fun changeToFailed(id: Long, message: String = "")
 }
