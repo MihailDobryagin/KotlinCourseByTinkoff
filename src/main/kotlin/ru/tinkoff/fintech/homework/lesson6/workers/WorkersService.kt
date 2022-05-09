@@ -33,7 +33,6 @@ class WorkersService(
 
     fun addWorker(name: String): Long = runBlocking(Dispatchers.IO) {
         val worker = Worker(name = name)
-        // TODO ("Переменная пропадает")
         val reqId = moveWorkerRequestsService.add(newRequest = MoveWorkerRequest())
             ?: throw IllegalStateException("Ошибка при запросе на добавление работника")
         launch {
