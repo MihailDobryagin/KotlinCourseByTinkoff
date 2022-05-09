@@ -23,7 +23,8 @@ class JdbcRoomDao(
     }
 
     override fun addRoom(newRoom: Room): Long {
-        return jdbcTemplate.queryForObject(ADD_ROOM_QUERY, Long::class.java, newRoom.name, newRoom.countOfPeople, ) ?: throw IllegalStateException("Не удалось добавить комнату")
+        return jdbcTemplate.queryForObject(ADD_ROOM_QUERY, Long::class.java, newRoom.name, newRoom.countOfPeople)
+            ?: throw IllegalStateException("Не удалось добавить комнату")
     }
 
     override fun updateRoom(room: Room) {

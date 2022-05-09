@@ -4,6 +4,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.MoveWorkerRequest
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
+import ru.tinkoff.fintech.homework.lesson6.workers.services.MoveWorkerRequestsService
+import ru.tinkoff.fintech.homework.lesson6.workers.services.WorkersService
 
 @RestController
 @RequestMapping("workers")
@@ -36,7 +38,8 @@ class WorkersController(
     @GetMapping("requests/{reqId}/result-of-operation")
     fun getResultOfAdding(@PathVariable reqId: Long): MoveWorkerRequest {
         logger.info("Получение информации о результате добавления с reqId=$reqId")
-        return moveWorkerRequestsService.get(reqId) ?: throw IllegalArgumentException("Не нашлось запроса с reqId=$reqId")
+        return moveWorkerRequestsService.get(reqId)
+            ?: throw IllegalArgumentException("Не нашлось запроса с reqId=$reqId")
     }
 
     @PostMapping("move/{workerId}")

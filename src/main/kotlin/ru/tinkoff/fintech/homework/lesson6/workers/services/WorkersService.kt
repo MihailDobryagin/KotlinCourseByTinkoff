@@ -1,8 +1,7 @@
-package ru.tinkoff.fintech.homework.lesson6.workers
+package ru.tinkoff.fintech.homework.lesson6.workers.services
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -38,15 +37,16 @@ class WorkersService(
         launch {
             moveWorkerRequestsService.changeStatus(reqId, MoveWorkerReqStatus.IN_PROCESS)
             val workerId = workerDao.addWorker(worker)
-            if(workerId == null) {
+            if (workerId == null) {
                 moveWorkerRequestsService.changeStatusToFailed(reqId)
-            }
-            else {
-                moveWorkerRequestsService.update(MoveWorkerRequest(
-                    id = reqId,
-                    status = MoveWorkerReqStatus.SUCCESS,
-                    workerId = workerId
-                ))
+            } else {
+                moveWorkerRequestsService.update(
+                    MoveWorkerRequest(
+                        id = reqId,
+                        status = MoveWorkerReqStatus.SUCCESS,
+                        workerId = workerId
+                    )
+                )
             }
         }
         return@runBlocking reqId

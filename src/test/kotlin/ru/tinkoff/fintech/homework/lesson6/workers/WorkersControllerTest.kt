@@ -6,27 +6,34 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import ru.tinkoff.fintech.homework.lesson6.utils.MoveWorkerReqStatus
 import ru.tinkoff.fintech.homework.lesson6.workers.client.BuildingClient
+import ru.tinkoff.fintech.homework.lesson6.workers.dao.moveReq.DevMoveWorkerReqDao
 import ru.tinkoff.fintech.homework.lesson6.workers.dao.worker.DevWorkerDao
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.Worker
+import ru.tinkoff.fintech.homework.lesson6.workers.services.MoveWorkerRequestsService
+import ru.tinkoff.fintech.homework.lesson6.workers.services.WorkersService
+import java.lang.Thread.sleep
 
 class WorkersControllerTest {
     private var buildingClient = mockk<BuildingClient>()
 
     private val workerDao = spyk(DevWorkerDao())
-    private var workersService = spyk(WorkersService(buildingClient, workerDao))
+    private val moveWorkerRequestsService = spyk(MoveWorkerRequestsService(DevMoveWorkerReqDao()))
+    private var workersService = spyk(WorkersService(buildingClient, workerDao, moveWorkerRequestsService))
     private lateinit var workersController: WorkersController
     private lateinit var mockMvc: MockMvc
     private val gson = Gson()
 
     @BeforeEach
     fun beforeEach() {
-        workersController = WorkersController(workersService)
+        workersController = WorkersController(workersService, moveWorkerRequestsService)
         mockMvc = MockMvcBuilders.standaloneSetup(workersController).build()
     }
 
@@ -60,11 +67,18 @@ class WorkersControllerTest {
             .post("/workers/add")
             .param("name", "expectedName")
 
-        val workerId = sendReq<Long>(requestBuilder)
+        val reqId = sendReq<Long>(requestBuilder)
+
+        do {
+            sleep(100)
+        }while(moveWorkerRequestsService.getStatus(reqId) != MoveWorkerReqStatus.SUCCESS)
+
+        val workerId = moveWorkerRequestsService.getWorkerId(reqId)
 
         requestBuilder = MockMvcRequestBuilders
             .get("/workers/2")
         val worker = sendReq<Worker>(requestBuilder)
+
         verify { workersService.addWorker("expectedName") }
         assertEquals(2, workerId)
         assertEquals("expectedName", worker.name)

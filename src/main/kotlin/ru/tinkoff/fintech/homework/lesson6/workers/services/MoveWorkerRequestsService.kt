@@ -1,11 +1,10 @@
-package ru.tinkoff.fintech.homework.lesson6.workers
+package ru.tinkoff.fintech.homework.lesson6.workers.services
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.lesson6.utils.MoveWorkerReqStatus
 import ru.tinkoff.fintech.homework.lesson6.workers.dao.moveReq.MoveWorkerReqDao
 import ru.tinkoff.fintech.homework.lesson6.workers.entities.MoveWorkerRequest
-import kotlin.math.log
 
 @Service
 class MoveWorkerRequestsService(

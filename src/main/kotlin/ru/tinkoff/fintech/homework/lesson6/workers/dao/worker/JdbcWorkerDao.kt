@@ -24,7 +24,8 @@ class JdbcWorkerDao(
     }
 
     override fun addWorker(newWorker: Worker): Long {
-        return jdbcTemplate.queryForObject(ADD_WORKER_QUERY, Long::class.java, newWorker.name, newWorker.roomId) ?: throw IllegalStateException("Не удалось добавить работника")
+        return jdbcTemplate.queryForObject(ADD_WORKER_QUERY, Long::class.java, newWorker.name, newWorker.roomId)
+            ?: throw IllegalStateException("Не удалось добавить работника")
     }
 
     override fun updateWorker(worker: Worker) {
