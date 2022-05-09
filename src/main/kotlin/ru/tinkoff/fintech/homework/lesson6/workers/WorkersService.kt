@@ -1,6 +1,8 @@
 package ru.tinkoff.fintech.homework.lesson6.workers
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -29,7 +31,7 @@ class WorkersService(
         return workerDao.getWorker(id)
     }
 
-    fun addWorker(name: String): Long = runBlocking {
+    fun addWorker(name: String): Long = runBlocking(Dispatchers.IO) {
         val worker = Worker(name = name)
         // TODO ("Переменная пропадает")
         val reqId = moveWorkerRequestsService.add(newRequest = MoveWorkerRequest())
