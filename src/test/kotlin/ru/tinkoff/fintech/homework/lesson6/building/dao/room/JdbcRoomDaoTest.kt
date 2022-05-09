@@ -1,0 +1,55 @@
+package ru.tinkoff.fintech.homework.lesson6.building.dao.room
+
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.TestInstance
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.test.context.ActiveProfiles
+
+@ActiveProfiles("jdbc")
+@SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class JdbcRoomDaoTest : RoomDaoTest() {
+    @Autowired
+    private lateinit var jdbcTemplate: JdbcTemplate
+
+    @BeforeAll
+    fun beforeAll() {
+        createDefaultRoomsTable()
+    }
+
+    @AfterAll
+    fun afterAll() {
+        dropRoomsTable()
+    }
+
+    override fun initRooms() {
+        rooms.forEach {
+            jdbcTemplate.update("insert into rooms(name, count_of_people) values (?, ?)", it.name, it.countOfPeople)
+        }
+    }
+
+    override fun clearRooms() {
+        jdbcTemplate.update("truncate rooms")
+    }
+
+    private fun createDefaultRoomsTable() {
+        jdbcTemplate.update(CREATE_TABLE_QUERY)
+    }
+
+    private fun dropRoomsTable() {
+        jdbcTemplate.update("DROP TABLE rooms")
+    }
+
+    private val CREATE_TABLE_QUERY =
+        """
+            CREATE TABLE rooms
+                    (
+                        id bigint primary key generated always as identity ,
+                        name character varying  NOT NULL,
+                        count_of_people integer NOT NULL
+                    )
+        """
+}

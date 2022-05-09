@@ -1,0 +1,17 @@
+myapplication:
+  building:
+    address: http://localhost:8080
+  db:
+    move-worker-req:
+      table-name: move_worker_requests
+spring:
+  profiles:
+    active: jdbc
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: user
